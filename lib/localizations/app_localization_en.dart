@@ -22,4 +22,7 @@ class AppLocalizationEn extends AppLocalizations {
   @override
   String get add => 'Thêm';
 
+  @override
+  String get textAppBar => 'Cẩm nang hình sự';
+
 }

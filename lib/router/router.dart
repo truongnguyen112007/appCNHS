@@ -17,7 +17,7 @@ class Routers {
   }
 }
 
-class RoutersHome {
+class HomeRouters {
   static String root = "/";
   static String search = "/search";
 

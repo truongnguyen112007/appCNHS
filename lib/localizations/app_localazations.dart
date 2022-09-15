@@ -103,6 +103,7 @@ abstract class AppLocalizations {
   String get rules2;
   String get help;
   String get add;
+  String get textAppBar;
 
 }
 

@@ -20,23 +20,24 @@ class _TabHomeState extends State<TabHome> {
     return Scaffold(
       body: Column(
         children: [
-          topHeading('Văn bản mới', Assets.svg.vector),
-          topHeading('Chỉ dẫn pháp luật mới', Assets.svg.book)
+          homeHeading('Văn bản mới', Assets.svg.vector),
+          homeHeading('Chỉ dẫn pháp luật mới', Assets.svg.book)
         ],
       ),
     );
   }
 
-  Widget topHeading(String text, String icon) {
+  Widget homeHeading(String text, String icon) {
     return Row(
       children: [
         Padding(
-            padding: EdgeInsets.only(left: 9.w, right: 12.w),
-            child: SvgPicture.asset(icon,color: colorPrimaryOrange,)),
-        AppText(
-          text,
-          style: topHeadingText
-        )
+          padding: EdgeInsets.only(left: 9.w, right: 12.w),
+          child: SvgPicture.asset(
+            icon,
+            color: colorPrimaryOrange,
+          ),
+        ),
+        AppText(text, style: typoHeadingText)
       ],
     );
   }

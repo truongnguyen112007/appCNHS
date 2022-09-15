@@ -401,10 +401,10 @@ final typoSuperSmallText700 = GoogleFonts.roboto(
   color: colorBlack,
 );
 
-final topHeadingText = GoogleFonts.roboto(
+final typoHeadingText = GoogleFonts.roboto(
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.w700,
-    fontSize: 16.sp,
+    fontSize: 18.sp,
     letterSpacing: 0.3,
     color: colorPrimaryOrange,
 );

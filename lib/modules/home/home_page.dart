@@ -6,6 +6,8 @@ import 'package:base_bloc/modules/tab_add/tab_add_page.dart';
 import 'package:base_bloc/modules/tab_criminal_law/tab_criminal_law_page.dart';
 import 'package:base_bloc/modules/tab_criminal_proceedings/tab_criminal_proceedings_page.dart';
 import 'package:base_bloc/modules/tab_instruction/tab_instruction_page.dart';
+import 'package:base_bloc/router/router_handle.dart';
+import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +16,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../config/constant.dart';
 import '../../gen/assets.gen.dart';
+import '../../router/router.dart';
 import '../../theme/colors.dart';
 import '../../utils/navigator_utils.dart';
+import '../root/root_home.dart';
 import '../search/search_page.dart';
-import '../search/search_state.dart';
 import '../tab_home/tab_home_page.dart';
 import 'home_cubit.dart';
 
@@ -34,11 +37,11 @@ class _HomePageState extends State<HomePage> {
   var pageController = PageController();
 
   final List<Widget> tab = [
-    TabHome(),
-    TabCriminalLawPage(),
-    TabCriminalProceedingsPage(),
-    TabInstructionPage(),
-    TabAdd()
+    const RootHome(),
+    const TabCriminalLawPage(),
+    const TabCriminalProceedingsPage(),
+    const TabInstructionPage(),
+    const TabAdd(),
   ];
 
   late HomeCubit _bloc;
@@ -78,7 +81,7 @@ class _HomePageState extends State<HomePage> {
             AppText(
               'Cẩm nang hình sự',
               style:
-                  topHeadingText.copyWith(fontSize: 18.sp, color: colorWhite),
+                  typoHeadingText.copyWith(fontSize: 18.sp, color: colorWhite),
             )
           ],
         ),
@@ -121,8 +124,39 @@ class _HomePageState extends State<HomePage> {
     _bloc.jumToPage(_currentIndex);
   }
 
-  Widget appBarHomeWidget() {
-    return AppBar();
+  PreferredSizeWidget appBarHomeWidget() {
+    return AppBar(
+      centerTitle: true,
+      leadingWidth: 25,
+      leading: Container(
+        padding: EdgeInsets.only(left: 5.w),
+        child: InkWell(
+          onTap: () {
+            RouterUtils.pushSearch(
+                context: context, route: HomeRouters.search, argument: 0);
+          },
+          child: SvgPicture.asset(Assets.svg.search),
+        ),
+      ),
+      title: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(right: 14.w, bottom: 18.h),
+            child: Image.asset(
+              Assets.png.laws.path,
+              width: 40,
+            ),
+          ),
+          AppText(
+            AppLocalizations.of(context)!.textAppBar,
+            style: typoHeadingText.copyWith(color: colorWhite),
+          )
+        ],
+      ),
+      backgroundColor: colorPrimaryOrange,
+      automaticallyImplyLeading: false,
+    );
   }
 
   Widget bottomNavigationBarWidget() {
