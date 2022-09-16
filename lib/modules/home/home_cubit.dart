@@ -7,5 +7,4 @@ class HomeCubit extends Cubit<HomeState> {
 void jumToPage(int index) => emit(IndexChangeState(index));
 
 void jumToPage2() => emit(onClickSearchIcon());
-
 }

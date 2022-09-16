@@ -104,6 +104,9 @@ abstract class AppLocalizations {
   String get help;
   String get add;
   String get textAppBar;
+  String get heading1Home;
+  String get heading2Home;
+  String get hinTextSearch;
 
 }
 

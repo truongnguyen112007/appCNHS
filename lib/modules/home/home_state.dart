@@ -1,9 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../utils/navigator_utils.dart';
-import '../search/search_state.dart';
-
 @immutable
 abstract class HomeState extends Equatable {}
 

@@ -22,8 +22,14 @@ class $AssetsSvgGen {
   /// File path: assets/svg/Vector.svg
   String get vector => 'assets/svg/Vector.svg';
 
+  /// File path: assets/svg/back.svg
+  String get back => 'assets/svg/back.svg';
+
   /// File path: assets/svg/book.svg
   String get book => 'assets/svg/book.svg';
+
+  /// File path: assets/svg/filter.svg
+  String get filter => 'assets/svg/filter.svg';
 
   /// File path: assets/svg/group.svg
   String get group => 'assets/svg/group.svg';

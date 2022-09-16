@@ -1,14 +1,10 @@
 import 'package:base_bloc/components/app_scalford.dart';
-import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/data/eventbus/switch_tab_event.dart';
-import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/tab_add/tab_add_page.dart';
 import 'package:base_bloc/modules/tab_criminal_law/tab_criminal_law_page.dart';
 import 'package:base_bloc/modules/tab_criminal_proceedings/tab_criminal_proceedings_page.dart';
 import 'package:base_bloc/modules/tab_instruction/tab_instruction_page.dart';
-import 'package:base_bloc/router/router_handle.dart';
-import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/utils/app_utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,12 +14,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../config/constant.dart';
 import '../../gen/assets.gen.dart';
-import '../../router/router.dart';
 import '../../theme/colors.dart';
-import '../../utils/navigator_utils.dart';
 import '../root/root_home.dart';
-import '../search/search_page.dart';
-import '../tab_home/tab_home_page.dart';
 import 'home_cubit.dart';
 
 class HomePage extends StatefulWidget {
@@ -94,41 +86,6 @@ class _HomePageState extends State<HomePage> {
     pageController.jumpToPage(_currentIndex);
     _bloc.jumToPage(_currentIndex);
     Utils.fireEvent(SwitchTabEvent(_currentIndex));
-  }
-
-  PreferredSizeWidget appBarHomeWidget() {
-    return AppBar(
-      centerTitle: true,
-      leadingWidth: 25,
-      leading: Container(
-        padding: EdgeInsets.only(left: 5.w),
-        child: InkWell(
-          onTap: () {
-            RouterUtils.pushSearch(
-                context: context, route: HomeRouters.search, argument: 0);
-          },
-          child: SvgPicture.asset(Assets.svg.search),
-        ),
-      ),
-      title: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(right: 14.w, bottom: 18.h),
-            child: Image.asset(
-              Assets.png.laws.path,
-              width: 40,
-            ),
-          ),
-          AppText(
-            AppLocalizations.of(context)!.textAppBar,
-            style: typoHeadingText.copyWith(color: colorWhite),
-          )
-        ],
-      ),
-      backgroundColor: colorPrimaryOrange,
-      automaticallyImplyLeading: false,
-    );
   }
 
   Widget bottomNavigationBarWidget() {

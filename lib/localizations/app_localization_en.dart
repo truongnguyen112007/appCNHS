@@ -23,6 +23,15 @@ class AppLocalizationEn extends AppLocalizations {
   String get add => 'Thêm';
 
   @override
-  String get textAppBar => 'Cẩm nang hình sự';
+  String get textAppBar => 'CẨM NANG HÌNH SỰ';
+
+  @override
+  String get heading1Home => 'Văn bản mới';
+
+  @override
+  String get heading2Home => 'Chỉ dẫn pháp luật mới';
+
+  @override
+  String get hinTextSearch => 'Tìm kiếm';
 
 }

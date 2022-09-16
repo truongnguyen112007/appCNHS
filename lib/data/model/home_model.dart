@@ -1,11 +1,11 @@
 class HomeModel {
-  final String item1;
-  final String item2;
-  final String item3;
+  final String content;
+  final String creatDate;
+  final String date;
 
   HomeModel({
-    required this.item1,
-    required this.item2,
-    required this.item3
+    required this.content,
+    required this.creatDate,
+    required this.date,
   });
 }
