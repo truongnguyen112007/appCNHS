@@ -26,7 +26,7 @@ class HomeRouters {
         (BuildContext? context, Map<String, List<String>>? params) {
       logE("ROUTE WAS NOT FOUND !!!");
     });
-    router.define(root, handler: routeHome);
+    router.define(root, handler: routeTabHome);
     router.define(search, handler: routeSearch);
   }
 }

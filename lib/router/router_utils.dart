@@ -20,7 +20,7 @@ class RouterUtils {
       required String route,
       dynamic argument,
       bool isRemove = false}) async {
-    T result = await Application.routerTabHome.navigateTo(context, route,
+    T result = await Application.routerHome.navigateTo(context, route,
         transition: TransitionType.inFromRight,
         clearStack: isRemove,
         routeSettings: RouteSettings(arguments: argument));

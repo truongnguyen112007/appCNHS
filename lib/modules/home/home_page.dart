@@ -1,5 +1,6 @@
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_text.dart';
+import 'package:base_bloc/data/eventbus/switch_tab_event.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/tab_add/tab_add_page.dart';
@@ -9,6 +10,7 @@ import 'package:base_bloc/modules/tab_instruction/tab_instruction_page.dart';
 import 'package:base_bloc/router/router_handle.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
+import 'package:base_bloc/utils/app_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,65 +57,34 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appbar: AppBar(
-        foregroundColor: Colors.red,
-        centerTitle: true,
-        leadingWidth: 25,
-        leading: Container(
-          padding: EdgeInsets.only(left: 5.w),
-          child: InkWell(
-            onTap: () {
-              NavigatorUtils.moveBottomToTop(SearchPage(), context);
-            },
-            child: SvgPicture.asset(Assets.svg.search),
-          ),
-        ),
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(right: 14.w, bottom: 18.h),
-              child: Image.asset(
-                Assets.png.laws.path,
-                width: 40,
-              ),
-            ),
-            AppText(
-              'Cẩm nang hình sự',
-              style:
-                  typoHeadingText.copyWith(fontSize: 18.sp, color: colorWhite),
-            )
-          ],
-        ),
-        backgroundColor: colorPrimaryOrange,
-        automaticallyImplyLeading: false,
-      ),
       fullStatusBar: true,
       body: Column(
         children: [
           Expanded(
               child: PageView(
-            controller: pageController,
-            children: tab,
-          ))
+                physics:const NeverScrollableScrollPhysics(),
+                controller: pageController,
+                children: tab,
+              ))
         ],
       ),
       bottomNavigationBar: BlocBuilder(
         bloc: _bloc,
-        builder: (BuildContext context, state) => Container(
-          decoration: BoxDecoration(
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: colorBackgroundGrey70.withOpacity(0.4),
-                  blurRadius: 15.0,
-                  offset: const Offset(0.0, 0.6))
-            ],
-          ),
-          child: BlocBuilder(
-            builder: (c, x) => bottomNavigationBarWidget(),
-            bloc: _bloc,
-          ),
-        ),
+        builder: (BuildContext context, state) =>
+            Container(
+              decoration: BoxDecoration(
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: colorBackgroundGrey70.withOpacity(0.4),
+                      blurRadius: 15.0,
+                      offset: const Offset(0.0, 0.6))
+                ],
+              ),
+              child: BlocBuilder(
+                builder: (c, x) => bottomNavigationBarWidget(),
+                bloc: _bloc,
+              ),
+            ),
       ),
     );
   }
@@ -122,6 +93,7 @@ class _HomePageState extends State<HomePage> {
     _currentIndex = index;
     pageController.jumpToPage(_currentIndex);
     _bloc.jumToPage(_currentIndex);
+    Utils.fireEvent(SwitchTabEvent(_currentIndex));
   }
 
   PreferredSizeWidget appBarHomeWidget() {
@@ -195,7 +167,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   BottomNavigationBarItem itemBottomNavigationBarWidget(
-          {required int index, required String svg, required String label}) =>
+      {required int index, required String svg, required String label}) =>
       BottomNavigationBarItem(
         icon: Padding(
           padding: EdgeInsets.only(bottom: 10.42.h, top: 5.h),
