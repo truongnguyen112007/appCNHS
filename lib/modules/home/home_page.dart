@@ -52,55 +52,63 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      body: AppScaffold(
-        isFullStatusBar: true,
-        appbar: AppBar(
-          centerTitle: true,
-          leadingWidth: 25,
-          leading: Container(
-            padding: EdgeInsets.only(left: 5.w),
-            child: InkWell(
-              onTap: () {
-                NavigatorUtils.moveBottomToTop(SearchPage(), context);
-              },
-              child: SvgPicture.asset(Assets.svg.search),
-            ),
+      appbar: AppBar(
+        foregroundColor: Colors.red,
+        centerTitle: true,
+        leadingWidth: 25,
+        leading: Container(
+          padding: EdgeInsets.only(left: 5.w),
+          child: InkWell(
+            onTap: () {
+              NavigatorUtils.moveBottomToTop(SearchPage(), context);
+            },
+            child: SvgPicture.asset(Assets.svg.search),
           ),
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                  padding: EdgeInsets.only(right: 14.w,bottom: 18.h),
-                  child: Image.asset(Assets.png.laws.path,width: 40,),),
-              AppText(
-                'Cẩm nang hình sự',
-                style:
-                    topHeadingText.copyWith(fontSize: 18.sp, color: colorWhite),
-              )
+        ),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(right: 14.w, bottom: 18.h),
+              child: Image.asset(
+                Assets.png.laws.path,
+                width: 40,
+              ),
+            ),
+            AppText(
+              'Cẩm nang hình sự',
+              style:
+                  topHeadingText.copyWith(fontSize: 18.sp, color: colorWhite),
+            )
+          ],
+        ),
+        backgroundColor: colorPrimaryOrange,
+        automaticallyImplyLeading: false,
+      ),
+      fullStatusBar: true,
+      body: Column(
+        children: [
+          Expanded(
+              child: PageView(
+            controller: pageController,
+            children: tab,
+          ))
+        ],
+      ),
+      bottomNavigationBar: BlocBuilder(
+        bloc: _bloc,
+        builder: (BuildContext context, state) => Container(
+          decoration: BoxDecoration(
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                  color: colorBackgroundGrey70.withOpacity(0.4),
+                  blurRadius: 15.0,
+                  offset: const Offset(0.0, 0.6))
             ],
           ),
-          backgroundColor: colorPrimaryOrange,
-          automaticallyImplyLeading: false,
-        ),
-        body: PageView(
-          controller: pageController,
-          children: tab,
-        ),
-        bottomNavigationBar: BlocBuilder(
-          bloc: _bloc,
-          builder: (BuildContext context, state) => Container(
-            decoration: BoxDecoration(
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: colorBackgroundGrey70.withOpacity(0.4),
-                    blurRadius: 15.0,
-                    offset: const Offset(0.0, 0.6))
-              ],
-            ),
-            child: BlocBuilder(
-              builder: (c, x) => bottomNavigationBarWidget(),
-              bloc: _bloc,
-            ),
+          child: BlocBuilder(
+            builder: (c, x) => bottomNavigationBarWidget(),
+            bloc: _bloc,
           ),
         ),
       ),
@@ -113,10 +121,8 @@ class _HomePageState extends State<HomePage> {
     _bloc.jumToPage(_currentIndex);
   }
 
-  Widget appBarHomeWidget(){
-    return AppBar(
-
-    );
+  Widget appBarHomeWidget() {
+    return AppBar();
   }
 
   Widget bottomNavigationBarWidget() {
