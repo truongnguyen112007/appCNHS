@@ -2,6 +2,9 @@ import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/data/eventbus/switch_tab_event.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/root/root_add.dart';
+import 'package:base_bloc/modules/root/root_criminal_law.dart';
+import 'package:base_bloc/modules/root/root_criminal_proceedings.dart';
+import 'package:base_bloc/modules/root/root_instruction.dart';
 import 'package:base_bloc/modules/tab_criminal_law/tab_criminal_law_page.dart';
 import 'package:base_bloc/modules/tab_criminal_proceedings/tab_criminal_proceedings_page.dart';
 import 'package:base_bloc/modules/tab_instruction/tab_instruction_page.dart';
@@ -29,9 +32,9 @@ class _HomePageState extends State<HomePage> {
   var pageController = PageController();
   final List<Widget> tab = [
     const RootHome(),
-    const TabCriminalLawPage(),
-    const TabCriminalProceedingsPage(),
-    const TabInstructionPage(),
+    const RootCriminalLaw(),
+    const RootCriminalProceedings(),
+    const RootInstruction(),
     const RootAdd(),
   ];
   late HomeCubit _bloc;
@@ -52,6 +55,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      isTabToHideKeyBoard: true,
       resizeToAvoidBottomInset: false,
       fullStatusBar: true,
       body: Column(

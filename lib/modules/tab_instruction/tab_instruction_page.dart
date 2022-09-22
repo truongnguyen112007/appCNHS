@@ -1,11 +1,14 @@
+import 'package:base_bloc/router/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../components/app_scalford.dart';
 import '../../components/app_text.dart';
+import '../../config/constant.dart';
 import '../../gen/assets.gen.dart';
 import '../../localizations/app_localazations.dart';
+import '../../router/router_utils.dart';
 import '../../theme/app_styles.dart';
 import '../../theme/colors.dart';
 
@@ -25,7 +28,12 @@ class _TabInstructionPageState extends State<TabInstructionPage> {
           leading: Padding(
             padding: EdgeInsets.only(left: 5.w),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                RouterUtils.pushInstruction(
+                    context: context,
+                    route: InstructionRouters.search,
+                    argument: BottomnavigationConstant.TAB_INTRUCTIONPAGE);
+              },
               child: SvgPicture.asset(Assets.svg.search,),
             ),
           ),

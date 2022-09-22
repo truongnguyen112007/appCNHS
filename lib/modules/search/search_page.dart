@@ -5,7 +5,6 @@ import 'package:base_bloc/components/app_button.dart';
 import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/modules/search/search_cubit.dart';
 import 'package:base_bloc/modules/search/tab_help/tab_help_page.dart';
-import 'package:base_bloc/modules/search/tab_law/tab_law_cubit.dart';
 import 'package:base_bloc/modules/search/tab_law/tab_law_page.dart';
 import 'package:base_bloc/modules/search/tab_procedural/tab_procedural_page.dart';
 import 'package:base_bloc/router/router.dart';

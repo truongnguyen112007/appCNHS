@@ -38,6 +38,7 @@ class AddRouters {
   static String login = "/login";
   static String comment = "/comment";
   static String contact = "/contact";
+  static String search = "/search";
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc:
@@ -48,9 +49,50 @@ class AddRouters {
     router.define(login, handler: routeLogin);
     router.define(comment, handler: routeComment);
     router.define(contact, handler: routeContact);
+    router.define(search, handler: routeSearch);
+  }
+}
+class CriminalLawRouters {
+  static String root = "/";
+  static String search = "/search";
+
+  static void configureRoutes(FluroRouter router) {
+    router.notFoundHandler = Handler(handlerFunc:
+        (BuildContext? context, Map<String, List<String>>? params) {
+      logE("ROUTE WAS NOT FOUND !!!");
+    });
+    router.define(root, handler: routeCriminalLaw);
+    router.define(search, handler: routeSearch);
   }
 }
 
+class CriminalProceedingsRouters {
+  static String root = "/";
+  static String search = "/search";
+
+  static void configureRoutes(FluroRouter router) {
+    router.notFoundHandler = Handler(handlerFunc:
+        (BuildContext? context, Map<String, List<String>>? params) {
+      logE("ROUTE WAS NOT FOUND !!!");
+    });
+    router.define(root, handler: routerCriminalProceedings);
+    router.define(search, handler: routeSearch);
+  }
+}
+
+class InstructionRouters {
+  static String root = "/";
+  static String search = "/search";
+
+  static void configureRoutes(FluroRouter router) {
+    router.notFoundHandler = Handler(handlerFunc:
+        (BuildContext? context, Map<String, List<String>>? params) {
+      logE("ROUTE WAS NOT FOUND !!!");
+    });
+    router.define(root, handler: routerInstruction);
+    router.define(search, handler: routeSearch);
+  }
+}
 
 
 

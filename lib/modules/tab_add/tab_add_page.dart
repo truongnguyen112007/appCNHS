@@ -23,13 +23,18 @@ class _TabAddState extends State<TabAdd> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      isTabToHideKeyBoard: true,
       appbar: AppBar(
         centerTitle: true,
         leadingWidth: 25,
         leading: Container(
           padding: EdgeInsets.only(left: 5.w),
-          child: SvgPicture.asset(Assets.svg.search),
+          child:
+              InkWell(onTap: () {
+                RouterUtils.pushAdd(
+                    context: context,
+                    route: AddRouters.search,
+                    argument: BottomnavigationConstant.TAB_ADD);
+              }, child: SvgPicture.asset(Assets.svg.search)),
         ),
         title: Row(
           mainAxisSize: MainAxisSize.min,

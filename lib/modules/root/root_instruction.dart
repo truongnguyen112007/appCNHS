@@ -3,15 +3,15 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import '../../router/application.dart';
 
-class RootAdd extends StatefulWidget {
-  const RootAdd({Key? key}) : super(key: key);
+class RootInstruction extends StatefulWidget {
+  const RootInstruction({Key? key}) : super(key: key);
 
   @override
-  State<RootAdd> createState() => _RootAddState();
+  State<RootInstruction> createState() => _RootInstructionState();
 }
 
-class _RootAddState extends State<RootAdd> {
-  final _navigatorKey = GlobalKey<NavigatorState>(debugLabel: 'AddRoot');
+class _RootInstructionState extends State<RootInstruction> {
+  final _navigatorKey = GlobalKey<NavigatorState>(debugLabel: 'InstructionRoot');
 
   @override
   void initState() {
@@ -21,8 +21,8 @@ class _RootAddState extends State<RootAdd> {
 
   void configRouter() {
     var router = FluroRouter();
-    AddRouters.configureRoutes(router);
-    Application.routerAdd = router;
+    InstructionRouters.configureRoutes(router);
+    Application.routerInstruction = router;
   }
 
   @override
@@ -30,7 +30,7 @@ class _RootAddState extends State<RootAdd> {
     return WillPopScope(
         child: Navigator(
           key: _navigatorKey,
-          onGenerateRoute: Application.routerAdd.generator,
+          onGenerateRoute: Application.routerInstruction.generator,
         ),
         onWillPop: () async => _navigatorKey.currentState!.canPop());
   }

@@ -32,7 +32,7 @@ class _SplashPageState extends State<SplashPage> {
       child: AppScaffold(
           body: Center(
         child: TextButton(
-          child: AppText(AppLocalizations.of(context)!.appTitle),
+          child: AppText('Splash'),
           onPressed: () => _bloc.openHomePage(context),
         ),
       )),

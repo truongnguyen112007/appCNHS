@@ -65,7 +65,7 @@ class _CommentPageState extends BasePopState<CommentPage> {
                 textAlign: TextAlign.start,
               ),
             ),
-            /*   Center(
+               Center(
               child: AppButton(
                 width: 300.w,
                 height: 50.h,
@@ -77,7 +77,7 @@ class _CommentPageState extends BasePopState<CommentPage> {
                 ),
                 onPress: () {},
               ),
-            ),*/
+            ),
           ],
         ),
       ),

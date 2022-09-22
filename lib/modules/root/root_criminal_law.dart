@@ -3,15 +3,15 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import '../../router/application.dart';
 
-class RootAdd extends StatefulWidget {
-  const RootAdd({Key? key}) : super(key: key);
+class RootCriminalLaw extends StatefulWidget {
+  const RootCriminalLaw({Key? key}) : super(key: key);
 
   @override
-  State<RootAdd> createState() => _RootAddState();
+  State<RootCriminalLaw> createState() => _RootCriminalLawState();
 }
 
-class _RootAddState extends State<RootAdd> {
-  final _navigatorKey = GlobalKey<NavigatorState>(debugLabel: 'AddRoot');
+class _RootCriminalLawState extends State<RootCriminalLaw> {
+  final _navigatorKey = GlobalKey<NavigatorState>(debugLabel: 'CriminalLawRoot');
 
   @override
   void initState() {
@@ -21,8 +21,8 @@ class _RootAddState extends State<RootAdd> {
 
   void configRouter() {
     var router = FluroRouter();
-    AddRouters.configureRoutes(router);
-    Application.routerAdd = router;
+    CriminalLawRouters.configureRoutes(router);
+    Application.routerCriminalLaw = router;
   }
 
   @override
@@ -30,7 +30,7 @@ class _RootAddState extends State<RootAdd> {
     return WillPopScope(
         child: Navigator(
           key: _navigatorKey,
-          onGenerateRoute: Application.routerAdd.generator,
+          onGenerateRoute: Application.routerCriminalLaw.generator,
         ),
         onWillPop: () async => _navigatorKey.currentState!.canPop());
   }

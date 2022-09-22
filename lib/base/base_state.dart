@@ -83,7 +83,9 @@ abstract class BasePopState<T extends StatefulWidget> extends BaseState<T> {
       if (isWeb) {
         onBackPressed(true);
       } else {
-        _basePopBloc.emit(BackBasePopState());
+        try {
+          _basePopBloc.emit(BackBasePopState());
+        } catch (ex) {}
       }
     });
   }

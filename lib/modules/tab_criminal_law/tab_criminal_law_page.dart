@@ -1,5 +1,6 @@
 import 'package:base_bloc/modules/tab_criminal_law/tab_criminal_law_cubit.dart';
 import 'package:base_bloc/modules/tab_criminal_law/tab_criminal_law_state.dart';
+import 'package:base_bloc/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,9 +8,11 @@ import 'package:flutter_svg/svg.dart';
 import '../../components/app_circle_loading.dart';
 import '../../components/app_scalford.dart';
 import '../../components/app_text.dart';
+import '../../config/constant.dart';
 import '../../data/model/tab_criminal_law_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../localizations/app_localazations.dart';
+import '../../router/router_utils.dart';
 import '../../theme/colors.dart';
 
 class TabCriminalLawPage extends StatefulWidget {
@@ -45,49 +48,60 @@ class _TabCriminalLawPageState extends State<TabCriminalLawPage> {
     return AppScaffold(
       appbar: AppBar(
         centerTitle: true,
-        leadingWidth:25,
+        leadingWidth: 25,
         leading: Padding(
           padding: EdgeInsets.only(left: 5.w),
-          child: SvgPicture.asset(Assets.svg.search),
+          child: InkWell(onTap: (){
+            RouterUtils.pushCriminalLaw(
+                context: context,
+                route: CriminalLawRouters.search,
+                argument: BottomnavigationConstant.TAB_CRIMINALLAWPAGE);
+          },child: SvgPicture.asset(Assets.svg.search)),
         ),
         title: Text(AppLocalizations.of(context)!.titleTabCriminalLaw),
         backgroundColor: colorPrimaryOrange,
       ),
-      body:
-      RefreshIndicator(
-        child:SingleChildScrollView(
-        controller: _scrollController,
+      body: RefreshIndicator(
         child: Container(
-           child: BlocBuilder<TabCriminalLawCubit, TabCriminalLawState>(
-                bloc: _bloc,
-                builder: (c, state) => state.status == FeedStatus.initial ||
+          height: MediaQuery.of(context).size.height,
+          child: BlocBuilder<TabCriminalLawCubit, TabCriminalLawState>(
+            bloc: _bloc,
+            builder: (c, state) => state.status == FeedStatus.initial ||
                     state.status == FeedStatus.refresh
-                    ? Container(
-                  height: MediaQuery.of(context).size.height / 3,
-                  alignment: Alignment.center,
-                  child: const AppCircleLoading(),
-                )
-                    : ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
+                ? Container(
+                    height: MediaQuery.of(context).size.height / 3,
+                    alignment: Alignment.center,
+                    child: const Center(child: AppCircleLoading()),
+                  )
+                : ListView.separated(
+                    controller: _scrollController,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) =>
-                        item(index, state.lFeed[index]),
+                        index == state.lFeed.length
+                            ? const Center(
+                                child: AppCircleLoading(),
+                              )
+                            : item(index, state.lFeed[index]),
                     separatorBuilder: (BuildContext context, int index) =>
-                    const SizedBox(
+                        const SizedBox(
                       height: 5,
                     ),
-                    itemCount: state.lFeed.length)),
+                    itemCount: !state.readEnd
+                        ? state.lFeed.length + 1
+                        : state.lFeed.length,
+                  ),
+          ),
         ),
-      ),
-          onRefresh: () async => _bloc.refresh(),
+        onRefresh: () async => _bloc.refresh(),
       ),
     );
   }
+
   Widget item(int index, FeedModelCriminalLaw model) {
     return Container(
       height: 111.h,
       color:
-      (index % 2 == 0) ? colorPrimaryOrange.withOpacity(0.12) : colorWhite,
+          (index % 2 == 0) ? colorPrimaryOrange.withOpacity(0.12) : colorWhite,
       child: Column(
         children: [
           AppText(
@@ -95,7 +109,9 @@ class _TabCriminalLawPageState extends State<TabCriminalLawPage> {
             maxLine: 4,
             overflow: TextOverflow.ellipsis,
           ),
-          AppText(model.creatDate + (model.date),),
+          AppText(
+            model.creatDate + (model.date),
+          ),
         ],
       ),
     );
