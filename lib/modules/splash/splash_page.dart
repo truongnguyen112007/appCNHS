@@ -18,9 +18,10 @@ class _SplashPageState extends State<SplashPage> {
   final _bloc = SplashCubit();
 
   @override
-  void initState(){
-super.initState();
+  void initState() {
+    super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener(
@@ -30,11 +31,11 @@ super.initState();
       },
       child: AppScaffold(
           body: Center(
-            child: TextButton(
-              child: AppText(AppLocalizations.of(context)!.appTitle),
-              onPressed: ()=>_bloc.openHomePage(context),
-            ),
-          )),
+        child: TextButton(
+          child: AppText(AppLocalizations.of(context)!.appTitle),
+          onPressed: () => _bloc.openHomePage(context),
+        ),
+      )),
     );
   }
 
@@ -43,5 +44,3 @@ super.initState();
     super.didChangeDependencies();
   }
 }
-
-

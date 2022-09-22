@@ -76,7 +76,7 @@ abstract class BasePopState<T extends StatefulWidget> extends BaseState<T> {
 
   void subscribeGoRoot() {
     _goRoot = Utils.eventBus.on<SwitchTabEvent>().listen((event) {
-      if (event.index != tabIndex || _isVisible <= 0) {
+      if (event.index != tabIndex) {
         return;
       }
       _goRoot!.cancel();

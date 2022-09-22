@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "127505776792",
+    "project_id": "cnhs-83796",
+    "storage_bucket": "cnhs-83796.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127505776792:android:3d287041f82c17b6afd0ed",
+        "android_client_info": {
+          "package_name": "com.example.appcnhs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "127505776792-3pgv2hfn2aiitabpm6rkogsturpqmiri.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3idUY4GSEwPKR6Ii6_759MPEHIK_57hI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "127505776792-3pgv2hfn2aiitabpm6rkogsturpqmiri.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

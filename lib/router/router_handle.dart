@@ -1,19 +1,31 @@
-import 'dart:ffi';
-
+import 'package:base_bloc/modules/comment/comment_page.dart';
+import 'package:base_bloc/modules/search/filter/filter_page.dart';
+import 'package:base_bloc/modules/tab_add/tab_add_page.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_page.dart';
 import 'package:fluro/fluro.dart';
+import '../modules/contact/contact_page.dart';
 import '../modules/home/home_page.dart';
+import '../modules/login/login_page.dart';
 import '../modules/search/search_page.dart';
 import '../modules/splash/splash_page.dart';
 
 var routeSplash = Handler(handlerFunc: (c, p) => const SplashPage());
 
 var routeHome = Handler(handlerFunc: (c, p) => const HomePage());
+
 var routeTabHome = Handler(handlerFunc: (c, p) => const TabHome());
+
+var routeAdd = Handler(handlerFunc: (c,p) => const TabAdd());
 
 var routeSearch = Handler(
     handlerFunc: (c, p) => SearchPage(index: c!.settings!.arguments as int));
 
+var routeFilter =  Handler(handlerFunc: (c, p) => FilterPage(index: c!.settings!.arguments as int));
+
+var routeLogin = Handler(handlerFunc: (c, p) => LoginPage(index: c!.settings!.arguments as int));
+
+var routeComment = Handler(handlerFunc: (c, p) => CommentPage(index: c!.settings!.arguments as int));
+var routeContact = Handler(handlerFunc: (c, p) => ContactPage(index: c!.settings!.arguments as int));
 // var routeHome = Handler(handlerFunc: (c, p) => HomePage());
 /*var routeTest = Handler(
     handlerFunc: (context, p) => TestPage(

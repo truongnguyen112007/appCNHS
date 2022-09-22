@@ -11,15 +11,8 @@ class InitState extends HomeState {
 
 class IndexChangeState extends HomeState {
   final int index;
-
   IndexChangeState(this.index);
-
   @override
   List<Object?> get props => [index];
 }
 
-class onClickSearchIcon extends HomeState {
-  @override
-  List<Object?> get props => [];
-
-}

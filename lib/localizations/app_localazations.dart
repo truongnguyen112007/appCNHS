@@ -107,6 +107,32 @@ abstract class AppLocalizations {
   String get heading1Home;
   String get heading2Home;
   String get hinTextSearch;
+  String get titleFilter;
+  String get nameCheckBox;
+  String get titleTabCriminalLaw;
+  String get titleTabCriminalProceeding;
+  String get titleTabInstruction;
+  String get textTabOfSearch;
+  String get filter;
+  String get textButtonLogin;
+  String get textButtonComments;
+  String get textButtonContact;
+  String get textButtonUpdateInformation;
+  String get textButtonPackage;
+  String get textButtonDelete;
+  String get textButtonLogout;
+  String get radioButton0;
+  String get radioButton1;
+  String get radioButton2;
+  String get radioButton3;
+  String get radioButton4;
+  String get radioButton5;
+  String get radioButton6;
+  String get radioButton7;
+  String get radioButton8;
+  String get titleComment;
+  String get contentComment;
+  String get send;
 
 }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../theme/colors.dart';
 import '../utils/app_utils.dart';
+import '../utils/log_utils.dart';
 
 class AppScaffold extends StatelessWidget {
   final Widget body;
@@ -45,7 +46,10 @@ class AppScaffold extends StatelessWidget {
               : SafeArea(
             minimum: padding,
             child: body,
-          ),  onTap: () => Utils.hideKeyboard(context),),
+          ),  onTap: (){
+            Utils.hideKeyboard(context);
+            logE("sdj");
+          },),
           bottomNavigationBar: bottomNavigationBar,
         ),
       );

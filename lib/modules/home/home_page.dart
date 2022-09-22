@@ -1,7 +1,7 @@
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/data/eventbus/switch_tab_event.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
-import 'package:base_bloc/modules/tab_add/tab_add_page.dart';
+import 'package:base_bloc/modules/root/root_add.dart';
 import 'package:base_bloc/modules/tab_criminal_law/tab_criminal_law_page.dart';
 import 'package:base_bloc/modules/tab_criminal_proceedings/tab_criminal_proceedings_page.dart';
 import 'package:base_bloc/modules/tab_instruction/tab_instruction_page.dart';
@@ -20,72 +20,69 @@ import 'home_cubit.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
-
   var pageController = PageController();
-
   final List<Widget> tab = [
     const RootHome(),
     const TabCriminalLawPage(),
     const TabCriminalProceedingsPage(),
     const TabInstructionPage(),
-    const TabAdd(),
+    const RootAdd(),
   ];
-
   late HomeCubit _bloc;
-
   @override
   void initState() {
     _bloc = HomeCubit();
     super.initState();
   }
+  void _jumpToPage(int index) {
+    if(index == _currentIndex){
+      Utils.fireEvent(SwitchTabEvent(_currentIndex));
+    }
+    _currentIndex = index;
+    pageController.jumpToPage(_currentIndex);
+    _bloc.jumToPage(_currentIndex);
+  }
 
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      resizeToAvoidBottomInset: false,
       fullStatusBar: true,
       body: Column(
         children: [
           Expanded(
-              child: PageView(
-                physics:const NeverScrollableScrollPhysics(),
-                controller: pageController,
-                children: tab,
-              ))
+            child: PageView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: pageController,
+              children: tab,
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: BlocBuilder(
         bloc: _bloc,
-        builder: (BuildContext context, state) =>
-            Container(
-              decoration: BoxDecoration(
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                      color: colorBackgroundGrey70.withOpacity(0.4),
-                      blurRadius: 15.0,
-                      offset: const Offset(0.0, 0.6))
-                ],
-              ),
-              child: BlocBuilder(
-                builder: (c, x) => bottomNavigationBarWidget(),
-                bloc: _bloc,
-              ),
-            ),
+        builder: (BuildContext context, state) => Container(
+          decoration: BoxDecoration(
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                  color: colorBackgroundGrey70.withOpacity(0.4),
+                  blurRadius: 15.0,
+                  offset: const Offset(0.0, 0.6))
+            ],
+          ),
+          child: BlocBuilder(
+            builder: (c, x) => bottomNavigationBarWidget(),
+            bloc: _bloc,
+          ),
+        ),
       ),
     );
-  }
-
-  void _jumpToPage(int index) {
-    _currentIndex = index;
-    pageController.jumpToPage(_currentIndex);
-    _bloc.jumToPage(_currentIndex);
-    Utils.fireEvent(SwitchTabEvent(_currentIndex));
   }
 
   Widget bottomNavigationBarWidget() {
@@ -122,9 +119,8 @@ class _HomePageState extends State<HomePage> {
         currentIndex: _currentIndex,
         onTap: (index) => _jumpToPage(index));
   }
-
   BottomNavigationBarItem itemBottomNavigationBarWidget(
-      {required int index, required String svg, required String label}) =>
+          {required int index, required String svg, required String label}) =>
       BottomNavigationBarItem(
         icon: Padding(
           padding: EdgeInsets.only(bottom: 10.42.h, top: 5.h),

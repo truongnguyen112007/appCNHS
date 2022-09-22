@@ -57,7 +57,7 @@ class AppTextField extends StatefulWidget {
       this.height,
       this.isShowErrorText = true,
       this.maxLine,
-      this.inputFormatters})
+      this.inputFormatters, required TextAlign textAlign})
       : super(key: key);
 
   @override

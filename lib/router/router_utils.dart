@@ -27,16 +27,15 @@ class RouterUtils {
     return result;
   }
 
-  static pushSearch<T>(
+  static pushAdd<T>(
       {required BuildContext context,
         required String route,
         dynamic argument,
         bool isRemove = false}) async {
-    T result = await Application.routerSearch.navigateTo(context, route,
+    T result = await Application.routerAdd.navigateTo(context, route,
         transition: TransitionType.inFromRight,
         clearStack: isRemove,
         routeSettings: RouteSettings(arguments: argument));
     return result;
   }
-
 }
