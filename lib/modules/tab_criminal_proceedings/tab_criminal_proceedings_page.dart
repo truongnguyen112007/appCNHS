@@ -13,6 +13,7 @@ import '../../data/model/tab_criminal_proceedings_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../localizations/app_localazations.dart';
 import '../../router/router_utils.dart';
+import '../../theme/app_styles.dart';
 import '../../theme/colors.dart';
 
 class TabCriminalProceedingsPage extends StatefulWidget {
@@ -100,21 +101,31 @@ class _TabCriminalProceedingPageState
   }
 
   Widget item(int index, FeedModelCriminalProceedings model) {
-    return Container(
-      height: 111.h,
-      color:
-          (index % 2 == 0) ? colorPrimaryOrange.withOpacity(0.12) : colorWhite,
-      child: Column(
-        children: [
-          AppText(
-            model.content,
-            maxLine: 4,
-            overflow: TextOverflow.ellipsis,
-          ),
-          AppText(
-            model.creatDate + (model.date),
-          ),
-        ],
+    return InkWell(
+      onTap: (){
+        RouterUtils.pushCriminalProceedings(
+            context: context,
+            route: CriminalProceedingsRouters.detail,
+            argument: BottomnavigationConstant.TAB_CRIMINALPROCEEDINGSPAGE);
+      },
+      child: Container(
+        height: 111.h,
+        color:
+            (index % 2 == 0) ? colorPrimaryOrange.withOpacity(0.12) : colorWhite,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            AppText(
+              model.content,
+              maxLine: 4,
+              overflow: TextOverflow.ellipsis,
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: 5.w),
+              child: AppText(model.creatDate +' '+ (model.date),style: typoSuperSmallTextRegular.copyWith(color: colorPrimaryOrange),),
+            )
+          ],
+        ),
       ),
     );
   }

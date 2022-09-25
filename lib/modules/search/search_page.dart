@@ -14,6 +14,7 @@ import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rxdart/rxdart.dart';
@@ -93,107 +94,8 @@ class _SearchPageState extends BasePopState<SearchPage>
   Widget buildWidget(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return AppScaffold(
-      isTabToHideKeyBoard: true,
-      resizeToAvoidBottomInset: false,
       appbar: appBarWidget(),
-      body: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: 10.h),
-            child: TabBar(
-              indicatorColor: Colors.transparent,
-              controller: tabController,
-              tabs: [
-                Tab(
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 30.w),
-                    child: Column(
-                      children: [
-                        SvgPicture.asset(
-                          Assets.svg.vector,
-                          color: _selectedIndex == 0
-                              ? colorPrimaryOrange
-                              : colorBlack,
-                        ),
-                        SizedBox(
-                          height: 5.h,
-                        ),
-                        AppText(
-                          AppLocalizations.of(context)!.rules,
-                          style: typoSuperSmallTextRegular.copyWith(
-                            color: _selectedIndex == 0
-                                ? colorPrimaryOrange
-                                : colorBlack,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Tab(
-                  child: Column(
-                    children: [
-                      SvgPicture.asset(
-                        Assets.svg.trialLawSvgrepo,
-                        color: _selectedIndex == 1
-                            ? colorPrimaryOrange
-                            : colorBlack,
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      AppText(
-                        AppLocalizations.of(context)!.rules2,
-                        style: typoSuperSmallTextRegular.copyWith(
-                          color: _selectedIndex == 1
-                              ? colorPrimaryOrange
-                              : colorBlack,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Tab(
-                  // icon: SvgPicture.asset(Assets.svg.book),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 30),
-                    child: Column(
-                      children: [
-                        SvgPicture.asset(
-                          Assets.svg.book,
-                          color: _selectedIndex == 2
-                              ? colorPrimaryOrange
-                              : colorBlack,
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        AppText(
-                          AppLocalizations.of(context)!.help,
-                          style: typoSuperSmallTextRegular.copyWith(
-                            color: _selectedIndex == 2
-                                ? colorPrimaryOrange
-                                : colorBlack,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // text: AppLocalizations.of(context)!.help,
-                )
-              ],
-            ),
-          ),
-          Divider(
-            height: 5.h,
-            color: colorGrey50,
-            thickness: 1,
-          ),
-          Expanded(
-            child: PageView(controller: pageController, children: tabSearch),
-          ),
-        ],
-      ),
+      body: bodySearch()
     );
   }
 
@@ -289,6 +191,103 @@ class _SearchPageState extends BasePopState<SearchPage>
                     },
                     child: SvgPicture.asset(Assets.svg.filter)),
               ),
+      ],
+    );
+  }
+
+  Widget bodySearch () {
+    return Column(
+      children: [
+        BlocBuilder(
+            bloc: _bloc,
+            builder: (c, state) => Padding(
+              padding: EdgeInsets.only(top: 10.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  InkWell(
+                    child: Column(
+                      children: [
+                        SvgPicture.asset(
+                          Assets.svg.vector,
+                          color: _selectedIndex == 0
+                              ? colorPrimaryOrange
+                              : colorBlack,
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        AppText(
+                          AppLocalizations.of(context)!.rules,
+                          style: typoSuperSmallTextRegular.copyWith(
+                            color: _selectedIndex == 0
+                                ? colorPrimaryOrange
+                                : colorBlack,
+                          ),
+                        ),
+                      ],
+                    ),
+                    onTap: () => _jumpToPage(0),
+                  ),
+                  InkWell(
+                    child: Column(
+                      children: [
+                        SvgPicture.asset(
+                          Assets.svg.trialLawSvgrepo,
+                          color: _selectedIndex == 1
+                              ? colorPrimaryOrange
+                              : colorBlack,
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        AppText(
+                          AppLocalizations.of(context)!.rules2,
+                          style: typoSuperSmallTextRegular.copyWith(
+                            color: _selectedIndex == 1
+                                ? colorPrimaryOrange
+                                : colorBlack,
+                          ),
+                        ),
+                      ],
+                    ),
+                    onTap: () => _jumpToPage(1),
+                  ),
+                  InkWell(
+                    child: Column(
+                      children: [
+                        SvgPicture.asset(
+                          Assets.svg.book,
+                          color: _selectedIndex == 2
+                              ? colorPrimaryOrange
+                              : colorBlack,
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        AppText(
+                          AppLocalizations.of(context)!.help,
+                          style: typoSuperSmallTextRegular.copyWith(
+                            color: _selectedIndex == 2
+                                ? colorPrimaryOrange
+                                : colorBlack,
+                          ),
+                        ),
+                      ],
+                    ),
+                    onTap: () => _jumpToPage(2),
+                  )
+                ],
+              ),
+            )),
+        Divider(
+          height: 5.h,
+          color: colorGrey50,
+          thickness: 1,
+        ),
+        Expanded(
+          child: PageView(controller: pageController, children: tabSearch),
+        ),
       ],
     );
   }

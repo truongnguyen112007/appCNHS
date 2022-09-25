@@ -21,6 +21,7 @@ class HomeRouters {
   static String root = "/";
   static String search = "/search";
   static String filter = "/filter";
+  static String detail = "/detail";
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc:
@@ -30,6 +31,7 @@ class HomeRouters {
     router.define(root, handler: routeTabHome);
     router.define(search, handler: routeSearch);
     router.define(filter, handler: routeFilter);
+    router.define(detail, handler: routeDetail);
   }
 }
 
@@ -55,6 +57,7 @@ class AddRouters {
 class CriminalLawRouters {
   static String root = "/";
   static String search = "/search";
+  static String detail = "/detail";
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc:
@@ -63,12 +66,14 @@ class CriminalLawRouters {
     });
     router.define(root, handler: routeCriminalLaw);
     router.define(search, handler: routeSearch);
+    router.define(detail, handler: routeDetail);
   }
 }
 
 class CriminalProceedingsRouters {
   static String root = "/";
   static String search = "/search";
+  static String detail = "/detail";
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc:
@@ -77,6 +82,7 @@ class CriminalProceedingsRouters {
     });
     router.define(root, handler: routerCriminalProceedings);
     router.define(search, handler: routeSearch);
+    router.define(detail, handler: routeDetail);
   }
 }
 

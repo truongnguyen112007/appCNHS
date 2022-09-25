@@ -9,6 +9,7 @@ import 'package:fluro/fluro.dart';
 import '../modules/contact/contact_page.dart';
 import '../modules/home/home_page.dart';
 import '../modules/login/login_page.dart';
+import '../modules/new_details/new_detail.dart';
 import '../modules/search/search_page.dart';
 import '../modules/splash/splash_page.dart';
 import '../modules/tab_criminal_law/tab_criminal_law_page.dart';
@@ -29,6 +30,8 @@ var routeAdd = Handler(handlerFunc: (c,p) => const TabAdd());
 
 var routeSearch = Handler(
     handlerFunc: (c, p) => SearchPage(index: c!.settings!.arguments as int));
+var routeDetail = Handler(
+    handlerFunc: (c, p) => NewDetail(index: c!.settings!.arguments as int));
 
 var routeFilter =  Handler(handlerFunc: (c, p) => FilterPage(index: c!.settings!.arguments as int));
 

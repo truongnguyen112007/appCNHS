@@ -43,7 +43,9 @@ dependencies:
   badges: ^2.0.3
   rxdart: ^0.27.5
   firebase_auth: ^3.5.0
-  cloud_firestore: ^3.4.8
+  google_sign_in: ^5.4.2
+  otp_text_field: ^1.1.3
+
 
 
 

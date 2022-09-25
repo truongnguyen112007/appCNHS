@@ -133,6 +133,8 @@ abstract class AppLocalizations {
   String get titleComment;
   String get contentComment;
   String get send;
+  String get pleaseLoginMobile;
+  String get phoneNumber;
 
 }
 

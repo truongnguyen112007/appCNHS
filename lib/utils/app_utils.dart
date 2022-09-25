@@ -7,7 +7,6 @@ import 'package:intl/intl.dart';
 import '../theme/colors.dart';
 
 class Utils {
-  static var METHOD_CHANNEL = "METHOD_CALL_NATIVE";
   static var eventBus = EventBus();
 
   static fireEvent(dynamic model) => eventBus.fire(model);

@@ -1,6 +1,7 @@
 import 'package:base_bloc/components/app_circle_loading.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/data/model/home_model.dart';
+import 'package:base_bloc/modules/new_details/new_detail.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_cubit.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
@@ -24,7 +25,7 @@ class TabHome extends StatefulWidget {
   State<TabHome> createState() => _TabHomeState();
 }
 
-class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin{
+class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
   late TabHomeCubit _bloc;
   final _scrollController = ScrollController();
 
@@ -33,6 +34,7 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin{
     _bloc = TabHomeCubit();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -72,24 +74,25 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin{
                     Assets.svg.book),
               ),
               BlocBuilder<TabHomeCubit, TabHomeState>(
-                  bloc: _bloc,
-                  builder: (c, state) => state.status == FeedStatus.initial ||
-                          state.status == FeedStatus.refresh
-                      ? Container(
-                          alignment: Alignment.center,
-                          height: MediaQuery.of(context).size.height / 3,
-                          child: const AppCircleLoading(),
-                        )
-                      : ListView.separated(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int index) =>
-                              itemHeading(index, state.lFeed[index]),
-                          separatorBuilder: (BuildContext context, int index) =>
-                              const SizedBox(
-                                height: 5,
-                              ),
-                          itemCount: state.lFeed.length)),
+                bloc: _bloc,
+                builder: (c, state) => state.status == FeedStatus.initial ||
+                        state.status == FeedStatus.refresh
+                    ? Container(
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height / 3,
+                        child: const AppCircleLoading(),
+                      )
+                    : ListView.separated(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) =>
+                            itemHeading(index, state.lFeed[index]),
+                        separatorBuilder: (BuildContext context, int index) =>
+                            const SizedBox(
+                              height: 5,
+                            ),
+                        itemCount: state.lFeed.length),
+              ),
             ],
           ),
         ),
@@ -99,19 +102,50 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin{
   }
 
   Widget itemHeading(int index, FeedModelHome model) {
-    return Container(
-      height: 111.h,
-      color:
-          (index % 2 == 0) ? colorPrimaryOrange.withOpacity(0.12) : colorWhite,
-      child: Column(
-        children: [
-          AppText(
-            model.content,
-            maxLine: 4,
-            overflow: TextOverflow.ellipsis,
-          ),
-          AppText(model.creatDate + (model.date))
-        ],
+    return InkWell(
+      onTap: (){
+        RouterUtils.pushHome(
+            context: context,
+            route: HomeRouters.detail,
+            argument: BottomnavigationConstant.TAB_HOME);
+      },
+      child: Container(
+        height: 111.h,
+        color:
+            (index % 2 == 0) ? colorPrimaryOrange.withOpacity(0.12) : colorWhite,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: 6.h, right: 5.w, left: 5.w),
+              child: const Icon(
+                Icons.circle_sharp,
+                size: 8,
+              ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  AppText(
+                    model.content,
+                    maxLine: 4,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: 5.w),
+                    child: AppText(
+                      model.creatDate + ' ' + (model.date),
+                      style: typoSuperSmallTextRegular.copyWith(
+                          color: colorPrimaryOrange),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -129,7 +163,9 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin{
                 route: HomeRouters.search,
                 argument: BottomnavigationConstant.TAB_HOME);
           },
-          child: SvgPicture.asset(Assets.svg.search,),
+          child: SvgPicture.asset(
+            Assets.svg.search,
+          ),
         ),
       ),
       title: Row(
@@ -168,5 +204,5 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin{
   }
 
   @override
-  bool get wantKeepAlive =>true;
+  bool get wantKeepAlive => true;
 }

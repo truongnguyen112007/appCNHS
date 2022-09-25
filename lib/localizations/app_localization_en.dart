@@ -111,4 +111,12 @@ class AppLocalizationEn extends AppLocalizations {
 
   @override
   String get send => 'Gửi';
+
+  @override
+  String get pleaseLoginMobile => 'Bạn vui lòng nhập số điện thoại của mình vào phía dưới để đăng nhập nhé';
+
+  @override
+  String get phoneNumber => 'Số điện thoại';
+
+
 }

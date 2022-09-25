@@ -36,7 +36,13 @@ class _LoginPageState extends BasePopState<LoginPage> {
           ),
           title: AppText(AppLocalizations.of(context)!.textButtonLogin,style: typoExtraSmallTextBold.copyWith(color:colorWhite,fontSize: 17),),
         ),
-        body: Container());
+        body: Container(
+          child: Column(
+            children: [
+              AppText(AppLocalizations.of(context)!.pleaseLoginMobile)
+            ],
+          ),
+        ));
   }
 
   @override
