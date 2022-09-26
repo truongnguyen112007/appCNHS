@@ -12,7 +12,7 @@ class BaseService {
   var baseUrl = '';
 
   void initProvider() {
-    baseUrl = 'http://103.226.249.207:3333/';
+    baseUrl = 'https://newsapi.org/v2/';
   }
 
   // ignore: non_constant_identifier_names
@@ -30,10 +30,10 @@ class BaseService {
         baseUrl + url,
         queryParameters: queryParam,
         options: Options(headers: {
-          'Authorization': 'Bearer ${globals.accessToken}',
+          // 'Authorization': 'Bearer ${globals.accessToken}',
           /*'Content-Type':'application/json'*/
-          'Host': 'auth.com',
-          'lang': globals.lang
+          // 'Host': 'auth.com',
+          // 'lang': globals.lang
         }),
       );
       if ((response.statusCode == 200 || response.statusCode == 201) &&

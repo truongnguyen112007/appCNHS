@@ -9,7 +9,7 @@ import '../../components/app_circle_loading.dart';
 import '../../components/app_scalford.dart';
 import '../../components/app_text.dart';
 import '../../config/constant.dart';
-import '../../data/model/tab_criminal_proceedings_model.dart';
+import '../../data/model/test_model.dart';
 import '../../gen/assets.gen.dart';
 import '../../localizations/app_localazations.dart';
 import '../../router/router_utils.dart';

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:base_bloc/data/model/category_model.dart';
+import 'package:base_bloc/data/model/test_mdoel.dart';
 import 'package:base_bloc/data/repository/user_repository.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
 import 'package:base_bloc/utils/log_utils.dart';
@@ -12,9 +13,20 @@ class TabHomeCubit extends Cubit<TabHomeState> {
 
   TabHomeCubit() : super(const TabHomeState(status: FeedStatus.initial)) {
     if (state.status == FeedStatus.initial) {
-      getCategory();
+      // getCategory();
       getFeed();
+      test();
     }
+  }
+
+  void test() async {
+    var response = await repository.getFeed();
+    if (response.error == null && response.data != null) {
+      var test = TestModel.fromJson(response.data);
+      logE("TAG TEST: ${test.toJson()}");
+    } else
+      toast(response.error.toString());
+    logE("TAG RESPONSE: ${response.data}");
   }
 
   void getCategory() async {

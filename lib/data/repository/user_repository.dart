@@ -8,9 +8,12 @@ class UserRepository extends BaseService {
     return instance;
   }
 
-  UserRepository._init(){
+  UserRepository._init() {
     initProvider();
   }
+
+  Future<ApiResult> getFeed() async => await GET(
+      'everything?q=tesla&from=2022-08-26&sortBy=publishedAt&apiKey=e68a7e9007e24b23acdcb2aa58432a91');
 
   Future<ApiResult> getCategory() async => await GET('category');
 }

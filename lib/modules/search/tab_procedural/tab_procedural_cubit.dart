@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:base_bloc/modules/search/tab_procedural/tab_procedural_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../data/model/tab_criminal_proceedings_model.dart';
+import '../../../data/model/test_model.dart';
 
 class TabProceduralCubit extends Cubit<TabProceduralState> {
   TabProceduralCubit() : super(const TabProceduralState(status: FeedStatus.initial)) {

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../data/model/tab_criminal_proceedings_model.dart';
+import '../../data/model/test_model.dart';
 
 enum FeedStatus { initial, success, failure, refresh }
 
