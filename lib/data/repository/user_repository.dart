@@ -13,4 +13,5 @@ class UserRepository extends BaseService {
   }
 
   Future<ApiResult> getCategory() async => await GET('category');
+  Future<ApiResult> getFeedByCatId(int catId) async => await GET('post/news?catId=$catId');
 }

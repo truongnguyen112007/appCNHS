@@ -83,7 +83,7 @@ class _TabLawPageState extends State<TabLawPage> {
                     alignment: Alignment.center,
                     child: const AppCircleLoading(),
                   )
-                : state.lFeed!.isNotEmpty
+                : state.lFeed.isNotEmpty
                     ? ListView.separated(
                         controller: _scrollController,
                         shrinkWrap: true,

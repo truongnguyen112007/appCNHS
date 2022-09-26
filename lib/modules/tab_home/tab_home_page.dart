@@ -1,5 +1,7 @@
 import 'package:base_bloc/components/app_circle_loading.dart';
 import 'package:base_bloc/components/app_scalford.dart';
+import 'package:base_bloc/data/model/category_model.dart';
+import 'package:base_bloc/data/model/feed_model.dart';
 import 'package:base_bloc/data/model/home_model.dart';
 import 'package:base_bloc/modules/new_details/new_detail.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_cubit.dart';
@@ -41,59 +43,23 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
       appbar: appBarHome(),
       body: RefreshIndicator(
         child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
           controller: _scrollController,
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: 12.h, bottom: 12.h),
-                child: homeHeading(AppLocalizations.of(context)!.heading1Home,
-                    Assets.svg.vector),
-              ),
-              BlocBuilder<TabHomeCubit, TabHomeState>(
-                  bloc: _bloc,
-                  builder: (c, state) => state.status == FeedStatus.initial ||
-                          state.status == FeedStatus.refresh
-                      ? Container(
-                          height: MediaQuery.of(context).size.height / 3,
-                          alignment: Alignment.center,
-                          child: const AppCircleLoading(),
-                        )
-                      : ListView.separated(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int index) =>
-                              itemHeading(index, state.lFeed[index]),
-                          separatorBuilder: (BuildContext context, int index) =>
-                              const SizedBox(
-                                height: 5,
-                              ),
-                          itemCount: state.lFeed.length)),
-              Padding(
-                padding: EdgeInsets.only(top: 12.h, bottom: 12.h),
-                child: homeHeading(AppLocalizations.of(context)!.heading2Home,
-                    Assets.svg.book),
-              ),
-              BlocBuilder<TabHomeCubit, TabHomeState>(
-                bloc: _bloc,
-                builder: (c, state) => state.status == FeedStatus.initial ||
-                        state.status == FeedStatus.refresh
-                    ? Container(
-                        alignment: Alignment.center,
-                        height: MediaQuery.of(context).size.height / 3,
-                        child: const AppCircleLoading(),
-                      )
-                    : ListView.separated(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) =>
-                            itemHeading(index, state.lFeed[index]),
-                        separatorBuilder: (BuildContext context, int index) =>
-                            const SizedBox(
-                              height: 5,
-                            ),
-                        itemCount: state.lFeed.length),
-              ),
-            ],
+          child: BlocBuilder<TabHomeCubit, TabHomeState>(
+            bloc: _bloc,
+            builder: (c, state) => state.status == FeedStatus.initial ||
+                    state.status == FeedStatus.refresh
+                ? Container(
+                    alignment: Alignment.center,
+                    height: MediaQuery.of(context).size.height,
+                    child: const AppCircleLoading(),
+                  )
+                : Column(
+                    children: [
+                      for (int i = 0; i < state.lCategory.length; i++)
+                        categoryWidget(state.lCategory[i])
+                    ],
+                  ),
           ),
         ),
         onRefresh: () async => _bloc.refresh(),
@@ -101,9 +67,25 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
     );
   }
 
-  Widget itemHeading(int index, FeedModelHome model) {
+  Widget categoryWidget(CategoryModel categoryModel) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        titleCategoryWidget(categoryModel.name ?? '', Assets.svg.filter),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          primary: true,
+          itemBuilder: (c, i) => itemHeading(i, categoryModel.lFeed![i]),
+          itemCount: categoryModel.lFeed?.length ?? 0,
+        )
+      ],
+    );
+  }
+
+  Widget itemHeading(int index, FeedModel model) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         RouterUtils.pushHome(
             context: context,
             route: HomeRouters.detail,
@@ -111,8 +93,9 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
       },
       child: Container(
         height: 111.h,
-        color:
-            (index % 2 == 0) ? colorPrimaryOrange.withOpacity(0.12) : colorWhite,
+        color: (index % 2 == 0)
+            ? colorPrimaryOrange.withOpacity(0.12)
+            : colorWhite,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,14 +112,14 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   AppText(
-                    model.content,
+                    model.content ?? '',
                     maxLine: 4,
                     overflow: TextOverflow.ellipsis,
                   ),
                   Padding(
                     padding: EdgeInsets.only(right: 5.w),
                     child: AppText(
-                      model.creatDate + ' ' + (model.date),
+                      'Co hieu luc tu',
                       style: typoSuperSmallTextRegular.copyWith(
                           color: colorPrimaryOrange),
                     ),
@@ -188,7 +171,7 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
     );
   }
 
-  Widget homeHeading(String text, String icon) {
+  Widget titleCategoryWidget(String text, String icon) {
     return Row(
       children: [
         Padding(

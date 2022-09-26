@@ -4,75 +4,32 @@
 
 import 'dart:convert';
 
-CategoryModel categoryModelFromJson(String str) =>
-    CategoryModel.fromJson(json.decode(str));
+import 'feed_model.dart';
 
-String categoryModelToJson(CategoryModel data) => json.encode(data.toJson());
+List<CategoryModel> categoryModelFromJson(List<dynamic> str) =>
+    List<CategoryModel>.from(str.map((x) => CategoryModel.fromJson(x)));
+
+String categoryModelToJson(List<CategoryModel> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class CategoryModel {
-  CategoryModel({
-    this.data,
-    this.success,
-    this.message,
-  });
-
-  Data? data;
-  bool? success;
-  String? message;
-
-  factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
-        data: Data.fromJson(json["data"]),
-        success: json["success"],
-        message: json["message"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "data": data?.toJson(),
-        "success": success,
-        "message": message,
-      };
-}
-
-class Data {
-  Data({
-    this.meta,
-    this.data,
-  });
-
-  Meta? meta;
-  List<Datum>? data;
-
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        meta: Meta.fromJson(json["meta"]),
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "meta": meta?.toJson(),
-        "data": data != null
-            ? List<dynamic>.from(data!.map((x) => x.toJson()))
-            : null,
-      };
-}
-
-class Datum {
-  Datum({
-    this.id,
-    this.name,
-    this.parentId,
-    this.description,
-    this.status,
-    this.authorId,
-    this.authorType,
-    this.icon,
-    this.order,
-    this.isFeatured,
-    this.isDefault,
-    this.createdAt,
-    this.updatedAt,
-    this.author,
-    this.post,
-  });
+  CategoryModel(
+      {this.id,
+      this.name,
+      this.parentId,
+      this.description,
+      this.status,
+      this.authorId,
+      this.authorType,
+      this.icon,
+      this.order,
+      this.isFeatured,
+      this.isDefault,
+      this.createdAt,
+      this.updatedAt,
+      this.author,
+      this.post,
+      this.lFeed});
 
   int? id;
   String? name;
@@ -89,8 +46,44 @@ class Datum {
   DateTime? updatedAt;
   Author? author;
   List<Post>? post;
+  List<FeedModel>? lFeed;
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  CategoryModel copyOf(
+          int? id,
+          String? name,
+          int? parentId,
+          String? description,
+          String? status,
+          int? authorId,
+          String? authorType,
+          dynamic? icon,
+          int? order,
+          int? isFeatured,
+          int? isDefault,
+          DateTime? createdAt,
+          DateTime? updatedAt,
+          Author? author,
+          List<Post>? post,
+          List<FeedModel>? feedModel) =>
+      CategoryModel(
+          id: id ?? this.id,
+          name: name ?? this.name,
+          parentId: parentId ?? this.parentId,
+          description: description ?? this.description,
+          status: status ?? this.status,
+          author: author ?? this.author,
+          authorType: authorType ?? this.authorType,
+          icon: icon ?? this.icon,
+          order: order ?? this.order,
+          isFeatured: isFeatured ?? this.isFeatured,
+          isDefault: isDefault ?? this.isDefault,
+          createdAt: createdAt ?? this.createdAt,
+          updatedAt: updatedAt ?? this.updatedAt,
+          authorId: authorId ?? this.authorId,
+          post: post ?? this.post,
+          lFeed: feedModel ?? this.lFeed);
+
+  factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
         id: json["id"],
         name: json["name"],
         parentId: json["parent_id"],
@@ -123,7 +116,9 @@ class Datum {
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
         "author": author?.toJson(),
-        "post": post!=null? List<dynamic>.from(post!.map((x) => x.toJson())): null,
+        /*  "post": post != null
+            ? List<dynamic>.from(post!.map((x) => x.toJson()))
+            : null,*/
       };
 }
 
