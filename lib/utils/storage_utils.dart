@@ -1,7 +1,15 @@
-
+import 'package:base_bloc/config/constant.dart';
+import 'package:get_storage/get_storage.dart';
 
 class StorageUtils {
-  /*static Future<void> saveDoctorRatingLatest(List<RatingModel> lDoctor) async {
+  static Future<void> saveFilter(int key) async {
+    await GetStorage().write(StorageKey.filter, key);
+  }
+
+  static Future<int> getFilter() async {
+    return await GetStorage().read(StorageKey.filter) ??0;
+  }
+/*static Future<void> saveDoctorRatingLatest(List<RatingModel> lDoctor) async {
     var json = jsonEncode(lDoctor.map((e) => e.toJson()).toList());
     await GetStorage().write(StorageKey.ratingLatest, json);
   }

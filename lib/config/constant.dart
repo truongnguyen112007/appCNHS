@@ -2,10 +2,8 @@ class StorageKey {
   StorageKey._();
 
   static const String CurrentToken = 'CurrentToken';
-  static const String AccountInfo = 'AccountInfo';
-  static const String doctorPromote = 'DoctorPromote';
-  static const String ratingLatest = 'ratingLatest';
-  static const String loginByFbOrGg = 'loginByFbOrGg';
+  static const String filter = 'filter';
+
 }
 
 class ConstantKey {

@@ -12,6 +12,7 @@ import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/log_utils.dart';
+import 'package:base_bloc/utils/storage_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,7 +39,6 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends BasePopState<SearchPage>
     with TickerProviderStateMixin {
   String keySearch = '';
-  StreamSubscription<SearchEvent>? _searchEvent;
   final List<Widget> tabSearch = [
     const TabLawPage(
       index: 0,
@@ -52,22 +52,19 @@ class _SearchPageState extends BasePopState<SearchPage>
   var pageController = PageController();
   late TabController tabController;
   TextEditingController? textEditingController;
+  final itemOnChange = BehaviorSubject<String>();
+  int filterValue = 0;
 
   @override
   void initState() {
-    tabController = TabController(length: 3, vsync: this);
-
     _bloc = SearchCubit();
-    TextEditingController? textEditingController;
-
+    tabController = TabController(length: 3, vsync: this);
+    textEditingController = TextEditingController();
     tabController.addListener(() {
       var index = tabController.index;
       _jumpToPage(index);
       setState(() {});
     });
-
-    textEditingController = TextEditingController();
-
     itemOnChange.debounceTime(const Duration(seconds: 1)).listen(
       (value) {
         Utils.fireEvent(
@@ -77,12 +74,14 @@ class _SearchPageState extends BasePopState<SearchPage>
         setState(() {});
       },
     );
-
-    _bloc = SearchCubit();
+    checkFilter();
     super.initState();
   }
 
-  final itemOnChange = BehaviorSubject<String>();
+  void checkFilter() async {
+    filterValue = await StorageUtils.getFilter();
+    setState(() {});
+  }
 
   void _jumpToPage(int index) {
     _selectedIndex = index;
@@ -92,11 +91,102 @@ class _SearchPageState extends BasePopState<SearchPage>
 
   @override
   Widget buildWidget(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return AppScaffold(
-      appbar: appBarWidget(),
-      body: bodySearch()
-    );
+        appbar: appBarWidget(),
+        body: Column(
+          children: [
+            BlocBuilder(
+                bloc: _bloc,
+                builder: (c, state) => Padding(
+                      padding: EdgeInsets.only(top: 10.h),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          InkWell(
+                            child: Column(
+                              children: [
+                                SvgPicture.asset(
+                                  Assets.svg.vector,
+                                  color: _selectedIndex == 0
+                                      ? colorPrimaryOrange
+                                      : colorBlack,
+                                ),
+                                SizedBox(
+                                  height: 5.h,
+                                ),
+                                AppText(
+                                  AppLocalizations.of(context)!.rules,
+                                  style: typoSuperSmallTextRegular.copyWith(
+                                    color: _selectedIndex == 0
+                                        ? colorPrimaryOrange
+                                        : colorBlack,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onTap: () => _jumpToPage(0),
+                          ),
+                          InkWell(
+                            child: Column(
+                              children: [
+                                SvgPicture.asset(
+                                  Assets.svg.trialLawSvgrepo,
+                                  color: _selectedIndex == 1
+                                      ? colorPrimaryOrange
+                                      : colorBlack,
+                                ),
+                                SizedBox(
+                                  height: 5.h,
+                                ),
+                                AppText(
+                                  AppLocalizations.of(context)!.rules2,
+                                  style: typoSuperSmallTextRegular.copyWith(
+                                    color: _selectedIndex == 1
+                                        ? colorPrimaryOrange
+                                        : colorBlack,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onTap: () => _jumpToPage(1),
+                          ),
+                          InkWell(
+                            child: Column(
+                              children: [
+                                SvgPicture.asset(
+                                  Assets.svg.book,
+                                  color: _selectedIndex == 2
+                                      ? colorPrimaryOrange
+                                      : colorBlack,
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                AppText(
+                                  AppLocalizations.of(context)!.help,
+                                  style: typoSuperSmallTextRegular.copyWith(
+                                    color: _selectedIndex == 2
+                                        ? colorPrimaryOrange
+                                        : colorBlack,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            onTap: () => _jumpToPage(2),
+                          )
+                        ],
+                      ),
+                    )),
+            Divider(
+              height: 5.h,
+              color: colorGrey50,
+              thickness: 1,
+            ),
+            Expanded(
+              child: PageView(controller: pageController, children: tabSearch),
+            ),
+          ],
+        ));
   }
 
   PreferredSizeWidget appBarWidget() {
@@ -143,7 +233,7 @@ class _SearchPageState extends BasePopState<SearchPage>
         ),
       ),
       actions: [
-        keySearch.isNotEmpty
+        filterValue != 0
             ? Padding(
                 padding: EdgeInsets.only(
                     top: 6.h, bottom: 6.h, right: 5.w, left: 10.w),
@@ -169,11 +259,12 @@ class _SearchPageState extends BasePopState<SearchPage>
                           )),
                     ],
                   ),
-                  onPress: () {
-                    RouterUtils.pushHome(
+                  onPress: () async {
+                    await RouterUtils.pushHome(
                         context: context,
                         route: HomeRouters.filter,
                         argument: BottomnavigationConstant.TAB_HOME);
+                    checkFilter();
                   },
                   shapeBorder: RoundedRectangleBorder(
                       side: const BorderSide(color: colorWhite, width: 2),
@@ -183,111 +274,15 @@ class _SearchPageState extends BasePopState<SearchPage>
             : Padding(
                 padding: EdgeInsets.only(right: 10.w),
                 child: InkWell(
-                    onTap: () {
-                      RouterUtils.pushHome(
+                    onTap: () async {
+                      await RouterUtils.pushHome(
                           context: context,
                           route: HomeRouters.filter,
                           argument: BottomnavigationConstant.TAB_HOME);
+                      checkFilter();
                     },
                     child: SvgPicture.asset(Assets.svg.filter)),
               ),
-      ],
-    );
-  }
-
-  Widget bodySearch () {
-    return Column(
-      children: [
-        BlocBuilder(
-            bloc: _bloc,
-            builder: (c, state) => Padding(
-              padding: EdgeInsets.only(top: 10.h),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  InkWell(
-                    child: Column(
-                      children: [
-                        SvgPicture.asset(
-                          Assets.svg.vector,
-                          color: _selectedIndex == 0
-                              ? colorPrimaryOrange
-                              : colorBlack,
-                        ),
-                        SizedBox(
-                          height: 5.h,
-                        ),
-                        AppText(
-                          AppLocalizations.of(context)!.rules,
-                          style: typoSuperSmallTextRegular.copyWith(
-                            color: _selectedIndex == 0
-                                ? colorPrimaryOrange
-                                : colorBlack,
-                          ),
-                        ),
-                      ],
-                    ),
-                    onTap: () => _jumpToPage(0),
-                  ),
-                  InkWell(
-                    child: Column(
-                      children: [
-                        SvgPicture.asset(
-                          Assets.svg.trialLawSvgrepo,
-                          color: _selectedIndex == 1
-                              ? colorPrimaryOrange
-                              : colorBlack,
-                        ),
-                        SizedBox(
-                          height: 5.h,
-                        ),
-                        AppText(
-                          AppLocalizations.of(context)!.rules2,
-                          style: typoSuperSmallTextRegular.copyWith(
-                            color: _selectedIndex == 1
-                                ? colorPrimaryOrange
-                                : colorBlack,
-                          ),
-                        ),
-                      ],
-                    ),
-                    onTap: () => _jumpToPage(1),
-                  ),
-                  InkWell(
-                    child: Column(
-                      children: [
-                        SvgPicture.asset(
-                          Assets.svg.book,
-                          color: _selectedIndex == 2
-                              ? colorPrimaryOrange
-                              : colorBlack,
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        AppText(
-                          AppLocalizations.of(context)!.help,
-                          style: typoSuperSmallTextRegular.copyWith(
-                            color: _selectedIndex == 2
-                                ? colorPrimaryOrange
-                                : colorBlack,
-                          ),
-                        ),
-                      ],
-                    ),
-                    onTap: () => _jumpToPage(2),
-                  )
-                ],
-              ),
-            )),
-        Divider(
-          height: 5.h,
-          color: colorGrey50,
-          thickness: 1,
-        ),
-        Expanded(
-          child: PageView(controller: pageController, children: tabSearch),
-        ),
       ],
     );
   }
