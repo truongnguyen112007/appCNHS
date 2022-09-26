@@ -11,23 +11,23 @@ import 'api_result.dart';
 class BaseService {
   var baseUrl = '';
 
-  void initProvider() {}
+  void initProvider() {
+    baseUrl = 'http://103.226.249.207:3333/';
+  }
 
   // ignore: non_constant_identifier_names
   Future<ApiResult> GET(String url,
-      {Map<String, dynamic>? queryParam,
-      bool isNewFormat = false,
-      String baseUrl = ''}) async {
+      {Map<String, dynamic>? queryParam, bool isNewFormat = false}) async {
     if (await ConnectionUtils.isConnect() == false) {
       return ApiResult(error: "LocaleKeys.network_error.tr");
     }
     print('============================================================');
-    print('[GET] ${baseUrl!}$url');
+    print('[GET] ${baseUrl}$url');
     print("Bearer ${globals.accessToken}");
-    print("Language ${globals.lang}");
+
     try {
       final response = await Dio().get(
-        url,
+        baseUrl + url,
         queryParameters: queryParam,
         options: Options(headers: {
           'Authorization': 'Bearer ${globals.accessToken}',
@@ -71,10 +71,9 @@ class BaseService {
       return ApiResult(error: "LocaleKeys.network_error.tr");
     }
     print('============================================================');
-    print('[PATCH] ${baseUrl!}$url');
+    print('[PATCH] ${baseUrl}$url');
     print('[PARAMS] $body');
     print("Bearer ${globals.accessToken}");
-    print("Language ${globals.lang}");
 
     try {
       final response = await Dio().patch(
@@ -119,13 +118,12 @@ class BaseService {
   Future<ApiResult> POST(String url, dynamic body,
       {bool isMultipart = false,
       bool isContentType = false,
-      String baseUrl = '',
       bool isNewFormat = false}) async {
     if (await ConnectionUtils.isConnect() == false) {
       return ApiResult(error: "LocaleKeys.network_error.tr");
     }
     print('============================================================');
-    print('[POST] ' + baseUrl! + url);
+    print('[POST] ' + baseUrl + url);
     print("Bearer " + globals.accessToken);
     print('[PARAMS] ' + (!isMultipart ? json.encode(body) : ''));
     try {
@@ -170,12 +168,12 @@ class BaseService {
 
   // ignore: non_constant_identifier_names
   Future<ApiResult> PUT(String url, dynamic body,
-      {String baseUrl = '', bool isNewFormat = false}) async {
+      { bool isNewFormat = false}) async {
     if (await ConnectionUtils.isConnect() == false) {
       return ApiResult(error: "LocaleKeys.network_error.tr");
     }
     print('============================================================');
-    print('[PUT] ' + baseUrl! + url);
+    print('[PUT] ' + baseUrl + url);
     print('[PARAMS] ' + body.toString());
     try {
       final response = await Dio().put(url,
@@ -217,13 +215,13 @@ class BaseService {
   }
 
   // ignore: non_constant_identifier_names
-  Future<ApiResult> DELETE(String url, {String baseUrl = ''}) async {
+  Future<ApiResult> DELETE(String url) async {
     if (await ConnectionUtils.isConnect() == false) {
       return ApiResult(error: "LocaleKeys.network_error.tr");
     }
     print('============================================================');
     if (kDebugMode) {
-      print('[DELETE] ${baseUrl!}$url');
+      print('[DELETE] ${baseUrl}$url');
     }
     try {
       final response = await Dio().delete(url,
