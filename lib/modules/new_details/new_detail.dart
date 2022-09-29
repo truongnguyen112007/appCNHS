@@ -6,6 +6,7 @@ import 'package:base_bloc/theme/app_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../components/app_scalford.dart';
@@ -76,10 +77,60 @@ class _NewDetailState extends BasePopState<NewDetail> {
                     ),
                     body: Column(children: [
                       Expanded(
-                        child: Container(
-                          child: Html(data: state.postDetailModel!.data![i].content,),
+                          child: InAppWebView(
+                        initialOptions: InAppWebViewGroupOptions(
+                          crossPlatform: InAppWebViewOptions(
+                              preferredContentMode:
+                                  UserPreferredContentMode.MOBILE),
                         ),
-                      ),
+                        onWebViewCreated: (ctrl) {},
+                        onLoadStop: (ctrl, uri) {},
+                        initialData: InAppWebViewInitialData(
+                            data:
+                                state.postDetailModel!.data![i].content ?? ''),
+                      )),
+                      /*   Expanded(
+                        child: Container(
+                          child: Html(
+                            data: state.postDetailModel!.data![i].content,
+                            shrinkWrap: true,
+                            style: {
+                              "table": Style(
+                                  backgroundColor:
+                                      Color.fromARGB(0x50, 0xee, 0xee, 0xee),
+                                  width: MediaQuery.of(context).size.width),
+                              "tr": Style(
+                                border: Border(
+                                    bottom: BorderSide(color: Colors.grey)),
+                              ),
+                              "th": Style(
+                                padding: EdgeInsets.all(6),
+                                backgroundColor: Colors.grey,
+                              ),
+                              "td": Style(
+                                padding: EdgeInsets.all(6),
+                                alignment: Alignment.topLeft,
+                              ),
+                              'h5': Style(
+                                  width: MediaQuery.of(context).size.width,
+                                  maxLines: 2,
+                                  textOverflow: TextOverflow.ellipsis),
+                            },
+                            customRender: {
+                              "table": (context, child) {
+                                return SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: (context.tree as TableLayoutElement)
+                                      .toWidget(context),
+                                );
+                              },
+                              "bird": (RenderContext context, Widget child) {
+                                return TextSpan(text: "🐦");
+                              }
+                            },
+                          ),
+                        ),
+                      ),*/
                       Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
