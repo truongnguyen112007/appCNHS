@@ -37,6 +37,11 @@ class Utils {
     if (context != null) FocusScope.of(context).requestFocus(FocusNode());
   }
 
+ static String convertDateTimeToDDMMYY(DateTime time)=> DateFormat('dd/MM/yyyy').format(time);
+
+
+
+
   static List<String> getDaysOfWeek() {
     final now = DateTime.now();
     final firstDayOfWeek = now.subtract(Duration(days: now.weekday - 1));

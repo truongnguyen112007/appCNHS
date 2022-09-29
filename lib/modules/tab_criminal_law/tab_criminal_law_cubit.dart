@@ -1,47 +1,55 @@
 import 'dart:async';
+import 'package:base_bloc/data/model/feed_model.dart';
 import 'package:base_bloc/modules/tab_criminal_law/tab_criminal_law_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../data/model/tab_criminal_law_model.dart';
+import '../../data/repository/user_repository.dart';
 
 class TabCriminalLawCubit extends Cubit<TabCriminalLawState> {
-  TabCriminalLawCubit() : super(const TabCriminalLawState(status: FeedStatus.initial)) {
+  var repository = BaseRepository();
+  final int catId;
+
+  TabCriminalLawCubit(this.catId)
+      : super(const TabCriminalLawState(status: FeedStatus.initial)) {
     if (state.status == FeedStatus.initial) {
-      getFeed();
+      getPost();
     }
   }
 
-  void getFeed({bool isPaging = false}) {
+  Future<void> getPost({bool isPaging = false}) async {
     if (state.readEnd) return;
-    if (isPaging) {
-      Timer(const Duration(seconds: 1), () {
-        emit(state.copyOf(
-            lFeed: List.of(state.lFeed)..addAll(fakeData()), readEnd: true));
-      });
-    } else {
-      Timer(const Duration(seconds: 1), () {
-        emit(TabCriminalLawState(
-            readEnd: false,
-            lFeed: fakeData(),
-            status: FeedStatus.success,
-            currentPage: 1));
-      });
+    emit(state.copyOf(isLoading: true));
+    var currentPage = !isPaging ? 1 : state.currentPage + 1;
+    var response = await repository.getPost(catId, state.currentPage);
+    try {
+      if (response.error == null && response.data != null) {
+        var lResponse = feedModelFromJson(response.data['data']['data']);
+        if (isPaging) {
+          emit(state.copyOf(
+              isLoading: false,
+              lPost: state.lFeed..addAll(lResponse),
+              status: FeedStatus.success,
+              currentPage: currentPage));
+        } else {
+          emit(
+            state.copyOf(
+                lPost: lResponse,
+                isLoading: false,
+                status: FeedStatus.success,
+                currentPage: state.currentPage + 1),
+          );
+        }
+      } else {
+        emit(state.copyOf(status: FeedStatus.failure));
+      }
+    } catch (ex) {
+      emit(state.copyOf(readEnd: true));
     }
+
+    return;
   }
 
   void refresh() {
-    emit(TabCriminalLawState(status: FeedStatus.refresh));
-    getFeed();
+    emit(const TabCriminalLawState(status: FeedStatus.refresh, currentPage: 1));
+    getPost();
   }
-
-
-
-  List<FeedModelCriminalLaw> fakeData() =>[
-    FeedModelCriminalLaw(content: 'Quyết định 2373/QĐ-BYT năm 2022 hướng dẫn thực hiện tiêu chí, chỉ tiêu thuộc Bộ tiêu chí quốc gia về xã nông thôn mới/xã nông thôn mới nâng cao và huyện nông thôn mới/huyện nông thôn mới nâng cao giai đoạn 2021-2025 thuộc phạm vi quản lý của Bộ Y tế', creatDate: 'Có hiệu lực từ ngày', date: '22/8/2020'),
-    FeedModelCriminalLaw(content: 'Quyết định 2373/QĐ-BYT năm 2022 hướng dẫn thực hiện tiêu chí, chỉ tiêu thuộc Bộ tiêu chí quốc gia về xã nông thôn mới/xã nông thôn mới nâng cao và huyện nông thôn mới/huyện nông thôn mới nâng cao giai đoạn 2021-2025 thuộc phạm vi quản lý của Bộ Y tế', creatDate: 'Có hiệu lực từ ngày', date: '22/8/2020'),
-    FeedModelCriminalLaw(content: 'Quyết định 2373/QĐ-BYT năm 2022 hướng dẫn thực hiện tiêu chí, chỉ tiêu thuộc Bộ tiêu chí quốc gia về xã nông thôn mới/xã nông thôn mới nâng cao và huyện nông thôn mới/huyện nông thôn mới nâng cao giai đoạn 2021-2025 thuộc phạm vi quản lý của Bộ Y tế', creatDate: 'Có hiệu lực từ ngày', date: '22/8/2020'),
-    FeedModelCriminalLaw(content: 'Quyết định 2373/QĐ-BYT năm 2022 hướng dẫn thực hiện tiêu chí, chỉ tiêu thuộc Bộ tiêu chí quốc gia về xã nông thôn mới/xã nông thôn mới nâng cao và huyện nông thôn mới/huyện nông thôn mới nâng cao giai đoạn 2021-2025 thuộc phạm vi quản lý của Bộ Y tế', creatDate: 'Có hiệu lực từ ngày', date: '22/8/2020'),
-    FeedModelCriminalLaw(content: 'Quyết định 2373/QĐ-BYT năm 2022 hướng dẫn thực hiện tiêu chí, chỉ tiêu thuộc Bộ tiêu chí quốc gia về xã nông thôn mới/xã nông thôn mới nâng cao và huyện nông thôn mới/huyện nông thôn mới nâng cao giai đoạn 2021-2025 thuộc phạm vi quản lý của Bộ Y tế', creatDate: 'Có hiệu lực từ ngày', date: '22/8/2020'),
-    FeedModelCriminalLaw(content: 'Quyết định 2373/QĐ-BYT năm 2022 hướng dẫn thực hiện tiêu chí, chỉ tiêu thuộc Bộ tiêu chí quốc gia về xã nông thôn mới/xã nông thôn mới nâng cao và huyện nông thôn mới/huyện nông thôn mới nâng cao giai đoạn 2021-2025 thuộc phạm vi quản lý của Bộ Y tế', creatDate: 'Có hiệu lực từ ngày', date: '22/8/2020'),
-    FeedModelCriminalLaw(content: 'Quyết định 2373/QĐ-BYT năm 2022 hướng dẫn thực hiện tiêu chí, chỉ tiêu thuộc Bộ tiêu chí quốc gia về xã nông thôn mới/xã nông thôn mới nâng cao và huyện nông thôn mới/huyện nông thôn mới nâng cao giai đoạn 2021-2025 thuộc phạm vi quản lý của Bộ Y tế', creatDate: 'Có hiệu lực từ ngày', date: '22/8/2020'),
-  ];
 }

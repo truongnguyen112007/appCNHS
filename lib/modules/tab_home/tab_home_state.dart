@@ -1,12 +1,10 @@
 import 'package:equatable/equatable.dart';
 import '../../data/model/category_model.dart';
-import '../../data/model/home_model.dart';
 
 enum FeedStatus { initial, success, failure, refresh }
 
 class TabHomeState extends Equatable {
   final List<CategoryModel> lCategory;
-  final List<FeedModelHome> lFeed;
   final bool readEnd;
   final int currentPage;
   final FeedStatus status;
@@ -15,11 +13,10 @@ class TabHomeState extends Equatable {
       {this.lCategory = const <CategoryModel>[],
       this.readEnd = false,
       this.currentPage = 1,
-      this.lFeed = const <FeedModelHome>[],
       this.status = FeedStatus.initial});
 
   @override
-  List<Object?> get props => [lFeed, readEnd, currentPage];
+  List<Object?> get props => [readEnd, currentPage,status];
 
   @override
   String toString() {
@@ -27,14 +24,14 @@ class TabHomeState extends Equatable {
   }
 
   TabHomeState copyOf(
-          {List<FeedModelHome>? lFeed,
+          {
           List<CategoryModel>? lCategory,
           bool? readEnd,
           int? currentPage,
-          FeedStatus? status}) =>
+          FeedStatus? status}
+      ) =>
       TabHomeState(
           lCategory: lCategory ?? this.lCategory,
-          lFeed: lFeed ?? this.lFeed,
           readEnd: readEnd ?? this.readEnd,
           currentPage: currentPage ?? this.currentPage,
           status: status ?? this.status);

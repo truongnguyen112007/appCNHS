@@ -177,10 +177,10 @@ class _SearchPageState extends BasePopState<SearchPage>
                         ],
                       ),
                     )),
-            Divider(
-              height: 5.h,
+            SizedBox(height: 5.h,),
+            Container(
+              height: 1.h,
               color: colorGrey50,
-              thickness: 1,
             ),
             Expanded(
               child: PageView(controller: pageController, children: tabSearch),

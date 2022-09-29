@@ -1,14 +1,12 @@
 import 'dart:async';
-
 import 'package:base_bloc/data/model/category_model.dart';
 import 'package:base_bloc/data/model/feed_model.dart';
 import 'package:base_bloc/data/repository/user_repository.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
-import 'package:base_bloc/utils/toast_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TabHomeCubit extends Cubit<TabHomeState> {
-  var repository = UserRepository();
+  var repository = BaseRepository();
 
   TabHomeCubit() : super(const TabHomeState(status: FeedStatus.initial)) {
     if (state.status == FeedStatus.initial) {
@@ -17,12 +15,30 @@ class TabHomeCubit extends Cubit<TabHomeState> {
   }
 
   Future<List<CategoryModel>?> getCategory() async {
-    var response = await repository.getCategory();
+    var lCategory = [
+      CategoryModel(id: 1, name: "Văn bản mới"),
+      CategoryModel(id: 3, name: 'Chỉ dẫn mới')
+    ];
+    List<Future<List<FeedModel>?>> tasks = [];
+    for (int i = 0; i < lCategory.length ; i++) {
+      tasks.add(
+        getFeedById(lCategory[i].id ?? 0),
+      );
+    }
+    var lResult = await Future.wait(tasks);
+    for (int i = 0; i < lResult.length; i++) {
+      lCategory[i].lFeed = lResult[i];
+    }
+    emit(state.copyOf(lCategory: lCategory, status: FeedStatus.success));
+
+    /*var response = await repository.getCategory();
     if (response.error == null && response.data != null) {
       var lCategory = categoryModelFromJson(response.data['data']['data']);
       List<Future<List<FeedModel>?>> tasks = [];
-      for (var element in lCategory) {
-        tasks.add(getFeedById(element.id ?? 0));
+      for (int i = 0; i < lCategory.length - 1; i++) {
+        tasks.add(
+          getFeedById(lCategory[i].id ?? 0),
+        );
       }
       var lResult = await Future.wait(tasks);
       for (int i = 0; i < lResult.length; i++) {
@@ -30,8 +46,8 @@ class TabHomeCubit extends Cubit<TabHomeState> {
       }
       emit(state.copyOf(lCategory: lCategory, status: FeedStatus.success));
     } else {
-      toast(response.error.toString());
-    }
+      emit(state.copyOf(status: FeedStatus.failure));
+    }*/
     return null;
   }
 
@@ -44,6 +60,7 @@ class TabHomeCubit extends Cubit<TabHomeState> {
   }
 
   void refresh() {
-    emit(TabHomeState(status: FeedStatus.refresh));
+    emit(const TabHomeState(status: FeedStatus.refresh));
+    getCategory();
   }
 }

@@ -2,12 +2,11 @@ import 'package:base_bloc/components/app_circle_loading.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/data/model/category_model.dart';
 import 'package:base_bloc/data/model/feed_model.dart';
-import 'package:base_bloc/data/model/home_model.dart';
-import 'package:base_bloc/modules/new_details/new_detail.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_cubit.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:base_bloc/utils/app_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,23 +42,33 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
       appbar: appBarHome(),
       body: RefreshIndicator(
         child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           controller: _scrollController,
           child: BlocBuilder<TabHomeCubit, TabHomeState>(
             bloc: _bloc,
-            builder: (c, state) => state.status == FeedStatus.initial ||
-                    state.status == FeedStatus.refresh
-                ? Container(
+            builder: (c, state) {
+              switch (state.status) {
+                case FeedStatus.initial:
+                case FeedStatus.refresh:
+                  return Container(
                     alignment: Alignment.center,
-                    height: MediaQuery.of(context).size.height,
+                    height: MediaQuery.of(context).size.height / 1.2,
                     child: const AppCircleLoading(),
-                  )
-                : Column(
+                  );
+                case FeedStatus.success:
+                  return Column(
                     children: [
                       for (int i = 0; i < state.lCategory.length; i++)
                         categoryWidget(state.lCategory[i])
                     ],
-                  ),
+                  );
+                case FeedStatus.failure:
+                  return Container(
+                      alignment: Alignment.center,
+                      height: MediaQuery.of(context).size.height / 1.2,
+                      child: const AppText('Không tìm thấy dữ liệu'));
+              }
+            },
           ),
         ),
         onRefresh: () async => _bloc.refresh(),
@@ -71,10 +80,13 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        titleCategoryWidget(categoryModel.name ?? '', Assets.svg.filter),
+        Padding(
+            padding: EdgeInsets.only(top: 10.h, bottom: 10.h),
+            child: titleCategoryWidget(
+                categoryModel.name ?? '', Assets.svg.vector)),
         ListView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           primary: true,
           itemBuilder: (c, i) => itemHeading(i, categoryModel.lFeed![i]),
           itemCount: categoryModel.lFeed?.length ?? 0,
@@ -89,44 +101,62 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
         RouterUtils.pushHome(
             context: context,
             route: HomeRouters.detail,
-            argument: BottomnavigationConstant.TAB_HOME);
+            argument: [BottomnavigationConstant.TAB_HOME,model]);
       },
       child: Container(
-        height: 111.h,
         color: (index % 2 == 0)
             ? colorPrimaryOrange.withOpacity(0.12)
             : colorWhite,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 6.h, right: 5.w, left: 5.w),
+              padding: EdgeInsets.only(top: 8.h, right: 5.w, left: 5.w),
               child: const Icon(
                 Icons.circle_sharp,
-                size: 8,
+                size: 5,
               ),
             ),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  AppText(
-                    model.content ?? '',
-                    maxLine: 4,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 5.w),
-                    child: AppText(
-                      'Co hieu luc tu',
-                      style: typoSuperSmallTextRegular.copyWith(
-                          color: colorPrimaryOrange),
+              child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppText(
+                      model.name ?? '',
+                      maxLine: 4,
+                      overflow: TextOverflow.ellipsis,
+                      style: typoExtraSmallTextRegular,
                     ),
-                  )
-                ],
+                    Padding(
+                      padding: EdgeInsets.only(right: 5.w, top: 5.h),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Spacer(),
+                          AppText(
+                            AppLocalizations.of(context)!.effectiveFrom,
+                            style: typoSuperSmallTextRegular.copyWith(
+                                color: colorPrimaryOrange),
+                          ),
+                          SizedBox(
+                            width: 5.w,
+                          ),
+                          AppText(
+                            Utils.convertDateTimeToDDMMYY(
+                                model.createdAt ?? DateTime.now()),
+                            style: typoSuperSmallTextRegular.copyWith(
+                                color: colorPrimaryOrange),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -175,13 +205,16 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
     return Row(
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 9.w, right: 12.w),
+          padding: EdgeInsets.only(left: 9.w, right: 12.w,top: 5.h,bottom: 5.h),
           child: SvgPicture.asset(
             icon,
             color: colorPrimaryOrange,
           ),
         ),
-        AppText(text, style: typoHeadingText)
+        AppText(
+          text,
+          style: typoHeadingText,
+        )
       ],
     );
   }

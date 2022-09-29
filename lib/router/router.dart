@@ -64,7 +64,7 @@ class CriminalLawRouters {
         (BuildContext? context, Map<String, List<String>>? params) {
       logE("ROUTE WAS NOT FOUND !!!");
     });
-    router.define(root, handler: routeCriminalLaw);
+    router.define(root, handler: routeCriminalLaw1);
     router.define(search, handler: routeSearch);
     router.define(detail, handler: routeDetail);
   }
@@ -89,6 +89,7 @@ class CriminalProceedingsRouters {
 class InstructionRouters {
   static String root = "/";
   static String search = "/search";
+  static String detail = "/detail";
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc:
@@ -97,6 +98,7 @@ class InstructionRouters {
     });
     router.define(root, handler: routerInstruction);
     router.define(search, handler: routeSearch);
+    router.define(detail, handler: routeDetail);
   }
 }
 

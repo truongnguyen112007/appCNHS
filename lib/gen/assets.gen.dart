@@ -14,6 +14,10 @@ class $AssetsPngGen {
 
   /// File path: assets/png/laws.png
   AssetGenImage get laws => const AssetGenImage('assets/png/laws.png');
+
+  /// File path: assets/png/splashicon.png
+  AssetGenImage get splashicon =>
+      const AssetGenImage('assets/png/splashicon.png');
 }
 
 class $AssetsSvgGen {

@@ -1,8 +1,5 @@
 import 'dart:async';
-
 import 'package:base_bloc/components/app_text.dart';
-import 'package:base_bloc/modules/new_details/new_detail.dart';
-import 'package:base_bloc/modules/root/root_criminal_law.dart';
 import 'package:base_bloc/modules/search/tab_law/tab_law_cubit.dart';
 import 'package:base_bloc/modules/search/tab_law/tab_law_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
@@ -136,25 +133,27 @@ class _TabLawPageState extends State<TabLawPage> {
             argument: BottomnavigationConstant.TAB_CRIMINALLAWPAGE);
       },
       child: Container(
-        height: 111.h,
         color:
             (index % 2 == 0) ? colorPrimaryOrange.withOpacity(0.12) : colorWhite,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            RichText(
-                text: TextSpan(
-                    text: model.content.split(' ').first,
-                    style: typoSuperSmallTextBold.copyWith(
-                        color: colorSemanticRed100),
-                    children: [
-                  TextSpan(
-                      text:
-                          " ${model.content.substring(model.content.split(' ').first.length + 1, model.content.length - 1)}",
-                      style: typoSuperSmallTextRegular)
-                ])),
             Padding(
-              padding: EdgeInsets.only(right: 5.w),
+              padding: const EdgeInsets.all(5),
+              child: RichText(
+                  text: TextSpan(
+                      text: model.content.split(' ').first,
+                      style: typoSuperSmallTextBold.copyWith(
+                          color: colorSemanticRed100),
+                      children: [
+                    TextSpan(
+                        text:
+                            " ${model.content.substring(model.content.split(' ').first.length + 1, model.content.length - 1)}",
+                        style: typoSuperSmallTextRegular)
+                  ])),
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: 5.w,bottom: 5.h),
               child: AppText(model.creatDate +' '+ (model.date),style: typoSuperSmallTextRegular.copyWith(color: colorPrimaryOrange),),
             )
           ],

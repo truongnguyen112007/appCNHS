@@ -382,7 +382,7 @@ final typoExtraSmallTextRegular = GoogleFonts.roboto(
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w400,
   fontSize: 12.sp,
-  letterSpacing: 0.3,
+  letterSpacing: 0.1,
   color: colorBlack,
 );
 

@@ -118,5 +118,15 @@ class AppLocalizationEn extends AppLocalizations {
   @override
   String get phoneNumber => 'Số điện thoại';
 
+  @override
+  String get effectiveFrom =>"Có hiệu lực từ ngày";
+
+  @override
+  String get newDocument => "Văn bản mới";
+
+  @override
+  // TODO: implement newInstruction
+  String get newInstruction => "Chỉ dẫn mới";
+
 
 }

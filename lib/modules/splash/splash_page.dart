@@ -2,9 +2,8 @@ import 'package:base_bloc/modules/splash/splash_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../components/app_scalford.dart';
-import '../../components/app_text.dart';
+import '../../gen/assets.gen.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -29,12 +28,13 @@ class _SplashPageState extends State<SplashPage> {
         _bloc.openHomePage(context);
       },
       child: AppScaffold(
-          body: Center(
-        child: TextButton(
-          child: AppText('Splash'),
-          onPressed: () => _bloc.openHomePage(context),
+        body: InkWell(
+          child: Center(
+            child: Text('splash'),
+          ),
+          onTap: () => _bloc.openHomePage(context),
         ),
-      )),
+      ),
     );
   }
 

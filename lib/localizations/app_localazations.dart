@@ -135,6 +135,9 @@ abstract class AppLocalizations {
   String get send;
   String get pleaseLoginMobile;
   String get phoneNumber;
+  String get effectiveFrom;
+  String get newDocument;
+  String get newInstruction;
 
 }
 
