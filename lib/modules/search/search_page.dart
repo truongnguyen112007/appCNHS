@@ -42,9 +42,16 @@ class _SearchPageState extends BasePopState<SearchPage>
   final List<Widget> tabSearch = [
     const TabLawPage(
       index: 0,
+      catId: CategoryID.LAW,
     ),
-    const TabProceduralPage(),
-    const TabHelpPage()
+    const TabLawPage(
+      index: 1,
+      catId: CategoryID.PROCEDURAL,
+    ),
+    const TabLawPage(
+      index: 2,
+      catId: CategoryID.HELP,
+    ),
   ];
 
   int _selectedIndex = 0;
@@ -61,6 +68,7 @@ class _SearchPageState extends BasePopState<SearchPage>
     tabController = TabController(length: 3, vsync: this);
     textEditingController = TextEditingController();
     tabController.addListener(() {
+      logE("TAG skdjs");
       var index = tabController.index;
       _jumpToPage(index);
       setState(() {});
@@ -86,6 +94,8 @@ class _SearchPageState extends BasePopState<SearchPage>
   void _jumpToPage(int index) {
     _selectedIndex = index;
     pageController.jumpToPage(_selectedIndex);
+    Timer(const Duration(milliseconds: 500),
+            () => Utils.fireEvent(SearchEvent(_selectedIndex, keySearch)));
     _bloc.jumToPage(_selectedIndex);
   }
 

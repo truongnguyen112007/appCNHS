@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:base_bloc/components/app_text.dart';
+import 'package:base_bloc/components/item_feed_widget.dart';
 import 'package:base_bloc/modules/search/tab_law/tab_law_cubit.dart';
 import 'package:base_bloc/modules/search/tab_law/tab_law_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
@@ -22,16 +23,19 @@ import '../../../router/router_utils.dart';
 
 class TabLawPage extends StatefulWidget {
   final int index;
+  final int catId;
 
-  const TabLawPage({Key? key, required this.index}) : super(key: key);
+  const TabLawPage({Key? key, required this.index, required this.catId})
+      : super(key: key);
 
   @override
   State<TabLawPage> createState() => _TabLawPageState();
 }
 
-class _TabLawPageState extends State<TabLawPage> {
+class _TabLawPageState extends State<TabLawPage>
+    with AutomaticKeepAliveClientMixin {
   final box = GetStorage();
-
+  var isFirstOpen = true;
   late TabLawCubit _bloc;
 
   final _scrollController = ScrollController();
@@ -39,10 +43,12 @@ class _TabLawPageState extends State<TabLawPage> {
 
   @override
   void initState() {
+    _bloc = TabLawCubit(widget.catId);
     _searchStream = Utils.eventBus.on<SearchEvent>().listen((event) {
-      if (event.index == widget.index) {}
+      if (!isFirstOpen && event.key.isNotEmpty)
+        _bloc.getSearch(keySearch: event.key);
     });
-    _bloc = TabLawCubit(catId);
+    isFirstOpen = false;
     paging();
     super.initState();
   }
@@ -64,41 +70,43 @@ class _TabLawPageState extends State<TabLawPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: RefreshIndicator(
-        child: Container(
-          child: BlocBuilder<TabLawCubit, TabLawState>(
-            bloc: _bloc,
-            builder: (c, state) => state.status == FeedStatus.initial
-                ? emptyPage()
-                : state.status == FeedStatus.refresh
-                    ? Container(
-                        height: MediaQuery.of(context).size.height / 3,
-                        alignment: Alignment.center,
-                        child: const AppCircleLoading(),
-                      )
-                    : state.lFeed.isNotEmpty
-                        ? ListView.separated(
-                            controller: _scrollController,
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context, int index) =>
-                                index == state.lFeed.length
-                                    ? const Center(
-                                        child: AppCircleLoading(),
-                                      )
-                                    : item(index, state.lFeed[index]),
-                            separatorBuilder:
-                                (BuildContext context, int index) =>
-                                    const SizedBox(
-                              height: 5,
-                            ),
-                            itemCount: !state.readEnd
-                                ? state.lFeed.length + 1
-                                : state.lFeed.length,
-                          )
-                        : emptyPage(),
-          ),
+        child: BlocBuilder<TabLawCubit, TabLawState>(
+          bloc: _bloc,
+          builder: (c, state) => state.status == FeedStatus.initial
+              ? emptyPage()
+              : state.status == FeedStatus.refresh
+                  ? Container(
+                      height: MediaQuery.of(context).size.height / 3,
+                      alignment: Alignment.center,
+                      child: const AppCircleLoading(),
+                    )
+                  : state.lFeed.isNotEmpty
+                      ? ListView.separated(
+                          controller: _scrollController,
+                          shrinkWrap: true,
+                          itemBuilder: (BuildContext context, int index) =>
+                              index == state.lFeed.length
+                                  ? const Center(
+                                      child: AppCircleLoading(),
+                                    )
+                                  : ItemFeedWidget(
+                                      isSearch: true,
+                                      index: index,
+                                      model: state.lFeed[index],
+                                      callback: (model) =>
+                                          _bloc.itemOnclick(context, model)),
+                          separatorBuilder: (BuildContext context, int index) =>
+                              const SizedBox(
+                            height: 5,
+                          ),
+                          itemCount: !state.readEnd && state.isLoading
+                              ? state.lFeed.length + 1
+                              : state.lFeed.length,
+                        )
+                      : emptyPage(),
         ),
         onRefresh: () async => _bloc.refresh(),
       ),
@@ -137,7 +145,7 @@ class _TabLawPageState extends State<TabLawPage> {
             Padding(
               padding: EdgeInsets.only(right: 5.w, bottom: 5.h),
               child: AppText(
-                model.creatDate + ' ' + (model.date),
+                '${model.creatDate} ${model.date}',
                 style: typoSuperSmallTextRegular.copyWith(
                     color: colorPrimaryOrange),
               ),
@@ -169,4 +177,7 @@ class _TabLawPageState extends State<TabLawPage> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

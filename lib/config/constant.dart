@@ -97,3 +97,9 @@ class BottomnavigationConstant {
   static const TAB_INTRUCTIONPAGE =3;
   static const TAB_ADD = 4;
 }
+
+class CategoryID {
+  static const LAW = 1;
+  static const PROCEDURAL = 2;
+  static const HELP = 3;
+}

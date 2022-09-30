@@ -23,5 +23,14 @@ class BaseRepository extends BaseService {
   Future<ApiResult> getPostDetailById(int id) async =>
       await GET('post/detail?postId=$id');
 
-  Future<ApiResult> getSearch(String content) async => await GET('post/search?content=$content');
+  Future<ApiResult> getSearch(
+          {required int catId,
+          required String content,
+           int? typeId,
+          required int page}) async =>
+      typeId != null
+          ? await GET(
+              'post/search?catId=$catId&typeId=$typeId&content=$content&page=$page&limit=20')
+          : await GET(
+              'post/search?catId=$catId&content=$content&page=$page&limit=20');
 }
