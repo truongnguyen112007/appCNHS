@@ -183,7 +183,9 @@ class _SearchPageState extends BasePopState<SearchPage>
               color: colorGrey50,
             ),
             Expanded(
-              child: PageView(controller: pageController, children: tabSearch),
+              child: PageView(
+                physics: const NeverScrollableScrollPhysics(),
+                  controller: pageController, children: tabSearch),
             ),
           ],
         ));
@@ -205,9 +207,7 @@ class _SearchPageState extends BasePopState<SearchPage>
       title: Padding(
         padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 40),
         child: AppTextField(
-          onSubmitted: (text) {
-            logE('ssss');
-          },
+          onSubmitted: (text) {},
           textInputAction: TextInputAction.search,
           onChanged: (str) => itemOnChange.add(str),
           controller: textEditingController,

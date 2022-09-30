@@ -139,16 +139,16 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
                           AppText(
                             AppLocalizations.of(context)!.effectiveFrom,
                             style: typoSuperSmallTextRegular.copyWith(
-                                color: colorPrimaryOrange),
+                                color: colorPrimaryOrange,fontSize: 8.sp),
                           ),
                           SizedBox(
-                            width: 5.w,
+                            width: 2.w,
                           ),
                           AppText(
                             Utils.convertDateTimeToDDMMYY(
                                 model.createdAt ?? DateTime.now()),
                             style: typoSuperSmallTextRegular.copyWith(
-                                color: colorPrimaryOrange),
+                                color: colorPrimaryOrange,fontSize: 8.sp),
                           ),
                         ],
                       ),

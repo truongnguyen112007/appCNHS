@@ -70,7 +70,8 @@ class _TabCriminalLawPageState extends State<TabCriminalLawPage> with AutomaticK
         title: Text(widget.titleAppbar),
         backgroundColor: colorPrimaryOrange,
       ),
-      body: RefreshIndicator(
+      body:
+      RefreshIndicator(
         onRefresh: () async => _bloc.refresh(),
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -142,16 +143,16 @@ class _TabCriminalLawPageState extends State<TabCriminalLawPage> with AutomaticK
                   AppText(
                     AppLocalizations.of(context)!.effectiveFrom,
                     style: typoExtraSmallTextRegular.copyWith(
-                        color: colorPrimaryOrange),
+                        color: colorPrimaryOrange,fontSize: 8.sp),
                   ),
                   SizedBox(
-                    width: 5.w,
+                    width: 2.w,
                   ),
                   AppText(
                     Utils.convertDateTimeToDDMMYY(
                         model.createdAt ?? DateTime.now()),
                     style: typoSuperSmallTextRegular.copyWith(
-                        color: colorPrimaryOrange),
+                        color: colorPrimaryOrange,fontSize: 8.sp),
                   ),
                 ],
               ),

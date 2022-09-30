@@ -12,12 +12,11 @@ import 'package:flutter/widgets.dart';
 class $AssetsPngGen {
   const $AssetsPngGen();
 
+  /// File path: assets/png/cnhs.png
+  AssetGenImage get cnhs => const AssetGenImage('assets/png/cnhs.png');
+
   /// File path: assets/png/laws.png
   AssetGenImage get laws => const AssetGenImage('assets/png/laws.png');
-
-  /// File path: assets/png/splashicon.png
-  AssetGenImage get splashicon =>
-      const AssetGenImage('assets/png/splashicon.png');
 }
 
 class $AssetsSvgGen {

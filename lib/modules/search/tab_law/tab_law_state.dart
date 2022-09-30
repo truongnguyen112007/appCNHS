@@ -1,23 +1,24 @@
 import 'package:equatable/equatable.dart';
-import '../../../data/model/tab_criminal_law_model.dart';
+import '../../../data/model/feed_model.dart';
 
 enum FeedStatus { initial, success, failure, refresh }
 
 class TabLawState extends Equatable {
-  final List<FeedModelCriminalLaw> lFeed;
+  final List<FeedModel> lFeed;
   final bool readEnd;
   final int currentPage;
   final FeedStatus status;
+  final bool isLoading;
 
   const TabLawState(
-      {this.readEnd = false,
+      {this.lFeed = const <FeedModel>[],
+        this.isLoading = true,
+        this.readEnd = false,
         this.currentPage = 1,
-        this.lFeed = const <FeedModelCriminalLaw>[],
         this.status = FeedStatus.initial});
 
   @override
-  List<Object?> get props =>
-      [lFeed, readEnd, currentPage];
+  List<Object?> get props => [readEnd, currentPage, status, lFeed, isLoading];
 
   @override
   String toString() {
@@ -25,13 +26,15 @@ class TabLawState extends Equatable {
   }
 
   TabLawState copyOf(
-      {List<FeedModelCriminalLaw>? lFeed,
+      {List<FeedModel>? lPost,
         bool? readEnd,
+        bool? isLoading,
         int? currentPage,
         FeedStatus? status}) =>
       TabLawState(
-          lFeed: lFeed ?? this.lFeed,
+          lFeed: lPost ?? this.lFeed,
           readEnd: readEnd ?? this.readEnd,
+          isLoading: isLoading ?? this.isLoading,
           currentPage: currentPage ?? this.currentPage,
           status: status ?? this.status);
 }

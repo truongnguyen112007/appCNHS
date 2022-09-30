@@ -17,9 +17,11 @@ class BaseRepository extends BaseService {
   Future<ApiResult> getFeedByCatId(int catId) async =>
       await GET('post/news?catId=$catId');
 
-  Future<ApiResult> getPost(int catId, int page, {int limit = 10}) async =>
+  Future<ApiResult> getPost(int catId, int page, {int limit = 20}) async =>
       await GET('post/category?catId=$catId&page=$page&limit=$limit');
 
   Future<ApiResult> getPostDetailById(int id) async =>
       await GET('post/detail?postId=$id');
+
+  Future<ApiResult> getSearch(String content) async => await GET('post/search?content=$content');
 }

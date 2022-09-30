@@ -5,7 +5,6 @@ import 'package:base_bloc/modules/search/tab_law/tab_law_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:base_bloc/utils/app_utils.dart';
-import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,11 +40,9 @@ class _TabLawPageState extends State<TabLawPage> {
   @override
   void initState() {
     _searchStream = Utils.eventBus.on<SearchEvent>().listen((event) {
-      if (event.index == widget.index) {
-        logE("TAG KEY SEARCH: ${event.key}");
-      }
+      if (event.index == widget.index) {}
     });
-    _bloc = TabLawCubit();
+    _bloc = TabLawCubit(catId);
     paging();
     super.initState();
   }
@@ -61,7 +58,7 @@ class _TabLawPageState extends State<TabLawPage> {
       if (!_scrollController.hasClients) return;
       final maxScroll = _scrollController.position.maxScrollExtent;
       final currentScroll = _scrollController.offset;
-      if (currentScroll >= (maxScroll * 0.9)) _bloc.getFeed(isPaging: true);
+      if (currentScroll >= (maxScroll * 0.9)) _bloc.getSearch(isPaging: true);
     });
   }
 
@@ -73,50 +70,34 @@ class _TabLawPageState extends State<TabLawPage> {
         child: Container(
           child: BlocBuilder<TabLawCubit, TabLawState>(
             bloc: _bloc,
-            builder: (c, state) => state.status == FeedStatus.initial ||
-                    state.status == FeedStatus.refresh
-                ? Container(
-                    height: MediaQuery.of(context).size.height / 3,
-                    alignment: Alignment.center,
-                    child: const AppCircleLoading(),
-                  )
-                : state.lFeed.isNotEmpty
-                    ? ListView.separated(
-                        controller: _scrollController,
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) =>
-                            index == state.lFeed.length
-                                ? const Center(
-                                    child: AppCircleLoading(),
-                                  )
-                                : item(index, state.lFeed[index]),
-                        separatorBuilder: (BuildContext context, int index) =>
-                            const SizedBox(
-                          height: 5,
-                        ),
-                        itemCount: !state.readEnd
-                            ? state.lFeed.length + 1
-                            : state.lFeed.length,
+            builder: (c, state) => state.status == FeedStatus.initial
+                ? emptyPage()
+                : state.status == FeedStatus.refresh
+                    ? Container(
+                        height: MediaQuery.of(context).size.height / 3,
+                        alignment: Alignment.center,
+                        child: const AppCircleLoading(),
                       )
-                    : Center(
-                        child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SvgPicture.asset(
-                            Assets.svg.search,
-                            color: colorGrey50,
-                            width: 30,
-                          ),
-                          SizedBox(
-                            height: 10.h,
-                          ),
-                          AppText(
-                            AppLocalizations.of(context)!.textTabOfSearch,
-                            style: typoSuperSmallTextRegular.copyWith(
-                                color: colorGrey50),
-                          ),
-                        ],
-                      )),
+                    : state.lFeed.isNotEmpty
+                        ? ListView.separated(
+                            controller: _scrollController,
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index) =>
+                                index == state.lFeed.length
+                                    ? const Center(
+                                        child: AppCircleLoading(),
+                                      )
+                                    : item(index, state.lFeed[index]),
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                    const SizedBox(
+                              height: 5,
+                            ),
+                            itemCount: !state.readEnd
+                                ? state.lFeed.length + 1
+                                : state.lFeed.length,
+                          )
+                        : emptyPage(),
           ),
         ),
         onRefresh: () async => _bloc.refresh(),
@@ -126,15 +107,16 @@ class _TabLawPageState extends State<TabLawPage> {
 
   Widget item(int index, FeedModelCriminalLaw model) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         RouterUtils.pushCriminalLaw(
             context: context,
             route: CriminalLawRouters.detail,
             argument: BottomnavigationConstant.TAB_CRIMINALLAWPAGE);
       },
       child: Container(
-        color:
-            (index % 2 == 0) ? colorPrimaryOrange.withOpacity(0.12) : colorWhite,
+        color: (index % 2 == 0)
+            ? colorPrimaryOrange.withOpacity(0.12)
+            : colorWhite,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -153,11 +135,37 @@ class _TabLawPageState extends State<TabLawPage> {
                   ])),
             ),
             Padding(
-              padding: EdgeInsets.only(right: 5.w,bottom: 5.h),
-              child: AppText(model.creatDate +' '+ (model.date),style: typoSuperSmallTextRegular.copyWith(color: colorPrimaryOrange),),
+              padding: EdgeInsets.only(right: 5.w, bottom: 5.h),
+              child: AppText(
+                model.creatDate + ' ' + (model.date),
+                style: typoSuperSmallTextRegular.copyWith(
+                    color: colorPrimaryOrange),
+              ),
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Widget emptyPage() {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset(
+            Assets.svg.search,
+            color: colorGrey50,
+            width: 30,
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+          AppText(
+            AppLocalizations.of(context)!.textTabOfSearch,
+            style: typoSuperSmallTextRegular.copyWith(color: colorGrey50),
+          ),
+        ],
       ),
     );
   }
