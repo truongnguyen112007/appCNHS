@@ -40,13 +40,15 @@ class _TabLawPageState extends State<TabLawPage>
 
   final _scrollController = ScrollController();
   StreamSubscription<SearchEvent>? _searchStream;
-
+String keySearch ='';
   @override
   void initState() {
     _bloc = TabLawCubit(widget.catId);
     _searchStream = Utils.eventBus.on<SearchEvent>().listen((event) {
-      if (!isFirstOpen && event.key.isNotEmpty)
+      if (!isFirstOpen && event.key.isNotEmpty) {
+        keySearch = event.key;
         _bloc.getSearch(keySearch: event.key);
+      }
     });
     isFirstOpen = false;
     paging();
@@ -92,7 +94,7 @@ class _TabLawPageState extends State<TabLawPage>
                                   ? const Center(
                                       child: AppCircleLoading(),
                                     )
-                                  : ItemFeedWidget(
+                                  : ItemFeedWidget(highLight: keySearch,
                                       isSearch: true,
                                       index: index,
                                       model: state.lFeed[index],

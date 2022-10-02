@@ -8,10 +8,12 @@ import '../theme/app_styles.dart';
 import '../theme/colors.dart';
 import '../utils/app_utils.dart';
 import 'app_text.dart';
+import 'highlight_text.dart';
 
 class ItemFeedWidget extends StatelessWidget {
   final int index;
   final FeedModel model;
+  final String highLight;
   final Function(FeedModel) callback;
   final bool isSearch;
 
@@ -20,7 +22,7 @@ class ItemFeedWidget extends StatelessWidget {
       required this.index,
       required this.model,
       required this.callback,
-      this.isSearch = false})
+      this.isSearch = false, required this.highLight})
       : super(key: key);
 
   @override
@@ -43,7 +45,7 @@ class ItemFeedWidget extends StatelessWidget {
                       size: 5,
                     ),
                   ),
-            Expanded(
+                Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(5),
                 child: Column(
@@ -52,17 +54,16 @@ class ItemFeedWidget extends StatelessWidget {
                     isSearch
                         ? Padding(
                             padding: const EdgeInsets.all(5),
-                            child: RichText(
-                                text: TextSpan(
-                                    text: model.name?.split(' ').first,
-                                    style: typoSuperSmallTextBold.copyWith(
-                                        color: colorSemanticRed100),
-                                    children: [
-                                  TextSpan(
-                                      text:
-                                          " ${model.name?.substring(model.name!.split(' ').first.length + 1, model.name!.length - 1)}",
-                                      style: typoSuperSmallTextRegular)
-                                ])),
+                            child:  TextHighlight(
+                              text: model.name ?? '',
+                              words: {
+                                highLight: HighlightedWord(
+                                    textStyle: typoSuperSmallTextRegular.copyWith(
+                                        color: colorSemanticRed100),padding: EdgeInsets.all(0))
+                              },
+                              matchCase: false,
+                              textStyle:typoSuperSmallTextRegular,
+                            ),
                           )
                         : AppText(
                             model.name ?? '',
@@ -98,6 +99,7 @@ class ItemFeedWidget extends StatelessWidget {
                 ),
               ),
             ),
+
           ],
         ),
       ),
