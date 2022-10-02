@@ -166,7 +166,7 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
   PreferredSizeWidget appBarHome() {
     return AppBar(
       centerTitle: true,
-      leadingWidth: 25,
+      leadingWidth: 32,
       leading: Padding(
         padding: EdgeInsets.only(left: 5.w),
         child: InkWell(

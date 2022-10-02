@@ -55,7 +55,7 @@ class _TabCriminalLawPageState extends State<TabCriminalLawPage> with AutomaticK
     return AppScaffold(
       appbar: AppBar(
         centerTitle: true,
-        leadingWidth: 25,
+        leadingWidth: 32,
         leading: Padding(
           padding: EdgeInsets.only(left: 5.w),
           child: InkWell(
@@ -85,7 +85,7 @@ class _TabCriminalLawPageState extends State<TabCriminalLawPage> with AutomaticK
                   return Container(
                     alignment: Alignment.center,
                     height: MediaQuery.of(context).size.height / 1.2,
-                    child: const AppCircleLoading(),
+                    child: AppCircleLoading(),
                   );
                 case FeedStatus.success:
                   return ListView.builder(
@@ -133,7 +133,7 @@ class _TabCriminalLawPageState extends State<TabCriminalLawPage> with AutomaticK
               AppText(
                 model.name ?? '',
                 maxLine: 4,
-                overflow: TextOverflow.ellipsis,
+                overflow: TextOverflow.visible,
                 style: typoExtraSmallTextRegular
               ),
               SizedBox(height: 5.h,),

@@ -217,6 +217,7 @@ class _SearchPageState extends BasePopState<SearchPage>
       title: Padding(
         padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 40),
         child: AppTextField(
+          autofocus: true,
           onSubmitted: (text) {},
           textInputAction: TextInputAction.search,
           onChanged: (str) => itemOnChange.add(str),

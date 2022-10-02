@@ -113,49 +113,6 @@ class _TabLawPageState extends State<TabLawPage>
     );
   }
 
-  Widget item(int index, FeedModelCriminalLaw model) {
-    return InkWell(
-      onTap: () {
-        RouterUtils.pushCriminalLaw(
-            context: context,
-            route: CriminalLawRouters.detail,
-            argument: BottomnavigationConstant.TAB_CRIMINALLAWPAGE);
-      },
-      child: Container(
-        color: (index % 2 == 0)
-            ? colorPrimaryOrange.withOpacity(0.12)
-            : colorWhite,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(5),
-              child: RichText(
-                  text: TextSpan(
-                      text: model.content.split(' ').first,
-                      style: typoSuperSmallTextBold.copyWith(
-                          color: colorSemanticRed100),
-                      children: [
-                    TextSpan(
-                        text:
-                            " ${model.content.substring(model.content.split(' ').first.length + 1, model.content.length - 1)}",
-                        style: typoSuperSmallTextRegular)
-                  ])),
-            ),
-            Padding(
-              padding: EdgeInsets.only(right: 5.w, bottom: 5.h),
-              child: AppText(
-                '${model.creatDate} ${model.date}',
-                style: typoSuperSmallTextRegular.copyWith(
-                    color: colorPrimaryOrange),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget emptyPage() {
     return Center(
       child: Column(

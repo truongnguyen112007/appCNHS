@@ -25,7 +25,7 @@ class _TabAddState extends State<TabAdd> with AutomaticKeepAliveClientMixin {
     return AppScaffold(
       appbar: AppBar(
         centerTitle: true,
-        leadingWidth: 25,
+        leadingWidth: 32,
         leading: Container(
           padding: EdgeInsets.only(left: 5.w),
           child:

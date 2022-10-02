@@ -26,13 +26,13 @@ class TabCriminalLawState extends Equatable {
   }
 
   TabCriminalLawState copyOf(
-          {List<FeedModel>? lPost,
+          {List<FeedModel>? lFeed,
           bool? readEnd,
           bool? isLoading,
           int? currentPage,
           FeedStatus? status}) =>
       TabCriminalLawState(
-          lFeed: lPost ?? this.lFeed,
+          lFeed: lFeed ?? this.lFeed,
           readEnd: readEnd ?? this.readEnd,
           isLoading: isLoading ?? this.isLoading,
           currentPage: currentPage ?? this.currentPage,

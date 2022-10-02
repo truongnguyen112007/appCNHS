@@ -37,14 +37,14 @@ class TabLawCubit extends Cubit<TabLawState> {
           emit(state.copyOf(
               readEnd: lResponse.isEmpty ? true : false,
               isLoading: false,
-              lPost: state.lFeed..addAll(lResponse),
+              lFeed: state.lFeed..addAll(lResponse),
               status: FeedStatus.success,
               currentPage: currentPage));
         } else {
           emit(
             state.copyOf(
                 readEnd: lResponse.isEmpty ? true : false,
-                lPost: lResponse,
+                lFeed: lResponse,
                 isLoading: false,
                 status: FeedStatus.success,
                 currentPage: state.currentPage + 1),

@@ -50,9 +50,8 @@ dependencies:
   flutter_markdown: ^0.6.12
 
 
-
-
 dev_dependencies:
+  flutter_launcher_icons: ^0.10.0
   build_runner:
   flutter_gen_runner:
   flutter_test:
@@ -67,6 +66,11 @@ flutter:
   assets:
     - assets/svg/
     - assets/png/
+flutter_icons:
+  image_path: "assets/png/plugin_icon1.png"
+  adaptive_icon_foreground: "assets/png/ic_launcher.png"
+  androi: true
+  ios: true
   # fonts:
   #   - family: Schyler
   #     fonts:
