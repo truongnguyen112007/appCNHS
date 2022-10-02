@@ -66,11 +66,12 @@ flutter:
   assets:
     - assets/svg/
     - assets/png/
+    - assets/icon/
 flutter_icons:
-  image_path: "assets/png/plugin_icon1.png"
-  adaptive_icon_foreground: "assets/png/ic_launcher.png"
-  androi: true
+  android: "launcher"
   ios: true
+  image_path: "assets/icon/ic_icon.png"
+  min_sdk_android: 21
   # fonts:
   #   - family: Schyler
   #     fonts:
