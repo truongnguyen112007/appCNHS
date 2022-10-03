@@ -92,14 +92,18 @@ class _FilterPageState extends BasePopState<FilterPage> {
                 height: 20.h,
                 decoration: BoxDecoration(
                   border: Border.all(
-                      color: state.currentIndex == index
+                      color: state.model!.data![index].id ==
+                              state.currentFilter?.id
                           ? colorPrimaryOrange
                           : colorGrey50,
                       width: 1.5),
                   borderRadius: BorderRadius.circular(100),
                 ),
                 child: Visibility(
-                  visible: state.currentIndex == index ? true : false,
+                  visible:
+                      state.model!.data![index].id == state.currentFilter?.id
+                          ? true
+                          : false,
                   child: const Center(
                     child: Icon(
                       Icons.check,
@@ -115,9 +119,10 @@ class _FilterPageState extends BasePopState<FilterPage> {
               AppText(
                 text,
                 style: typoSuperSmallTextRegular.copyWith(
-                    color: state.currentIndex == index
-                        ? colorPrimaryOrange
-                        : colorBlack),
+                    color:
+                        state.model!.data![index].id == state.currentFilter?.id
+                            ? colorPrimaryOrange
+                            : colorBlack),
               ),
             ],
           ),

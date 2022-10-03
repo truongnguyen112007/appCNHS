@@ -14,6 +14,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../../components/app_circle_loading.dart';
 import '../../../data/eventbus/search_event.dart';
+import '../../../data/model/filter_model.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../localizations/app_localazations.dart';
 
@@ -37,12 +38,14 @@ class _TabLawPageState extends State<TabLawPage>
   final _scrollController = ScrollController();
   StreamSubscription<SearchEvent>? _searchStream;
 String keySearch ='';
+ Datum? filterModel;
   @override
   void initState() {
     _bloc = TabLawCubit(widget.catId);
     _searchStream = Utils.eventBus.on<SearchEvent>().listen((event) {
       keySearch = event.key;
-      _bloc.getSearch(keySearch: event.key);
+      filterModel = event.filterModel;
+      _bloc.getSearch(keySearch: event.key,typeId: filterModel?.id??0);
     });
     isFirstOpen = false;
     paging();
@@ -60,7 +63,9 @@ String keySearch ='';
       if (!_scrollController.hasClients) return;
       final maxScroll = _scrollController.position.maxScrollExtent;
       final currentScroll = _scrollController.offset;
-      if (currentScroll >= (maxScroll * 0.9)) _bloc.getSearch(isPaging: true);
+      if (currentScroll >= (maxScroll * 0.9)) {
+        _bloc.getSearch(isPaging: true, typeId: filterModel?.id ?? 0);
+      }
     });
   }
 

@@ -14,11 +14,20 @@ class FilterCubit extends Cubit<FilterState> {
   void getFilter() async {
     var response = await BaseRepository().getFilter();
     FilterModel model = FilterModel.fromJson(response.data);
-    var currentIndex = await StorageUtils.getFilter();
-    emit(state.copyOf(status: FeedStatus.success,model: model));
+    if (model.data == null) {
+      emit(state.copyOf(status: FeedStatus.failure));
+      return;
+    }
+    model.data!.insert(0, Datum(name: 'Tất cả'));
+    var currentFilter = await StorageUtils.getFilter();
+    emit(state.copyOf(
+        status: FeedStatus.success,
+        model: model,
+        currentFilter: currentFilter));
   }
 
-  void onClickRadioButton(int index,BuildContext context) async {
-   Navigator.pop(context, state.model?.data?[index]);
+  void onClickRadioButton(int index, BuildContext context) async {
+    StorageUtils.saveFilter(state.model?.data?[index]);
+    Navigator.pop(context, state.model?.data?[index]);
   }
 }

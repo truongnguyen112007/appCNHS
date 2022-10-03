@@ -3,6 +3,7 @@ import 'package:badges/badges.dart';
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/app_button.dart';
 import 'package:base_bloc/components/app_text.dart';
+import 'package:base_bloc/data/model/filter_model.dart';
 import 'package:base_bloc/modules/search/search_cubit.dart';
 import 'package:base_bloc/modules/search/tab_help/tab_help_page.dart';
 import 'package:base_bloc/modules/search/tab_law/tab_law_page.dart';
@@ -60,7 +61,7 @@ class _SearchPageState extends BasePopState<SearchPage>
   late TabController tabController;
   TextEditingController? textEditingController;
   final itemOnChange = BehaviorSubject<String>();
-  int filterValue = 0;
+  Datum? filterModel;
 
   @override
   void initState() {
@@ -68,7 +69,6 @@ class _SearchPageState extends BasePopState<SearchPage>
     tabController = TabController(length: 3, vsync: this);
     textEditingController = TextEditingController();
     tabController.addListener(() {
-      logE("TAG skdjs");
       var index = tabController.index;
       _jumpToPage(index);
       setState(() {});
@@ -76,7 +76,7 @@ class _SearchPageState extends BasePopState<SearchPage>
     itemOnChange.debounceTime(const Duration(seconds: 1)).listen(
       (value) {
         Utils.fireEvent(
-          SearchEvent(_selectedIndex, value),
+          SearchEvent(_selectedIndex, value, filterModel),
         );
         keySearch = value;
         setState(() {});
@@ -87,15 +87,17 @@ class _SearchPageState extends BasePopState<SearchPage>
   }
 
   void checkFilter() async {
-    filterValue = await StorageUtils.getFilter();
+    filterModel = await StorageUtils.getFilter();
     setState(() {});
   }
 
   void _jumpToPage(int index) {
     _selectedIndex = index;
     pageController.jumpToPage(_selectedIndex);
-    Timer(const Duration(milliseconds: 500),
-        () => Utils.fireEvent(SearchEvent(_selectedIndex, keySearch)));
+    Timer(
+        const Duration(milliseconds: 500),
+        () => Utils.fireEvent(
+            SearchEvent(_selectedIndex, keySearch, filterModel)));
     _bloc.jumToPage(_selectedIndex);
   }
 
@@ -248,7 +250,7 @@ class _SearchPageState extends BasePopState<SearchPage>
         ),
       ),
       actions: [
-        filterValue != 0
+        filterModel != null
             ? Padding(
                 padding: EdgeInsets.only(
                     top: 6.h, bottom: 6.h, right: 5.w, left: 10.w),
@@ -282,6 +284,9 @@ class _SearchPageState extends BasePopState<SearchPage>
                         route: HomeRouters.filter,
                         argument: BottomnavigationConstant.TAB_HOME);
                     checkFilter();
+                    Utils.fireEvent(
+                      SearchEvent(_selectedIndex, keySearch, filterModel),
+                    );
                   },
                   shapeBorder: RoundedRectangleBorder(
                       side: const BorderSide(color: colorWhite, width: 2),
@@ -298,6 +303,9 @@ class _SearchPageState extends BasePopState<SearchPage>
                           route: HomeRouters.filter,
                           argument: BottomnavigationConstant.TAB_HOME);
                       checkFilter();
+                      Utils.fireEvent(
+                        SearchEvent(_selectedIndex, keySearch, filterModel),
+                      );
                     },
                     child: SvgPicture.asset(Assets.svg.filter)),
               ),

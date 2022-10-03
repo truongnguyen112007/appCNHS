@@ -20,7 +20,7 @@ class TabLawCubit extends Cubit<TabLawState> {
   }
 
 
-  Future<void> getSearch({bool isPaging = false, String? keySearch}) async {
+  Future<void> getSearch({bool isPaging = false, String? keySearch,int? typeId}) async {
     if(!isPaging) emit(state.copyOf(readEnd: false));
     if (state.readEnd) return;
     emit(
@@ -28,6 +28,7 @@ class TabLawCubit extends Cubit<TabLawState> {
     );
     var currentPage = !isPaging ? 1 : state.currentPage + 1;
     var response = await repository.getSearch(
+        typeId: typeId,
         page: currentPage, content: keySearch ?? "", catId: catId);
     try {
       if (response.error == null && response.data != null) {

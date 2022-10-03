@@ -2,7 +2,7 @@ class StorageKey {
   StorageKey._();
 
   static const String CurrentToken = 'CurrentToken';
-  static const String filter = 'filter';
+  static const String filterModel = 'filterModel';
 
 }
 
