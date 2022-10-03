@@ -18,7 +18,11 @@ class NewDetailCubit extends Cubit<NewDetailState>{
       try{
         var model = PostDetailModel.fromJson(response.data);
         emit(state.copyOf(postDetailModel: model,status: FeedStatus.success));
-      }catch(ex){}
+      }catch(ex){
+        emit(state.copyOf(status: FeedStatus.failure));
+      }
+    }else {
+      emit(state.copyOf(status: FeedStatus.failure));
     }
   }
 

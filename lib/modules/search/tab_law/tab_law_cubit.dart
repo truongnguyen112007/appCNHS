@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'package:base_bloc/modules/search/tab_law/tab_law_state.dart';
-import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../config/constant.dart';
 import '../../../data/model/feed_model.dart';
-import '../../../data/model/tab_criminal_law_model.dart';
 import '../../../data/repository/user_repository.dart';
 import '../../../router/router.dart';
 import '../../../router/router_utils.dart';
@@ -17,9 +15,10 @@ class TabLawCubit extends Cubit<TabLawState> {
   TabLawCubit(this.catId)
       : super(const TabLawState(status: FeedStatus.initial)) {
     if (state.status == FeedStatus.initial) {
-      // getFeed();
+      getSearch();
     }
   }
+
 
   Future<void> getSearch({bool isPaging = false, String? keySearch}) async {
     if(!isPaging) emit(state.copyOf(readEnd: false));
@@ -68,7 +67,6 @@ class TabLawCubit extends Cubit<TabLawState> {
   void refresh() {
     emit(const TabLawState(
         status: FeedStatus.refresh, currentPage: 1, readEnd: false));
-    logE("TAG state.keySearch: ${state.keySearch}");
     getSearch(keySearch: state.keySearch);
   }
 }

@@ -39,6 +39,7 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      backgroundColor: colorWhite,
       appbar: appBarHome(),
       body: RefreshIndicator(
         child: SingleChildScrollView(

@@ -2,7 +2,6 @@ import 'package:base_bloc/data/model/feed_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../localizations/app_localazations.dart';
 import '../theme/app_styles.dart';
 import '../theme/colors.dart';

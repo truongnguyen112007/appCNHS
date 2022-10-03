@@ -33,4 +33,6 @@ class BaseRepository extends BaseService {
               'post/search?catId=$catId&typeId=$typeId&content=$content&page=$page&limit=20')
           : await GET(
               'post/search?catId=$catId&content=$content&page=$page&limit=20');
+
+  Future<ApiResult> getFilter()  async => await GET('type');
 }

@@ -13,13 +13,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../../components/app_circle_loading.dart';
-import '../../../config/constant.dart';
 import '../../../data/eventbus/search_event.dart';
-import '../../../data/model/tab_criminal_law_model.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../localizations/app_localazations.dart';
-import '../../../router/router.dart';
-import '../../../router/router_utils.dart';
 
 class TabLawPage extends StatefulWidget {
   final int index;
@@ -45,10 +41,8 @@ String keySearch ='';
   void initState() {
     _bloc = TabLawCubit(widget.catId);
     _searchStream = Utils.eventBus.on<SearchEvent>().listen((event) {
-      if (!isFirstOpen && event.key.isNotEmpty) {
-        keySearch = event.key;
-        _bloc.getSearch(keySearch: event.key);
-      }
+      keySearch = event.key;
+      _bloc.getSearch(keySearch: event.key);
     });
     isFirstOpen = false;
     paging();
@@ -94,7 +88,8 @@ String keySearch ='';
                                   ? const Center(
                                       child: AppCircleLoading(),
                                     )
-                                  : ItemFeedWidget(highLight: keySearch,
+                                  : ItemFeedWidget(
+                                     highLight: keySearch,
                                       isSearch: true,
                                       index: index,
                                       model: state.lFeed[index],

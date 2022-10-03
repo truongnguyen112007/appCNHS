@@ -23,6 +23,7 @@ class _TabAddState extends State<TabAdd> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      backgroundColor: colorWhite,
       appbar: AppBar(
         centerTitle: true,
         leadingWidth: 32,

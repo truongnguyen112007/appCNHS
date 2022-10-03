@@ -232,7 +232,7 @@ class TextHighlight extends StatelessWidget {
           ],
         );
       } catch (e) {
-        if (boundWords.length > 1) throw e;
+        // if (boundWords.length > 1) throw e;
       }
     }
 

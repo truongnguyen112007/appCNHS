@@ -23,14 +23,19 @@ class TabCriminalLawPage extends StatefulWidget {
   final Function(FeedModel) itemCallBack;
 
   const TabCriminalLawPage(
-      {Key? key, required this.tab, required this.titleAppbar, required this.catId, required this.itemCallBack})
+      {Key? key,
+      required this.tab,
+      required this.titleAppbar,
+      required this.catId,
+      required this.itemCallBack})
       : super(key: key);
 
   @override
   State<TabCriminalLawPage> createState() => _TabCriminalLawPageState();
 }
 
-class _TabCriminalLawPageState extends State<TabCriminalLawPage> with AutomaticKeepAliveClientMixin{
+class _TabCriminalLawPageState extends State<TabCriminalLawPage>
+    with AutomaticKeepAliveClientMixin {
   late TabCriminalLawCubit _bloc;
   final _scrollController = ScrollController();
 
@@ -53,6 +58,7 @@ class _TabCriminalLawPageState extends State<TabCriminalLawPage> with AutomaticK
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      backgroundColor: colorWhite,
       appbar: AppBar(
         centerTitle: true,
         leadingWidth: 32,
@@ -70,8 +76,7 @@ class _TabCriminalLawPageState extends State<TabCriminalLawPage> with AutomaticK
         title: Text(widget.titleAppbar),
         backgroundColor: colorPrimaryOrange,
       ),
-      body:
-      RefreshIndicator(
+      body: RefreshIndicator(
         onRefresh: () async => _bloc.refresh(),
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -85,7 +90,7 @@ class _TabCriminalLawPageState extends State<TabCriminalLawPage> with AutomaticK
                   return Container(
                     alignment: Alignment.center,
                     height: MediaQuery.of(context).size.height / 1.2,
-                    child: AppCircleLoading(),
+                    child: const AppCircleLoading(),
                   );
                 case FeedStatus.success:
                   return ListView.builder(
@@ -105,9 +110,10 @@ class _TabCriminalLawPageState extends State<TabCriminalLawPage> with AutomaticK
                   );
                 case FeedStatus.failure:
                   return Container(
-                      alignment: Alignment.center,
-                      height: MediaQuery.of(context).size.height / 1.2,
-                      child: const AppText('Không tìm thấy dữ liệu'));
+                    alignment: Alignment.center,
+                    height: MediaQuery.of(context).size.height / 1.2,
+                    child: const AppText('Không tìm thấy dữ liệu'),
+                  );
               }
             },
           ),
@@ -130,20 +136,20 @@ class _TabCriminalLawPageState extends State<TabCriminalLawPage> with AutomaticK
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppText(
-                model.name ?? '',
-                maxLine: 4,
-                overflow: TextOverflow.visible,
-                style: typoExtraSmallTextRegular
+              AppText(model.name ?? '',
+                  maxLine: 4,
+                  overflow: TextOverflow.visible,
+                  style: typoExtraSmallTextRegular),
+              SizedBox(
+                height: 5.h,
               ),
-              SizedBox(height: 5.h,),
               Row(
                 children: [
                   const Spacer(),
                   AppText(
                     AppLocalizations.of(context)!.effectiveFrom,
                     style: typoExtraSmallTextRegular.copyWith(
-                        color: colorPrimaryOrange,fontSize: 8.sp),
+                        color: colorPrimaryOrange, fontSize: 8.sp),
                   ),
                   SizedBox(
                     width: 2.w,
@@ -152,7 +158,7 @@ class _TabCriminalLawPageState extends State<TabCriminalLawPage> with AutomaticK
                     Utils.convertDateTimeToDDMMYY(
                         model.createdAt ?? DateTime.now()),
                     style: typoSuperSmallTextRegular.copyWith(
-                        color: colorPrimaryOrange,fontSize: 8.sp),
+                        color: colorPrimaryOrange, fontSize: 8.sp),
                   ),
                 ],
               ),

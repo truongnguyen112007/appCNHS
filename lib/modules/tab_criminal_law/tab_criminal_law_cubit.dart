@@ -44,7 +44,6 @@ class TabCriminalLawCubit extends Cubit<TabCriminalLawState> {
     } catch (ex) {
       emit(state.copyOf(readEnd: true));
     }
-
     return;
   }
 

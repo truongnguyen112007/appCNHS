@@ -1,13 +1,13 @@
 import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/app_circle_loading.dart';
 import 'package:base_bloc/data/model/feed_model.dart';
+import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/new_details/new_detail_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../components/app_scalford.dart';
@@ -15,7 +15,6 @@ import '../../components/app_text.dart';
 import '../../gen/assets.gen.dart';
 import '../../theme/colors.dart';
 import 'new_detail_cubit.dart';
-import 'package:flutter_html/flutter_html.dart';
 
 class NewDetail extends StatefulWidget {
   final int index;
@@ -55,6 +54,7 @@ class _NewDetailState extends BasePopState<NewDetail> {
                     i < (state.postDetailModel?.data?.length ?? 0);
                     i++)
                   AppScaffold(
+                    backgroundColor: colorWhite,
                     appbar: AppBar(
                       centerTitle: true,
                       leadingWidth: 35,
@@ -137,11 +137,20 @@ class _NewDetailState extends BasePopState<NewDetail> {
                       //   ],
                       // )
                     ]),
-                  )
+                  ),
               ],
             );
+          } else if(state.status == FeedStatus.failure){
+            return AppScaffold(
+              appbar: AppBar(
+                automaticallyImplyLeading: true,
+                backgroundColor: colorPrimaryOrange,
+              ),
+                body: Center(
+                  child: AppText(AppLocalizations.of(context)!.textTabOfSearch)
+                ));
           }
-          return SizedBox();
+          return const SizedBox();
         });
   }
 

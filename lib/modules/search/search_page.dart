@@ -95,13 +95,14 @@ class _SearchPageState extends BasePopState<SearchPage>
     _selectedIndex = index;
     pageController.jumpToPage(_selectedIndex);
     Timer(const Duration(milliseconds: 500),
-            () => Utils.fireEvent(SearchEvent(_selectedIndex, keySearch)));
+        () => Utils.fireEvent(SearchEvent(_selectedIndex, keySearch)));
     _bloc.jumToPage(_selectedIndex);
   }
 
   @override
   Widget buildWidget(BuildContext context) {
     return AppScaffold(
+        resizeToAvoidBottomInset: false,
         appbar: appBarWidget(),
         body: Column(
           children: [
@@ -187,15 +188,18 @@ class _SearchPageState extends BasePopState<SearchPage>
                         ],
                       ),
                     )),
-            SizedBox(height: 5.h,),
+            SizedBox(
+              height: 5.h,
+            ),
             Container(
               height: 1.h,
               color: colorGrey50,
             ),
             Expanded(
               child: PageView(
-                physics: const NeverScrollableScrollPhysics(),
-                  controller: pageController, children: tabSearch),
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: pageController,
+                  children: tabSearch),
             ),
           ],
         ));
@@ -261,16 +265,18 @@ class _SearchPageState extends BasePopState<SearchPage>
                         width: 5.w,
                       ),
                       Badge(
-                          position: BadgePosition(bottom: 12.h, start: 6.w),
-                          elevation: 0,
-                          badgeColor: colorBlue80,
-                          child: SvgPicture.asset(
-                            Assets.svg.filter,
-                            width: 15,
-                          )),
+                        position: BadgePosition(bottom: 12.h, start: 6.w),
+                        elevation: 0,
+                        badgeColor: colorBlue80,
+                        child: SvgPicture.asset(
+                          Assets.svg.filter,
+                          width: 15,
+                        ),
+                      ),
                     ],
                   ),
                   onPress: () async {
+                    Utils.hideKeyboard(context);
                     await RouterUtils.pushHome(
                         context: context,
                         route: HomeRouters.filter,
@@ -286,6 +292,7 @@ class _SearchPageState extends BasePopState<SearchPage>
                 padding: EdgeInsets.only(right: 10.w),
                 child: InkWell(
                     onTap: () async {
+                      Utils.hideKeyboard(context);
                       await RouterUtils.pushHome(
                           context: context,
                           route: HomeRouters.filter,

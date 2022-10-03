@@ -52,6 +52,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      backgroundColor: colorWhite,
       isTabToHideKeyBoard: true,
       resizeToAvoidBottomInset: false,
       fullStatusBar: true,

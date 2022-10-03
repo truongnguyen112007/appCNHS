@@ -1,6 +1,8 @@
 import 'package:base_bloc/base/base_state.dart';
+import 'package:base_bloc/components/app_circle_loading.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_text.dart';
+import 'package:base_bloc/modules/new_details/new_detail_state.dart';
 import 'package:base_bloc/modules/search/filter/filter_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:flutter/cupertino.dart';
@@ -57,15 +59,18 @@ class _FilterPageState extends BasePopState<FilterPage> {
             child: AppText(AppLocalizations.of(context)!.nameCheckBox,
                 style: typoExtraSmallTextBold),
           ),
-          itemListRadio(AppLocalizations.of(context)!.radioButton0, 0),
-          itemListRadio(AppLocalizations.of(context)!.radioButton1, 1),
-          itemListRadio(AppLocalizations.of(context)!.radioButton2, 2),
-          itemListRadio(AppLocalizations.of(context)!.radioButton3, 3),
-          itemListRadio(AppLocalizations.of(context)!.radioButton4, 4),
-          itemListRadio(AppLocalizations.of(context)!.radioButton5, 5),
-          itemListRadio(AppLocalizations.of(context)!.radioButton6, 6),
-          itemListRadio(AppLocalizations.of(context)!.radioButton7, 7),
-          itemListRadio(AppLocalizations.of(context)!.radioButton8, 8),
+          BlocBuilder<FilterCubit, FilterState>(
+              bloc: _bloc,
+              builder: (c, state) {
+                if(state.status ==FeedStatus.initial) return Center(child: AppCircleLoading(),);
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) =>
+                      itemListRadio(
+                          state.model?.data?[index].name ?? "", index),
+                  itemCount: state.model?.data?.length ?? 0,
+                );
+              })
         ],
       ),
     );
@@ -78,7 +83,7 @@ class _FilterPageState extends BasePopState<FilterPage> {
         padding: EdgeInsets.only(top: 12.h, left: 12.w),
         child: InkWell(
           onTap: () {
-            _bloc.onClickRadioButton(index);
+            _bloc.onClickRadioButton(index,c);
           },
           child: Row(
             children: [

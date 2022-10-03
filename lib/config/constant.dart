@@ -103,3 +103,15 @@ class CategoryID {
   static const PROCEDURAL = 2;
   static const HELP = 3;
 }
+
+class Radiobutton {
+  static const ALL = 0;
+  static const DIRECTIVE = 1;
+  static const DOCUMENT = 2;
+  static const AGREEMENT = 3;
+  static const PACT = 4 ;
+  static const GUIDE = 5 ;
+  static const DECREE = 6;
+  static const RESOLUSION = 7 ;
+  static const REGULATIONS = 8 ;
+}

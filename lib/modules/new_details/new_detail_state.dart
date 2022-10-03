@@ -1,7 +1,7 @@
 import 'package:base_bloc/data/model/post_detail_model.dart';
 import 'package:equatable/equatable.dart';
 
-enum FeedStatus { initial, success, failure, refresh }
+enum FeedStatus { initial, success, failure, refresh}
 
 class NewDetailState extends Equatable {
   final FeedStatus status;

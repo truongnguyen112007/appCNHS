@@ -1,19 +1,24 @@
+import 'package:base_bloc/data/model/filter_model.dart';
+import 'package:base_bloc/data/repository/user_repository.dart';
+import 'package:base_bloc/modules/new_details/new_detail_state.dart';
 import 'package:base_bloc/modules/search/filter/filter_state.dart';
 import 'package:base_bloc/utils/storage_utils.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FilterCubit extends Cubit<FilterState> {
-  FilterCubit() : super(FilterState(0)) {
+  FilterCubit() : super(FilterState()) {
     getFilter();
   }
 
   void getFilter() async {
+    var response = await BaseRepository().getFilter();
+    FilterModel model = FilterModel.fromJson(response.data);
     var currentIndex = await StorageUtils.getFilter();
-    emit(FilterState(currentIndex));
+    emit(state.copyOf(status: FeedStatus.success,model: model));
   }
 
-  void onClickRadioButton(int index) async {
-    await StorageUtils.saveFilter(index);
-    emit(FilterState(index));
+  void onClickRadioButton(int index,BuildContext context) async {
+   Navigator.pop(context, state.model?.data?[index]);
   }
 }
