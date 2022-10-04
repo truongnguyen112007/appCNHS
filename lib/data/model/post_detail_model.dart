@@ -1,204 +1,206 @@
+// To parse this JSON data, do
+//
+//     final postDetailModel = postDetailModelFromJson(jsonString);
+
 import 'dart:convert';
 
-List<PostDetailModel> postModelFromJson(List<dynamic> str) =>
-    List<PostDetailModel>.from(str.map((x) => PostDetailModel.fromJson(x)));
+PostDetailModel postDetailModelFromJson(String str) =>
+    PostDetailModel.fromJson(json.decode(str));
 
-String postModelToJson(List<PostDetailModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String postDetailModelToJson(PostDetailModel data) =>
+    json.encode(data.toJson());
 
 class PostDetailModel {
-  List<Data>? data;
+  PostDetailModel({
+    this.data,
+    this.success,
+    this.message,
+  });
+
+  List<Datum>? data;
   bool? success;
   String? message;
 
-  PostDetailModel({this.data, this.success, this.message});
+  factory PostDetailModel.fromJson(Map<String, dynamic> json) =>
+      PostDetailModel(
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        success: json["success"],
+        message: json["message"],
+      );
 
-  PostDetailModel.fromJson(Map<String, dynamic> json) {
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
-      });
-    }
-    success = json['success'];
-    message = json['message'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
-    }
-    data['success'] = this.success;
-    data['message'] = this.message;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "data": data != null
+            ? List<dynamic>.from(data!.map((x) => x.toJson()))
+            : null,
+        "success": success,
+        "message": message,
+      };
 }
 
-class Data {
+class Datum {
+  Datum({
+    this.id,
+    this.name,
+    this.description,
+    this.content,
+    this.status,
+    this.authorId,
+    this.isFeatured,
+    this.image,
+    this.views,
+    this.formatType,
+    this.createdAt,
+    this.updatedAt,
+    this.typeId,
+    this.author,
+    this.category,
+    this.tag,
+    this.type,
+  });
+
   int? id;
   String? name;
-  Null? description;
+  dynamic? description;
   String? content;
   String? status;
   int? authorId;
   int? isFeatured;
-  Null? image;
+  dynamic? image;
   int? views;
-  Null? formatType;
-  String? createdAt;
-  String? updatedAt;
+  dynamic? formatType;
+  DateTime? createdAt;
+  DateTime? updatedAt;
   int? typeId;
   Author? author;
-  // List<Null>? tag;
   List<Category>? category;
-  Null? type;
+  List<dynamic>? tag;
+  Type? type;
 
-  Data(
-      {this.id,
-        this.name,
-        this.description,
-        this.content,
-        this.status,
-        this.authorId,
-        this.isFeatured,
-        this.image,
-        this.views,
-        this.formatType,
-        this.createdAt,
-        this.updatedAt,
-        this.typeId,
-        this.author,
-        // this.tag,
-        this.category,
-        this.type});
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        id: json["id"],
+        name: json["name"],
+        description: json["description"],
+        content: json["content"],
+        status: json["status"],
+        authorId: json["author_id"],
+        isFeatured: json["is_featured"],
+        image: json["image"],
+        views: json["views"],
+        formatType: json["format_type"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+        typeId: json["type_id"],
+        author: Author.fromJson(json["author"]),
+        category: List<Category>.from(
+            json["category"].map((x) => Category.fromJson(x))),
+        tag: List<dynamic>.from(json["tag"].map((x) => x)),
+        type: Type.fromJson(json["type"]),
+      );
 
-  Data.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    description = json['description'];
-    content = json['content'];
-    status = json['status'];
-    authorId = json['author_id'];
-    isFeatured = json['is_featured'];
-    image = json['image'];
-    views = json['views'];
-    formatType = json['format_type'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    typeId = json['type_id'];
-    author =
-    json['author'] != null ? new Author.fromJson(json['author']) : null;
-    /*if (json['tag'] != null) {
-      tag = <Null>[];
-      json['tag'].forEach((v) {
-        tag!.add(new Null.fromJson(v));
-      });
-    }*/
-    if (json['category'] != null) {
-      category = <Category>[];
-      json['category'].forEach((v) {
-        category!.add(new Category.fromJson(v));
-      });
-    }
-    type = json['type'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['description'] = this.description;
-    data['content'] = this.content;
-    data['status'] = this.status;
-    data['author_id'] = this.authorId;
-    data['is_featured'] = this.isFeatured;
-    data['image'] = this.image;
-    data['views'] = this.views;
-    data['format_type'] = this.formatType;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['type_id'] = this.typeId;
-    if (this.author != null) {
-      data['author'] = this.author!.toJson();
-    }
-    /*if (this.tag != null) {
-      data['tag'] = this.tag!.map((v) => v!.toJson()).toList();
-    }*/
-    if (this.category != null) {
-      data['category'] = this.category!.map((v) => v.toJson()).toList();
-    }
-    data['type'] = this.type;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "description": description,
+        "content": content,
+        "status": status,
+        "author_id": authorId,
+        "is_featured": isFeatured,
+        "image": image,
+        "views": views,
+        "format_type": formatType,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "type_id": typeId,
+        "author": author?.toJson(),
+        "category": category != null
+            ? List<dynamic>.from(category!.map((x) => x.toJson()))
+            : null,
+        "tag":tag!=null? List<dynamic>.from(tag!.map((x) => x)): null,
+        "type": type?.toJson(),
+      };
 }
 
 class Author {
+  Author({
+    this.id,
+    this.email,
+    this.emailVerifiedAt,
+    this.rememberToken,
+    this.createdAt,
+    this.updatedAt,
+    this.firstName,
+    this.lastName,
+    this.superUser,
+    this.manageSupers,
+    this.permissions,
+    this.lastLogin,
+    this.phone,
+  });
+
   int? id;
   String? email;
-  Null? emailVerifiedAt;
+  dynamic emailVerifiedAt;
   String? rememberToken;
-  String? createdAt;
-  String? updatedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
   String? firstName;
   String? lastName;
   int? superUser;
   int? manageSupers;
   String? permissions;
-  String? lastLogin;
-  Null? phone;
+  DateTime? lastLogin;
+  dynamic phone;
 
-  Author(
-      {this.id,
-        this.email,
-        this.emailVerifiedAt,
-        this.rememberToken,
-        this.createdAt,
-        this.updatedAt,
-        this.firstName,
-        this.lastName,
-        this.superUser,
-        this.manageSupers,
-        this.permissions,
-        this.lastLogin,
-        this.phone});
+  factory Author.fromJson(Map<String, dynamic> json) => Author(
+        id: json["id"],
+        email: json["email"],
+        emailVerifiedAt: json["email_verified_at"],
+        rememberToken: json["remember_token"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+        firstName: json["first_name"],
+        lastName: json["last_name"],
+        superUser: json["super_user"],
+        manageSupers: json["manage_supers"],
+        permissions: json["permissions"],
+        lastLogin: DateTime.parse(json["last_login"]),
+        phone: json["phone"],
+      );
 
-  Author.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    email = json['email'];
-    emailVerifiedAt = json['email_verified_at'];
-    rememberToken = json['remember_token'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    firstName = json['first_name'];
-    lastName = json['last_name'];
-    superUser = json['super_user'];
-    manageSupers = json['manage_supers'];
-    permissions = json['permissions'];
-    lastLogin = json['last_login'];
-    phone = json['phone'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['email'] = this.email;
-    data['email_verified_at'] = this.emailVerifiedAt;
-    data['remember_token'] = this.rememberToken;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['super_user'] = this.superUser;
-    data['manage_supers'] = this.manageSupers;
-    data['permissions'] = this.permissions;
-    data['last_login'] = this.lastLogin;
-    data['phone'] = this.phone;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "email": email,
+        "email_verified_at": emailVerifiedAt,
+        "remember_token": rememberToken,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "first_name": firstName,
+        "last_name": lastName,
+        "super_user": superUser,
+        "manage_supers": manageSupers,
+        "permissions": permissions,
+        "last_login": lastLogin?.toIso8601String(),
+        "phone": phone,
+      };
 }
 
 class Category {
+  Category({
+    this.id,
+    this.name,
+    this.parentId,
+    this.description,
+    this.status,
+    this.authorId,
+    this.authorType,
+    this.icon,
+    this.order,
+    this.isFeatured,
+    this.isDefault,
+    this.createdAt,
+    this.updatedAt,
+  });
+
   int? id;
   String? name;
   int? parentId;
@@ -206,59 +208,86 @@ class Category {
   String? status;
   int? authorId;
   String? authorType;
-  Null? icon;
+  dynamic icon;
   int? order;
   int? isFeatured;
   int? isDefault;
-  String? createdAt;
-  String? updatedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
-  Category(
-      {this.id,
-        this.name,
-        this.parentId,
-        this.description,
-        this.status,
-        this.authorId,
-        this.authorType,
-        this.icon,
-        this.order,
-        this.isFeatured,
-        this.isDefault,
-        this.createdAt,
-        this.updatedAt});
+  factory Category.fromJson(Map<String, dynamic> json) => Category(
+        id: json["id"],
+        name: json["name"],
+        parentId: json["parent_id"],
+        description: json["description"],
+        status: json["status"],
+        authorId: json["author_id"],
+        authorType: json["author_type"],
+        icon: json["icon"],
+        order: json["order"],
+        isFeatured: json["is_featured"],
+        isDefault: json["is_default"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+      );
 
-  Category.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    parentId = json['parent_id'];
-    description = json['description'];
-    status = json['status'];
-    authorId = json['author_id'];
-    authorType = json['author_type'];
-    icon = json['icon'];
-    order = json['order'];
-    isFeatured = json['is_featured'];
-    isDefault = json['is_default'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-  }
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "parent_id": parentId,
+        "description": description,
+        "status": status,
+        "author_id": authorId,
+        "author_type": authorType,
+        "icon": icon,
+        "order": order,
+        "is_featured": isFeatured,
+        "is_default": isDefault,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+      };
+}
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['parent_id'] = this.parentId;
-    data['description'] = this.description;
-    data['status'] = this.status;
-    data['author_id'] = this.authorId;
-    data['author_type'] = this.authorType;
-    data['icon'] = this.icon;
-    data['order'] = this.order;
-    data['is_featured'] = this.isFeatured;
-    data['is_default'] = this.isDefault;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    return data;
-  }
+class Type {
+  Type({
+    this.id,
+    this.name,
+    this.description,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.authorId,
+    this.authorType,
+  });
+
+  int? id;
+  String? name;
+  dynamic description;
+  String? status;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? authorId;
+  String? authorType;
+
+  factory Type.fromJson(Map<String, dynamic> json) => Type(
+        id: json["id"],
+        name: json["name"],
+        description: json["description"],
+        status: json["status"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+        authorId: json["author_id"],
+        authorType: json["author_type"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "description": description,
+        "status": status,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "author_id": authorId,
+        "author_type": authorType,
+      };
 }
