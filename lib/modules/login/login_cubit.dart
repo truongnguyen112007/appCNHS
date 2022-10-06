@@ -11,21 +11,20 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   void onClickContinue(String phone, BuildContext context) async {
-    if (checkValid(phone,context)) {}
+    // if (checkValid(phone,context)) {}
   }
 
-  bool checkValid(String phone, BuildContext context) {
-    bool isValid = false;
-    if (phone.isEmpty) {
-      isValid = false;
-      emit(FalseState('Login false'));
-    } else if (!Utils.validateMobile(phone)){
-      emit(FalseState('Login false'));
-      isValid = false;
-    } else {
-      isValid = true;
-      emit (TrueState('Login sucess'));
-      // tur
-    }
-  }
+//   bool checkValid(String phone, BuildContext context) {
+//     bool isValid = false;
+//     if (phone.isEmpty) {
+//       isValid = false;
+//       emit(FalseState('Login false'));
+//     } else if (!Utils.validateMobile(phone)){
+//       emit(FalseState('Login false'));
+//       isValid = false;
+//     } else {
+//       isValid = true;
+//       emit (TrueState('Login sucess'));
+//     }
+//   }
 }

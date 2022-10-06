@@ -82,7 +82,7 @@ class _LoginPageState extends BasePopState<LoginPage> {
             children: [
               AppTextField(
                 controller: phoneController,
-                onChanged: (text) => _bloc.checkValid(),
+                // onChanged: (text) => _bloc.checkValid(),
                 autofocus: true,
                 keyboardType: TextInputType.phone,
                 textStyle: typoExtraSmallTextRegular,
@@ -122,10 +122,14 @@ class _LoginPageState extends BasePopState<LoginPage> {
           Center(
             child: AppButton(
               onPress: () {
-                  _bloc.onClickContinue();
+                // _bloc.onClickContinue();
               },
-              width: MediaQuery.of(context).size.width/1.5,
-              backgroundColor: colorBlack,
+              title: AppLocalizations.of(context)!.continueButton,
+              textStyle: typoLargeTextBold.copyWith(
+                  fontSize: 13.sp, color: colorWhite),
+              borderRadius: 30,
+              width: MediaQuery.of(context).size.width / 1.5,
+              backgroundColor: colorPrimaryOrange,
             ),
           ),
         ],

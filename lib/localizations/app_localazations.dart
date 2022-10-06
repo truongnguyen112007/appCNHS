@@ -144,6 +144,7 @@ abstract class AppLocalizations {
   String get address;
   String get phone;
   String get email;
+  String get continueButton;
 
 }
 

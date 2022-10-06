@@ -41,6 +41,7 @@ class BaseService {
         var result = response.data;
         Logger().d(result);
         return ApiResult<dynamic>(
+          message: response.data['message']??'',
           data: result,
         );
       } else {
@@ -94,7 +95,7 @@ class BaseService {
         return ApiResult<dynamic>(
             data: result,
             statusCode: response.statusCode,
-            message: result['meta']['message'] ?? result['meta']['db_message']);
+            message: response.data['message']??'',);
       } else {
         Logger().e('Error ${response.statusCode} - ${response.statusMessage}');
         var result = response.data;
@@ -141,9 +142,8 @@ class BaseService {
         return ApiResult<dynamic>(
             data: result,
             statusCode: response.statusCode,
-            message: isNewFormat
-                ? ''
-                : result['meta']['message'] ?? result['meta']['db_message']);
+          message: response.data['message']??'',
+        );
       } else {
         Logger().e(
             'Error ${response.statusCode} - ${response.statusMessage} - ${response.data}');
@@ -192,9 +192,8 @@ class BaseService {
         return ApiResult<dynamic>(
             data: result,
             statusCode: response.statusCode,
-            message: isNewFormat
-                ? ''
-                : result['meta']['message'] ?? result['meta']['db_message']);
+            message: response.data['message']??'',
+        );
       } else {
         Logger().e('Error ${response.statusCode} - ${response.statusMessage}');
         var result = response.data;
@@ -238,7 +237,8 @@ class BaseService {
         return ApiResult<dynamic>(
             data: result,
             statusCode: response.statusCode,
-            message: result['meta']['message'] ?? result['meta']['db_message']);
+          message: response.data['message']??'',
+        );
       } else {
         Logger().e('Error ${response.statusCode} - ${response.statusMessage}');
         var result = response.data;

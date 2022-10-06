@@ -142,4 +142,7 @@ class AppLocalizationEn extends AppLocalizations {
   @override
   String get phone => "Điện thoại:";
 
+  @override
+  String get continueButton => "Tiếp tục";
+
 }

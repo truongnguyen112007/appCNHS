@@ -13,6 +13,7 @@ import '../../theme/colors.dart';
 
 class ContactPage extends StatefulWidget {
   final int index;
+
   const ContactPage({Key? key, required this.index}) : super(key: key);
 
   @override
@@ -20,32 +21,65 @@ class ContactPage extends StatefulWidget {
 }
 
 class _ContactPageState extends BasePopState<ContactPage> {
-
   @override
   Widget buildWidget(BuildContext context) {
     return AppScaffold(
       appbar: AppBar(
-        centerTitle: true,
-        leadingWidth: 35,
-        leading: Padding(
-          padding: EdgeInsets.only(left: 12.w),
-          child: InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: SvgPicture.asset(Assets.svg.back)),
+          centerTitle: true,
+          leadingWidth: 35,
+          leading: Padding(
+            padding: EdgeInsets.only(left: 12.w),
+            child: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: SvgPicture.asset(Assets.svg.back)),
+          ),
+          backgroundColor: colorPrimaryOrange,
+          title: AppText(
+            AppLocalizations.of(context)!.textButtonContact,
+            style: typoSuperSmallTextRegular.copyWith(
+                color: colorWhite, fontSize: 16.sp),
+          )),
+      body: Padding(
+        padding: EdgeInsets.only(top: 15.h),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                text: AppLocalizations.of(context)!.address,
+                style: typoLargeTextBold,
+                children: [
+                  TextSpan(
+                      text: 'Pho A, Duong B, Ngo C, Thanh Pho\n Ha Noi',
+                      style:
+                          typoExtraSmallTextRegular.copyWith(fontSize: 15.sp))
+                ],
+              ),
+            ),
+            text(AppLocalizations.of(context)!.phone, 'xxxxxxxxxxxxxxxxx'),
+            text(AppLocalizations.of(context)!.email, 'xxxxxxxxxxxxxxxx')
+          ],
         ),
-        backgroundColor: colorPrimaryOrange,
-        title: AppText(
-          AppLocalizations.of(context)!.textButtonContact,
-              style: typoSuperSmallTextRegular.copyWith(color: colorWhite,fontSize: 16.sp),
-        )
       ),
-      body: Container()
     );
-
   }
+
+  Widget text(String text1, String text2) {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      AppText(
+        text1,
+        style: typoLargeTextBold.copyWith(fontSize: 15.sp),
+      ),
+      AppText(
+        text2,
+      )
+    ]);
+  }
+
   @override
   int get tabIndex => widget.index;
 }
-
