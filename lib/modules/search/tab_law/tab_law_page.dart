@@ -45,7 +45,7 @@ String keySearch ='';
     _searchStream = Utils.eventBus.on<SearchEvent>().listen((event) {
       keySearch = event.key;
       filterModel = event.filterModel;
-      _bloc.getSearch(keySearch: event.key,typeId: filterModel?.id??0);
+      _bloc.getSearch(keySearch: event.key,typeId: filterModel?.id);
     });
     isFirstOpen = false;
     paging();
@@ -64,7 +64,7 @@ String keySearch ='';
       final maxScroll = _scrollController.position.maxScrollExtent;
       final currentScroll = _scrollController.offset;
       if (currentScroll >= (maxScroll * 0.9)) {
-        _bloc.getSearch(isPaging: true, typeId: filterModel?.id ?? 0);
+        _bloc.getSearch(isPaging: true, typeId: filterModel?.id);
       }
     });
   }

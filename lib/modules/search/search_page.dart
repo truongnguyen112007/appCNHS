@@ -228,7 +228,6 @@ class _SearchPageState extends BasePopState<SearchPage>
           textInputAction: TextInputAction.search,
           onChanged: (str) => itemOnChange.add(str),
           controller: textEditingController,
-          textAlign: TextAlign.center,
           decoration: InputDecoration(
             isDense: true,
             contentPadding: const EdgeInsets.all(12),
@@ -250,7 +249,7 @@ class _SearchPageState extends BasePopState<SearchPage>
         ),
       ),
       actions: [
-        filterModel != null
+        filterModel != null && filterModel!.id!=null
             ? Padding(
                 padding: EdgeInsets.only(
                     top: 6.h, bottom: 6.h, right: 5.w, left: 10.w),
@@ -277,17 +276,7 @@ class _SearchPageState extends BasePopState<SearchPage>
                       ),
                     ],
                   ),
-                  onPress: () async {
-                    Utils.hideKeyboard(context);
-                    await RouterUtils.pushHome(
-                        context: context,
-                        route: HomeRouters.filter,
-                        argument: BottomnavigationConstant.TAB_HOME);
-                    checkFilter();
-                    Utils.fireEvent(
-                      SearchEvent(_selectedIndex, keySearch, filterModel),
-                    );
-                  },
+                  onPress: () => filterOnClick(),
                   shapeBorder: RoundedRectangleBorder(
                       side: const BorderSide(color: colorWhite, width: 2),
                       borderRadius: BorderRadius.circular(15)),
@@ -296,21 +285,24 @@ class _SearchPageState extends BasePopState<SearchPage>
             : Padding(
                 padding: EdgeInsets.only(right: 10.w),
                 child: InkWell(
-                    onTap: () async {
-                      Utils.hideKeyboard(context);
-                      await RouterUtils.pushHome(
-                          context: context,
-                          route: HomeRouters.filter,
-                          argument: BottomnavigationConstant.TAB_HOME);
-                      checkFilter();
-                      Utils.fireEvent(
-                        SearchEvent(_selectedIndex, keySearch, filterModel),
-                      );
-                    },
+                    onTap: () => filterOnClick(),
                     child: SvgPicture.asset(Assets.svg.filter)),
               ),
       ],
     );
+  }
+  void filterOnClick () async {
+    Utils.hideKeyboard(context);
+    var model = await RouterUtils.pushHome(
+        context: context,
+        route: HomeRouters.filter,
+        argument: BottomnavigationConstant.TAB_HOME);
+    if(model!=null){
+      filterModel = model;
+      Utils.fireEvent(
+        SearchEvent(_selectedIndex, keySearch, filterModel),
+      );
+    }
   }
 
   @override

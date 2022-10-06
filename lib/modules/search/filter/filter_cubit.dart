@@ -27,7 +27,7 @@ class FilterCubit extends Cubit<FilterState> {
   }
 
   void onClickRadioButton(int index, BuildContext context) async {
-    StorageUtils.saveFilter(state.model?.data?[index]);
+  await  StorageUtils.saveFilter(state.model?.data?[index]);
     Navigator.pop(context, state.model?.data?[index]);
   }
 }

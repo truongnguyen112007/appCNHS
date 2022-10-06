@@ -138,6 +138,12 @@ abstract class AppLocalizations {
   String get effectiveFrom;
   String get newDocument;
   String get newInstruction;
+  String get yourPhone;
+  String get phoneError;
+
+  String get address;
+  String get phone;
+  String get email;
 
 }
 

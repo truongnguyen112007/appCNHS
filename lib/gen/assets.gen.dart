@@ -9,14 +9,33 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsIconGen {
+  const $AssetsIconGen();
+
+  /// File path: assets/icon/ic_icon.png
+  AssetGenImage get icIcon => const AssetGenImage('assets/icon/ic_icon.png');
+}
+
 class $AssetsPngGen {
   const $AssetsPngGen();
 
   /// File path: assets/png/cnhs.png
   AssetGenImage get cnhs => const AssetGenImage('assets/png/cnhs.png');
 
+  /// File path: assets/png/ic_launcher.png
+  AssetGenImage get icLauncher =>
+      const AssetGenImage('assets/png/ic_launcher.png');
+
   /// File path: assets/png/laws.png
   AssetGenImage get laws => const AssetGenImage('assets/png/laws.png');
+
+  /// File path: assets/png/logophone.png
+  AssetGenImage get logophone =>
+      const AssetGenImage('assets/png/logophone.png');
+
+  /// File path: assets/png/plugin_icon1.png
+  AssetGenImage get pluginIcon1 =>
+      const AssetGenImage('assets/png/plugin_icon1.png');
 }
 
 class $AssetsSvgGen {
@@ -50,6 +69,7 @@ class $AssetsSvgGen {
 class Assets {
   Assets._();
 
+  static const $AssetsIconGen icon = $AssetsIconGen();
   static const $AssetsPngGen png = $AssetsPngGen();
   static const $AssetsSvgGen svg = $AssetsSvgGen();
 }

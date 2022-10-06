@@ -113,7 +113,7 @@ class AppLocalizationEn extends AppLocalizations {
   String get send => 'Gửi';
 
   @override
-  String get pleaseLoginMobile => 'Bạn vui lòng nhập số điện thoại của mình vào phía dưới để đăng nhập nhé';
+  String get pleaseLoginMobile => 'Bạn vui lòng nhập số điện thoại của mình vào phía dưới\nđể đăng nhập nhé';
 
   @override
   String get phoneNumber => 'Số điện thoại';
@@ -125,8 +125,21 @@ class AppLocalizationEn extends AppLocalizations {
   String get newDocument => "Văn bản mới";
 
   @override
-  // TODO: implement newInstruction
   String get newInstruction => "Chỉ dẫn mới";
 
+  @override
+  String get yourPhone => "Số điện thoại của bạn";
+
+  @override
+  String get phoneError => "Số điện thoại không hợp lệ";
+
+  @override
+  String get address => "Địa chỉ:";
+
+  @override
+  String get email => 'Email:';
+
+  @override
+  String get phone => "Điện thoại:";
 
 }

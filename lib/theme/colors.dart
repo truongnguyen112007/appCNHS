@@ -153,6 +153,7 @@ const colorPink40 = Color(0xFFFCC0CB);
 
 const colorGreen60 = Color(0xFF00892A);
 
+const colorUnderlineTextField = Color(0xFF979797);
 
 const colorOrange60 = Color(0xFFCD8E15);
 const colorGreenGradient = [

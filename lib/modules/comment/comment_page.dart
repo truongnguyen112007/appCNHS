@@ -62,7 +62,6 @@ class _CommentPageState extends BasePopState<CommentPage> {
               child: AppTextField(
                maxLine: 10,
                 hintText: AppLocalizations.of(context)!.contentComment,
-                textAlign: TextAlign.start,
               ),
             ),
                Center(

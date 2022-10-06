@@ -1,5 +1,6 @@
 import 'package:base_bloc/data/model/post_detail_model.dart';
 import 'package:base_bloc/modules/new_details/new_detail_state.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/repository/user_repository.dart';
 
@@ -19,6 +20,7 @@ class NewDetailCubit extends Cubit<NewDetailState>{
         var model = PostDetailModel.fromJson(response.data);
         emit(state.copyOf(postDetailModel: model,status: FeedStatus.success));
       }catch(ex){
+        logE("TAG EX: $ex");
         emit(state.copyOf(status: FeedStatus.failure));
       }
     }else {

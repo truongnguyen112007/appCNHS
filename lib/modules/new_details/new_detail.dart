@@ -38,7 +38,6 @@ class _NewDetailState extends BasePopState<NewDetail> {
 
   @override
   Widget buildWidget(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return BlocBuilder<NewDetailCubit, NewDetailState>(
         bloc: _bloc,
         builder: (c, state) {
@@ -68,7 +67,7 @@ class _NewDetailState extends BasePopState<NewDetail> {
                         ),
                       ),
                       title: AppText(
-                        state.postDetailModel!.data![i].name ?? '',
+                        state.postDetailModel!.data![i].name?? '',
                         maxLine: 1,
                         overflow: TextOverflow.ellipsis,
                         style: typoExtraSmallTextRegular.copyWith(
@@ -96,46 +95,6 @@ class _NewDetailState extends BasePopState<NewDetail> {
                                   ''),
                         ),
                       ),
-                      //    Expanded(
-                      //        child: SingleChildScrollView(
-                      //         child: Html(
-                      //           data: state.postDetailModel!.data![i].content,
-                      //         ),
-                      //   ),
-                      //    ),
-                      // Column(
-                      //   mainAxisAlignment: MainAxisAlignment.end,
-                      //   children: [
-                      //     Container(
-                      //       color: colorGrey50,
-                      //       width: MediaQuery.of(context).size.width,
-                      //       height: 1,
-                      //     ),
-                      //     Container(
-                      //       height: size.height / 15,
-                      //       child: Row(
-                      //         mainAxisAlignment: MainAxisAlignment.center,
-                      //         children: [
-                      //           InkWell(
-                      //               onTap: () {},
-                      //               child: const Icon(
-                      //                 Icons.chevron_left,
-                      //                 color: colorPrimaryOrange,
-                      //               )),
-                      //           Text('1'),
-                      //           Text('/'),
-                      //           Text('200'),
-                      //           InkWell(
-                      //               onTap: () {},
-                      //               child: const Icon(
-                      //                 Icons.chevron_right,
-                      //                 color: colorPrimaryOrange,
-                      //               ))
-                      //         ],
-                      //       ),
-                      //     )
-                      //   ],
-                      // )
                     ]),
                   ),
               ],

@@ -1,8 +1,10 @@
-import 'package:base_bloc/theme/app_styles.dart';
-import 'package:base_bloc/theme/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../theme/app_styles.dart';
+import '../theme/colors.dart';
 
 class AppTextField extends StatefulWidget {
   final TextEditingController? controller;
@@ -30,34 +32,33 @@ class AppTextField extends StatefulWidget {
   final bool isShowErrorText;
   final int? maxLine;
   final List<TextInputFormatter>? inputFormatters;
-
+  final String? obscuringCharacter;
   const AppTextField(
       {this.controller,
-      this.hintText,
-      this.errorText,
-      this.obscureText,
-      this.keyboardType,
-      this.textInputAction,
-      this.maxLength,
-      this.prefixIcon,
-      this.suffixIcon,
-      this.autofocus,
-      this.readOnly,
-      this.onEditingComplete,
-      this.onChanged,
-      this.onTap,
-      Key? key,
-      this.textStyle,
-      this.hintStyle,
-      this.decoration,
-      this.focusNode,
-      this.onSubmitted,
-      this.maxLengthEnforcement,
-      this.enable,
-      this.height,
-      this.isShowErrorText = true,
-      this.maxLine,
-      this.inputFormatters, required TextAlign textAlign})
+        this.hintText,
+        this.errorText,
+        this.obscureText,
+        this.keyboardType,
+        this.textInputAction,
+        this.maxLength,
+        this.prefixIcon,
+        this.suffixIcon,
+        this.autofocus,
+        this.readOnly,
+        this.onEditingComplete,
+        this.onChanged,
+        this.onTap,
+        Key? key,
+        this.textStyle,
+        this.hintStyle,
+        this.decoration,
+        this.focusNode,
+        this.onSubmitted,
+        this.maxLengthEnforcement,
+        this.enable,
+        this.height,
+        this.isShowErrorText = true,
+        this.maxLine, this.inputFormatters, this.obscuringCharacter})
       : super(key: key);
 
   @override
@@ -77,7 +78,7 @@ class _AppTextFieldState extends State<AppTextField> {
   @override
   Widget build(BuildContext context) {
     return Wrap(
-      runSpacing: 5,
+      runSpacing: 1,
       children: [
         TextField(
           inputFormatters: widget.inputFormatters,
@@ -88,6 +89,7 @@ class _AppTextFieldState extends State<AppTextField> {
           controller: widget.controller,
           style: widget.textStyle?.copyWith(height: widget.height) ??
               styleTextField.copyWith(height: widget.height),
+          obscuringCharacter: widget.obscuringCharacter ?? '*',
           obscureText: widget.obscureText ?? false,
           keyboardType: widget.keyboardType,
           textInputAction: widget.textInputAction,
@@ -102,26 +104,24 @@ class _AppTextFieldState extends State<AppTextField> {
             if (widget.onSubmitted != null) widget.onSubmitted!(text);
           },
           onTap: widget.onTap,
-          decoration: widget.decoration ??
-              decorTextField.copyWith(
-                  focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: colorGrey20, width: 1),
-                  ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: colorGrey20, width: 1),
-                  ),
-                  /*contentPadding: EdgeInsets.only(),*/
-                  hintText: widget.hintText,
-                  prefixIcon: widget.prefixIcon,
-                  suffixIcon: widget.suffixIcon,
-                  hintStyle: widget.hintStyle),
+          decoration: widget.decoration ?? decorTextField.copyWith(
+              focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: colorGrey20, width: 1),
+              ),
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: colorGrey20, width: 1),
+              ),
+              hintText: widget.hintText,
+              prefixIcon: widget.prefixIcon,
+              suffixIcon: widget.suffixIcon,
+              hintStyle: widget.hintStyle),
         ),
         Text(
             widget.isShowErrorText
                 ? (widget.errorText != null &&
-                        widget.errorText.toString().isNotEmpty)
-                    ? widget.errorText!
-                    : ' '
+                widget.errorText.toString().isNotEmpty)
+                ? widget.errorText!
+                : ' '
                 : '',
             style: typoNormalTextRegular.copyWith(
                 color: colorSemanticRed100, fontSize: 11.sp))
