@@ -7,11 +7,13 @@ import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../base/base_state.dart';
 import '../../gen/assets.gen.dart';
 import 'login_cubit.dart';
+import 'login_state.dart';
 
 class LoginPage extends StatefulWidget {
   final int index;
@@ -80,30 +82,41 @@ class _LoginPageState extends BasePopState<LoginPage> {
           ),
           Stack(
             children: [
-              AppTextField(
-                controller: phoneController,
-                // onChanged: (text) => _bloc.checkValid(),
-                autofocus: true,
-                keyboardType: TextInputType.phone,
-                textStyle: typoExtraSmallTextRegular,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(left: 50.w, bottom: 6.h),
-                  hintStyle:
-                      typoSuperSmallTextBold.copyWith(color: colorText40),
-                  hintText: AppLocalizations.of(context)!.yourPhone,
-                  border: UnderlineInputBorder(borderSide: borderSize()),
-                  focusedBorder: UnderlineInputBorder(borderSide: borderSize()),
-                  focusedErrorBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: colorSemanticRed100)),
-                  errorBorder: UnderlineInputBorder(borderSide: borderSize()),
-                  enabledBorder: UnderlineInputBorder(borderSide: borderSize()),
-                  enabled: true,
-                  isDense: true,
-                  prefixIconConstraints: BoxConstraints(maxHeight: 15.h),
-                ),
-                hintStyle: typoExtraSmallTextBold.copyWith(color: colorText40),
-                hintText: AppLocalizations.of(context)!.yourPhone,
-              ),
+              BlocBuilder<LoginCubit, LoginState>(
+                  bloc: _bloc,
+                  builder: (c, state) => AppTextField(
+                        controller: phoneController,
+                        errorText: state.errorPhone,
+                        onChanged: (text) => _bloc.checkValid(text, context),
+                        autofocus: true,
+                        keyboardType: TextInputType.phone,
+                        textStyle: typoExtraSmallTextRegular,
+                        decoration: InputDecoration(
+                          contentPadding:
+                              EdgeInsets.only(left: 50.w, bottom: 6.h),
+                          hintStyle: typoSuperSmallTextBold.copyWith(
+                              color: colorText40),
+                          hintText: AppLocalizations.of(context)!.yourPhone,
+                          border:
+                              UnderlineInputBorder(borderSide: borderSize()),
+                          focusedBorder:
+                              UnderlineInputBorder(borderSide: borderSize()),
+                          focusedErrorBorder: const UnderlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: colorSemanticRed100)),
+                          errorBorder:
+                              UnderlineInputBorder(borderSide: borderSize()),
+                          enabledBorder:
+                              UnderlineInputBorder(borderSide: borderSize()),
+                          enabled: true,
+                          isDense: true,
+                          prefixIconConstraints:
+                              BoxConstraints(maxHeight: 15.h),
+                        ),
+                        hintStyle:
+                            typoExtraSmallTextBold.copyWith(color: colorText40),
+                        hintText: AppLocalizations.of(context)!.yourPhone,
+                      )),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -121,9 +134,8 @@ class _LoginPageState extends BasePopState<LoginPage> {
           ),
           Center(
             child: AppButton(
-              onPress: () {
-                // _bloc.onClickContinue();
-              },
+              onPress: () =>
+                  _bloc.onClickContinue(phoneController.text, context),
               title: AppLocalizations.of(context)!.continueButton,
               textStyle: typoLargeTextBold.copyWith(
                   fontSize: 13.sp, color: colorWhite),

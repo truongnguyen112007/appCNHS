@@ -41,6 +41,7 @@ class AddRouters {
   static String comment = "/comment";
   static String contact = "/contact";
   static String search = "/search";
+  static String otp ='/otp';
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc:
@@ -52,6 +53,8 @@ class AddRouters {
     router.define(comment, handler: routeComment);
     router.define(contact, handler: routeContact);
     router.define(search, handler: routeSearch);
+    router.define(otp, handler: routeOtp);
+
   }
 }
 class CriminalLawRouters {

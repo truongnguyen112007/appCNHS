@@ -1,5 +1,6 @@
 import 'package:base_bloc/data/model/feed_model.dart';
 import 'package:base_bloc/modules/comment/comment_page.dart';
+import 'package:base_bloc/modules/otp/otp_page.dart';
 import 'package:base_bloc/modules/search/filter/filter_page.dart';
 import 'package:base_bloc/modules/tab_add/tab_add_page.dart';
 import 'package:base_bloc/modules/tab_home/tab_home_page.dart';
@@ -80,7 +81,9 @@ var routeFilter = Handler(
 
 var routeLogin = Handler(
     handlerFunc: (c, p) => LoginPage(index: c!.settings!.arguments as int));
-
+var routeOtp = Handler(
+    handlerFunc: (c, p) =>
+        OtpPage(phoneNumber: c!.settings!.arguments as String));
 var routeComment = Handler(
     handlerFunc: (c, p) => CommentPage(index: c!.settings!.arguments as int));
 var routeContact = Handler(

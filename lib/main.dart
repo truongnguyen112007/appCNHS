@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:base_bloc/router/application.dart';
 import 'package:base_bloc/router/router.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +19,7 @@ void main() async {
 Future<void> configApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
+  // await Firebase.initializeApp();
   configOrientation();
   await GetStorage.init();
   // await dotenv.load(fileName: '.env.dev');
@@ -54,22 +56,22 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
         builder: (c, w) => MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          title: 'Fluro',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            textTheme: GoogleFonts.mulishTextTheme(),
-            backgroundColor: Colors.white,
-            primaryColor: Colors.white,
-            bottomAppBarColor: Colors.yellow,
-            dividerColor: Colors.transparent,
-            // canvasColor: Colors.transparent,
-            shadowColor: Colors.transparent,
-            appBarTheme: const AppBarTheme(elevation: 0),
-          ),
-          onGenerateRoute: Application.router.generator,
-        ));
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              title: 'Fluro',
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                textTheme: GoogleFonts.mulishTextTheme(),
+                backgroundColor: Colors.white,
+                primaryColor: Colors.white,
+                bottomAppBarColor: Colors.yellow,
+                dividerColor: Colors.transparent,
+                // canvasColor: Colors.transparent,
+                shadowColor: Colors.transparent,
+                appBarTheme: const AppBarTheme(elevation: 0),
+              ),
+              onGenerateRoute: Application.router.generator,
+            ));
   }
 }
 
@@ -81,4 +83,3 @@ class MyHttpOverrides extends HttpOverrides {
           (X509Certificate cert, String host, int port) => true;
   }
 }
-
