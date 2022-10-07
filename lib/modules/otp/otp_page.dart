@@ -120,7 +120,7 @@ class _OtpPageState extends State<OtpPage> {
               )),
           Center(
             child: AppButton(
-              onPress: () {},
+              onPress: () => _bloc.continueOnclick(otpController.text),
               title: AppLocalizations.of(context)!.continueButton,
               textStyle: typoLargeTextBold.copyWith(
                   fontSize: 13.sp, color: colorWhite),

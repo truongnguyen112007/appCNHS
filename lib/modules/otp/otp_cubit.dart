@@ -11,10 +11,30 @@ class OtpCubit extends Cubit<OtpState> {
   final END_TIME = 90;
 
   OtpCubit(this.phoneNumber) : super(OtpState()) {
-    verifyPhone();
+    getOtp();
   }
 
-  void verifyPhone() async {
+  void continueOnclick(String otp) async {
+    await FirebaseAuth.instance
+        .signInWithCredential(PhoneAuthProvider.credential(
+            verificationId: verificationId, smsCode: otp))
+        .then((value) async {
+          logE("TAG VALUE: ${value.user?.uid}");
+        })
+        .whenComplete(() {})
+        .onError((error, stackTrace) {
+          toast('OTP HET HAN, VUI LONG THU LAI');
+          logE("TAG EXE: ${error}");
+          /*      if (error.toString().contains(MessageKey.otp_invalid) ||
+              error.toString().contains(MessageKey.verification_id_invalid)) {
+            toast(LocaleKeys.wrong_otp.tr);
+          } else if (error.toString().contains(MessageKey.otp_expired)) {
+            toast(LocaleKeys.otp_het_han.tr);
+          }*/
+        });
+  }
+
+  void getOtp() async {
     try {
       await FirebaseAuth.instance.verifyPhoneNumber(
           phoneNumber: phoneNumber,
@@ -23,7 +43,7 @@ class OtpCubit extends Cubit<OtpState> {
             toast('OTP KO HOP LE VUI LONG THU LAI');
           },
           codeSent: (String verificationId, int? resendToken) =>
-              verificationId = verificationId,
+              this.verificationId = verificationId,
           codeAutoRetrievalTimeout: (String verification) =>
               verificationId = verification,
           timeout: Duration(seconds: END_TIME - 2));

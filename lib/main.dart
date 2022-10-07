@@ -19,7 +19,7 @@ void main() async {
 Future<void> configApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
   configOrientation();
   await GetStorage.init();
   // await dotenv.load(fileName: '.env.dev');
