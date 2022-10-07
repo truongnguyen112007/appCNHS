@@ -146,6 +146,12 @@ abstract class AppLocalizations {
   String get email;
   String get continueButton;
 
+  String get enterPhoneNumber;
+  String get phoneNumberNotTrue;
+  String get sentOTP;
+  String get codeSentTo;
+  String get checkMessage;
+
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

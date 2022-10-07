@@ -135,7 +135,7 @@ class BaseService {
       };
       if (isContentType) headers['Content-Type'] = 'application/json';
       final response = await Dio().post(url,
-          data: json.encode(body), options: Options(headers: headers));
+          data:jsonEncode(body), options: Options(headers: headers));
       Logger().d(response.data);
       if (response.data != null) {
         var result = response.data;

@@ -17,12 +17,10 @@ class NewDetailCubit extends Cubit<NewDetailState>{
   void getPostDetail() async {
     var response = await BaseRepository().getPostDetailById(postId);
     if (response.error == null && response.data != null) {
-      toast(response.data['message']);
       try{
         var model = PostDetailModel.fromJson(response.data);
         emit(state.copyOf(postDetailModel: model,status: FeedStatus.success));
       }catch(ex){
-        logE("TAG EX: $ex");
         emit(state.copyOf(status: FeedStatus.failure));
       }
     }else {

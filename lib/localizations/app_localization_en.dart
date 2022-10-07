@@ -145,4 +145,19 @@ class AppLocalizationEn extends AppLocalizations {
   @override
   String get continueButton => "Tiếp tục";
 
+  @override
+  String get enterPhoneNumber => "Vui lòng nhập SĐT";
+
+  @override
+  String get phoneNumberNotTrue => "Số điện thoại không hợp lệ";
+
+  @override
+  String get sentOTP => 'Đã gửi mã OTP';
+
+  @override
+  String get checkMessage => ", bạn vui lòng nhập\nkiểm tra tin nhắn và nhập vào ô bên dưới";
+
+  @override
+  String get codeSentTo => "Mã được gửi tới số";
+
 }

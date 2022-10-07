@@ -3,7 +3,7 @@ class StorageKey {
 
   static const String CurrentToken = 'CurrentToken';
   static const String filterModel = 'filterModel';
-
+  static const String userModel = 'userModel';
 }
 
 class ConstantKey {
@@ -88,13 +88,14 @@ class ApiKey {
   static const Not_Paid = 'NOT PAID';
   static const Paid = 'PAID';
   static const EXAMINED = 'EXAMINED';
+  static const uid='uid';
 }
 
 class BottomnavigationConstant {
   static const TAB_HOME = 0;
   static const TAB_CRIMINALLAWPAGE = 1;
   static const TAB_CRIMINALPROCEEDINGSPAGE = 2;
-  static const TAB_INTRUCTIONPAGE =3;
+  static const TAB_INTRUCTIONPAGE = 3;
   static const TAB_ADD = 4;
 }
 
@@ -109,9 +110,12 @@ class Radiobutton {
   static const DIRECTIVE = 1;
   static const DOCUMENT = 2;
   static const AGREEMENT = 3;
-  static const PACT = 4 ;
-  static const GUIDE = 5 ;
+  static const PACT = 4;
+
+  static const GUIDE = 5;
+
   static const DECREE = 6;
-  static const RESOLUSION = 7 ;
-  static const REGULATIONS = 8 ;
+  static const RESOLUSION = 7;
+
+  static const REGULATIONS = 8;
 }

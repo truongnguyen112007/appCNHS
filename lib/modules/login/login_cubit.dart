@@ -1,7 +1,7 @@
+import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/login/login_state.dart';
 import 'package:base_bloc/router/router.dart';
 import 'package:base_bloc/router/router_utils.dart';
-import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,9 +25,9 @@ class LoginCubit extends Cubit<LoginState> {
     bool isValid = false;
     if (phone.isEmpty) {
       isValid = false;
-      emit(LoginState('Vui long nhap sdt'));
+      emit(LoginState(AppLocalizations.of(context)!.enterPhoneNumber));
     } else if (!Utils.validateMobile(phone)) {
-      emit(LoginState('Login falseSdt ko hop le'));
+      emit(LoginState(AppLocalizations.of(context)!.phoneNumberNotTrue));
       isValid = false;
     } else {
       isValid = true;

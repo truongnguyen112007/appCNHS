@@ -2,6 +2,7 @@ import 'package:base_bloc/components/app_button.dart';
 import 'package:base_bloc/components/app_scalford.dart';
 import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/components/app_text_field.dart';
+import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
@@ -37,18 +38,18 @@ class _LoginPageState extends BasePopState<LoginPage> {
   @override
   Widget buildWidget(BuildContext context) {
     return AppScaffold(
-      padding: EdgeInsets.only(left: 12.w, top: 20.h),
+      padding: EdgeInsets.only(left: contentPadding, top: 20.h,right: contentPadding),
       appbar: AppBar(
         backgroundColor: colorPrimaryOrange,
         centerTitle: true,
-        leadingWidth: 25,
+        leadingWidth: 30,
         leading: Container(
           padding: EdgeInsets.only(left: 5.w),
           child: InkWell(
               onTap: () {
                 Navigator.pop(context);
               },
-              child: SvgPicture.asset(Assets.svg.back)),
+              child: SvgPicture.asset(Assets.svg.back,)),
         ),
         title: AppText(
           AppLocalizations.of(context)!.textButtonLogin,
@@ -80,49 +81,45 @@ class _LoginPageState extends BasePopState<LoginPage> {
               ),
             ],
           ),
+          SizedBox(
+            height: 10.h,
+          ),
           Stack(
             children: [
               BlocBuilder<LoginCubit, LoginState>(
-                  bloc: _bloc,
-                  builder: (c, state) => AppTextField(
-                        controller: phoneController,
-                        errorText: state.errorPhone,
-                        onChanged: (text) => _bloc.checkValid(text, context),
-                        autofocus: true,
-                        keyboardType: TextInputType.phone,
-                        textStyle: typoExtraSmallTextRegular,
-                        decoration: InputDecoration(
-                          contentPadding:
-                              EdgeInsets.only(left: 50.w, bottom: 6.h),
-                          hintStyle: typoSuperSmallTextBold.copyWith(
-                              color: colorText40),
-                          hintText: AppLocalizations.of(context)!.yourPhone,
-                          border:
-                              UnderlineInputBorder(borderSide: borderSize()),
-                          focusedBorder:
-                              UnderlineInputBorder(borderSide: borderSize()),
-                          focusedErrorBorder: const UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: colorSemanticRed100)),
-                          errorBorder:
-                              UnderlineInputBorder(borderSide: borderSize()),
-                          enabledBorder:
-                              UnderlineInputBorder(borderSide: borderSize()),
-                          enabled: true,
-                          isDense: true,
-                          prefixIconConstraints:
-                              BoxConstraints(maxHeight: 15.h),
-                        ),
-                        hintStyle:
-                            typoExtraSmallTextBold.copyWith(color: colorText40),
-                        hintText: AppLocalizations.of(context)!.yourPhone,
-                      )),
+                bloc: _bloc,
+                builder: (c, state) => AppTextField(
+                  controller: phoneController,
+                  errorText: state.errorPhone,
+                  onChanged: (text) => _bloc.checkValid(text, context),
+                  autofocus: true,
+                  keyboardType: TextInputType.phone,
+                  textStyle: typoExtraSmallTextRegular,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(left: 60.w, bottom: 6.h),
+                    hintStyle:
+                        typoSuperSmallTextRegular.copyWith(color: colorText40),
+                    hintText: AppLocalizations.of(context)!.yourPhone,
+                    border: UnderlineInputBorder(borderSide: borderSize()),
+                    focusedBorder:
+                        UnderlineInputBorder(borderSide: borderSize()),
+                    focusedErrorBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(color: colorSemanticRed100)),
+                    errorBorder: UnderlineInputBorder(borderSide: borderSize()),
+                    enabledBorder:
+                        UnderlineInputBorder(borderSide: borderSize()),
+                    enabled: true,
+                    isDense: true,
+                    prefixIconConstraints: BoxConstraints(maxHeight: 15.h),
+                  ),
+                ),
+              ),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Image.asset(Assets.png.logophone.path),
                   SizedBox(
-                    width: 4.w,
+                    width: 8.w,
                   ),
                   AppText(
                     "+84",
@@ -132,6 +129,7 @@ class _LoginPageState extends BasePopState<LoginPage> {
               ),
             ],
           ),
+          SizedBox(height: 10.h,),
           Center(
             child: AppButton(
               onPress: () =>
@@ -139,8 +137,8 @@ class _LoginPageState extends BasePopState<LoginPage> {
               title: AppLocalizations.of(context)!.continueButton,
               textStyle: typoLargeTextBold.copyWith(
                   fontSize: 13.sp, color: colorWhite),
-              borderRadius: 30,
-              width: MediaQuery.of(context).size.width / 1.5,
+              borderRadius: 20,
+              width: MediaQuery.of(context).size.width / 1,
               backgroundColor: colorPrimaryOrange,
             ),
           ),

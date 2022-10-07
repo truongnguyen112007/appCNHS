@@ -1,3 +1,4 @@
+import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/repository/api_result.dart';
 import 'package:base_bloc/data/repository/base_service.dart';
 
@@ -26,7 +27,7 @@ class BaseRepository extends BaseService {
   Future<ApiResult> getSearch(
           {required int catId,
           required String content,
-           int? typeId,
+          int? typeId,
           required int page}) async =>
       typeId != null
           ? await GET(
@@ -34,5 +35,8 @@ class BaseRepository extends BaseService {
           : await GET(
               'post/search?catId=$catId&content=$content&page=$page&limit=20');
 
-  Future<ApiResult> getFilter()  async => await GET('type');
+  Future<ApiResult> getFilter() async => await GET('type');
+
+  Future<ApiResult> login(String uId) async =>
+      await POST('user/login', {ApiKey.uid: uId},isContentType: true);
 }
