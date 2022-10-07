@@ -134,7 +134,7 @@ class BaseService {
         'lang': globals.lang
       };
       if (isContentType) headers['Content-Type'] = 'application/json';
-      final response = await Dio().post(url,
+      final response = await Dio().post(baseUrl + url,
           data:jsonEncode(body), options: Options(headers: headers));
       Logger().d(response.data);
       if (response.data != null) {
@@ -176,7 +176,7 @@ class BaseService {
     print('[PUT] ' + baseUrl + url);
     print('[PARAMS] ' + body.toString());
     try {
-      final response = await Dio().put(url,
+      final response = await Dio().put(baseUrl + url,
           data: body,
           options: Options(
             headers: {
@@ -223,7 +223,7 @@ class BaseService {
       print('[DELETE] ${baseUrl}$url');
     }
     try {
-      final response = await Dio().delete(url,
+      final response = await Dio().delete(baseUrl + url,
           options: Options(headers: {
             'Authorization': 'Bearer ${globals.accessToken}',
             'lang': globals.lang
