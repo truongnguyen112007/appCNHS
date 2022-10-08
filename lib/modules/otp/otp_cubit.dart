@@ -1,8 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
-
+import 'package:base_bloc/data/model/user_model.dart';
 import 'package:base_bloc/modules/otp/otp_state.dart';
+import 'package:base_bloc/modules/update_information/update_information_page.dart';
+import 'package:base_bloc/router/router_utils.dart';
 import 'package:base_bloc/utils/log_utils.dart';
+import 'package:base_bloc/utils/navigator_utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
@@ -21,7 +24,7 @@ class OtpCubit extends Cubit<OtpState> {
     startTimer();
   }
 
-  void continueOnclick(String otp) async {
+  void continueOnclick(String otp, BuildContext context) async {
     await FirebaseAuth.instance
         .signInWithCredential(PhoneAuthProvider.credential(
             verificationId: verificationId, smsCode: otp))
@@ -31,15 +34,11 @@ class OtpCubit extends Cubit<OtpState> {
         })
         .whenComplete(() {})
         .onError((error, stackTrace) {
-          toast('OTP HẾT HẠN, VUI LÒNG THỬ LẠI');
+          emit(OtpState(errorOTP: 'Lỗi OTP'));
+          // toast('OTP HẾT HẠN, VUI LÒNG THỬ LẠI');
           logE("TAG EXE: ${error}");
-          /*      if (error.toString().contains(MessageKey.otp_invalid) ||
-              error.toString().contains(MessageKey.verification_id_invalid)) {
-            toast(LocaleKeys.wrong_otp.tr);
-          } else if (error.toString().contains(MessageKey.otp_expired)) {
-            toast(LocaleKeys.otp_het_han.tr);
-          }*/
         });
+    handleLogin('');
   }
 
   void resentOnclick() {
@@ -53,7 +52,7 @@ class OtpCubit extends Cubit<OtpState> {
           phoneNumber: phoneNumber,
           verificationCompleted: (PhoneAuthCredential credential) async {},
           verificationFailed: (FirebaseAuthException e) {
-            toast('OTP KHÔNG HỢP LỆ, VUI LÒNG THỬ LẠI');
+            toast('OTP không hợp lệ, vui lòng thử lại');
           },
           codeSent: (String verificationId, int? resendToken){
             this.verificationId = verificationId;
@@ -69,26 +68,11 @@ class OtpCubit extends Cubit<OtpState> {
   }
 
   void handleLogin(String uid) async{
-/*    var headers = {
-      'Content-Type': 'application/json'
-    };
-    var request = http.Request('POST', Uri.parse('http://103.226.249.207:3333/user/login'));
-    request.body = json.encode({
-      "uid": "zYzsqUBnmzdDTkdC56VlE7JPA4G3"
-    });
-    request.headers.addAll(headers);
-
-    http.StreamedResponse response = await request.send();
-
-    if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
-    }
-    else {
-      print(response.reasonPhrase);
-    }*/
-
     var response = await repository.login(uid);
+    var userModel = UserModel.fromJson(response.data);
     logE("TAG RESPONSE: ${response.data}");
+    if (userModel.userData == null ) {}
+    else {}
   }
   String getTimeDisplay() => startCountDown >= 60
       ? '01:${(startCountDown - 60).toString().length == 1 ? '0${startCountDown - 60}' : startCountDown - 60}'

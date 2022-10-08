@@ -160,4 +160,7 @@ class AppLocalizationEn extends AppLocalizations {
   @override
   String get codeSentTo => "Mã được gửi tới số";
 
+  @override
+  String get sentAgain => 'Gửi lại';
+
 }

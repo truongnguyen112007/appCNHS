@@ -16,6 +16,7 @@ import '../modules/new_details/new_detail.dart';
 import '../modules/search/search_page.dart';
 import '../modules/splash/splash_page.dart';
 import '../modules/tab_criminal_law/tab_criminal_law_page.dart';
+import '../modules/update_information/update_information_page.dart';
 import '../utils/log_utils.dart';
 
 var routeSplash = Handler(handlerFunc: (c, p) => const SplashPage());
@@ -84,6 +85,7 @@ var routeLogin = Handler(
 var routeOtp = Handler(
     handlerFunc: (c, p) =>
         OtpPage(phoneNumber: c!.settings!.arguments as String));
+var routeUpdate = Handler(handlerFunc: (c,p) => const UpdateInformation());
 var routeComment = Handler(
     handlerFunc: (c, p) => CommentPage(index: c!.settings!.arguments as int));
 var routeContact = Handler(

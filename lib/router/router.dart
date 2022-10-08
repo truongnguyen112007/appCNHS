@@ -42,6 +42,7 @@ class AddRouters {
   static String contact = "/contact";
   static String search = "/search";
   static String otp ='/otp';
+  static String update = '/update';
 
   static void configureRoutes(FluroRouter router) {
     router.notFoundHandler = Handler(handlerFunc:
@@ -54,6 +55,8 @@ class AddRouters {
     router.define(contact, handler: routeContact);
     router.define(search, handler: routeSearch);
     router.define(otp, handler: routeOtp);
+    router.define(update, handler: routeUpdate);
+
 
   }
 }

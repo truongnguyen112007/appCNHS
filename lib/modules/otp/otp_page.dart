@@ -92,52 +92,51 @@ class _OtpPageState extends State<OtpPage> {
             height: 10,
           ),
           BlocBuilder<OtpCubit, OtpState>(
-              bloc: _bloc,
-              builder: (c, state) => AppTextField(
-                    controller: otpController,
-                    autofocus: true,
-                    keyboardType: TextInputType.phone,
-                    textStyle: typoExtraSmallTextRegular,
-                    decoration: InputDecoration(
-                      suffixIcon: BlocBuilder<OtpCubit, OtpState>(
-                        builder: (c, state) => state.timeCountdown == 0
-                            ? InkWell(
-                                onTap: () {
-                                  _bloc.resentOnclick();
-                                },
-                                child: AppText('GUI LAI'),
-                              )
-                            : AppText(
-                                state.timeDisplay,
-                                style: typoSuperSmallTextRegular.copyWith(
-                                    color: colorPrimaryOrange),
-                              ),
-                        bloc: _bloc,
-                      ),
-                      contentPadding: EdgeInsets.only(left: 0.w, bottom: 6.h),
-                      hintStyle:
-                          typoSuperSmallTextBold.copyWith(color: colorText40),
-                      hintText: 'Nhập OTP',
-                      border: UnderlineInputBorder(borderSide: borderSize()),
-                      focusedBorder:
-                          UnderlineInputBorder(borderSide: borderSize()),
-                      focusedErrorBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: colorSemanticRed100)),
-                      errorBorder:
-                          UnderlineInputBorder(borderSide: borderSize()),
-                      enabledBorder:
-                          UnderlineInputBorder(borderSide: borderSize()),
-                      enabled: true,
-                      isDense: true,
-                      prefixIconConstraints: BoxConstraints(maxHeight: 15.h),
-                    ),
-                    hintStyle:
-                        typoExtraSmallTextBold.copyWith(color: colorText40),
-                    hintText: AppLocalizations.of(context)!.yourPhone,
-                  )),
+            bloc: _bloc,
+            builder: (c, state) => AppTextField(
+              controller: otpController,
+              onChanged: (text) => _bloc.continueOnclick(text,context),
+              autofocus: true,
+              keyboardType: TextInputType.phone,
+              textStyle: typoExtraSmallTextRegular,
+              decoration: InputDecoration(
+                suffixIcon: BlocBuilder<OtpCubit, OtpState>(
+                  builder: (c, state) => state.timeCountdown == 0
+                      ? InkWell(
+                          onTap: () {
+                            _bloc.resentOnclick();
+                          },
+                          child: AppText(
+                            AppLocalizations.of(context)!.sentAgain,
+                            style: typoSuperSmallTextBold.copyWith(
+                                color: colorBlue40),
+                          ),
+                        )
+                      : AppText(
+                          state.timeDisplay,
+                          style: typoSuperSmallTextRegular.copyWith(
+                              color: colorPrimaryOrange),
+                        ),
+                  bloc: _bloc,
+                ),
+                contentPadding: EdgeInsets.only(left: 0.w, bottom: 6.h),
+                hintStyle: typoSuperSmallTextBold.copyWith(color: colorText40),
+                hintText: 'Nhập OTP',
+                border: UnderlineInputBorder(borderSide: borderSize()),
+                focusedBorder: UnderlineInputBorder(borderSide: borderSize()),
+                focusedErrorBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: colorSemanticRed100)),
+                errorBorder: UnderlineInputBorder(borderSide: borderSize()),
+                enabledBorder: UnderlineInputBorder(borderSide: borderSize()),
+                enabled: true,
+                isDense: true,
+                prefixIconConstraints: BoxConstraints(maxHeight: 15.h),
+              ),
+            ),
+          ),
           Center(
             child: AppButton(
-              onPress: () => _bloc.continueOnclick(otpController.text),
+              onPress: () => _bloc.continueOnclick(otpController.text,context),
               title: AppLocalizations.of(context)!.continueButton,
               textStyle: typoLargeTextBold.copyWith(
                   fontSize: 13.sp, color: colorWhite),
@@ -150,5 +149,6 @@ class _OtpPageState extends State<OtpPage> {
       ),
     );
   }
+
   BorderSide borderSize() => const BorderSide(color: colorGrey80);
 }
