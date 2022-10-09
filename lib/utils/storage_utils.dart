@@ -1,4 +1,5 @@
 import 'package:base_bloc/config/constant.dart';
+import 'package:base_bloc/data/globals.dart' as globals;
 import 'package:base_bloc/data/model/filter_model.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -16,13 +17,18 @@ class StorageUtils {
     return null;
   }
 
-  static Future<void> saveUser(UserModel model) async =>
-      await GetStorage().write(StorageKey.userModel, model.toJson());
+  static Future<void> saveUser(UserModel model) async{
+    globals.accessToken = model.data?.token?.token ?? '';
+    await GetStorage().write(StorageKey.userModel, model.toJson());
+  }
 
   static Future<UserModel?> getUser() async {
     try {
-      var result = GetStorage().read(StorageKey.userModel);
-      return UserModel.fromJson(result);
+      var userModel =
+          UserModel.fromJson(GetStorage().read(StorageKey.userModel));
+      globals.isLogin = (userModel.isMissingUserInfo ?? true) ? false : true;
+      globals.accessToken = userModel.data?.token?.token ?? '';
+      return userModel;
     } catch (ex) {
       return null;
     }

@@ -1,3 +1,5 @@
+import 'package:base_bloc/base/base_state.dart';
+import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/modules/otp/otp_cubit.dart';
 import 'package:base_bloc/modules/otp/otp_state.dart';
@@ -24,7 +26,7 @@ class OtpPage extends StatefulWidget {
   State<OtpPage> createState() => _OtpPageState();
 }
 
-class _OtpPageState extends State<OtpPage> {
+class _OtpPageState extends BasePopState<OtpPage> {
   final otpController = TextEditingController();
   late OtpCubit _bloc;
 
@@ -34,8 +36,10 @@ class _OtpPageState extends State<OtpPage> {
     super.initState();
   }
 
+  BorderSide borderSize() => const BorderSide(color: colorGrey80);
+
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context) {
     return AppScaffold(
       padding: EdgeInsets.only(
           left: contentPadding, top: 20.h, right: contentPadding),
@@ -95,11 +99,12 @@ class _OtpPageState extends State<OtpPage> {
             bloc: _bloc,
             builder: (c, state) => AppTextField(
               controller: otpController,
-              onChanged: (text) => _bloc.continueOnclick(text,context),
+              errorText: state.errorOTP,
               autofocus: true,
               keyboardType: TextInputType.phone,
               textStyle: typoExtraSmallTextRegular,
               decoration: InputDecoration(
+                suffixIconConstraints: BoxConstraints(maxHeight: 24.h),
                 suffixIcon: BlocBuilder<OtpCubit, OtpState>(
                   builder: (c, state) => state.timeCountdown == 0
                       ? InkWell(
@@ -136,7 +141,7 @@ class _OtpPageState extends State<OtpPage> {
           ),
           Center(
             child: AppButton(
-              onPress: () => _bloc.continueOnclick(otpController.text,context),
+              onPress: () => _bloc.continueOnclick(otpController.text, context),
               title: AppLocalizations.of(context)!.continueButton,
               textStyle: typoLargeTextBold.copyWith(
                   fontSize: 13.sp, color: colorWhite),
@@ -150,5 +155,6 @@ class _OtpPageState extends State<OtpPage> {
     );
   }
 
-  BorderSide borderSize() => const BorderSide(color: colorGrey80);
+  @override
+  int get tabIndex => BottomnavigationConstant.TAB_ADD;
 }

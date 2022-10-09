@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:base_bloc/router/application.dart';
 import 'package:base_bloc/router/router.dart';
+import 'package:base_bloc/utils/storage_utils.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ Future<void> configApp() async {
   await Firebase.initializeApp();
   configOrientation();
   await GetStorage.init();
+  await StorageUtils.getUser();
   // await dotenv.load(fileName: '.env.dev');
 }
 

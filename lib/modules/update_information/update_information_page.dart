@@ -1,5 +1,7 @@
+import 'package:base_bloc/base/base_state.dart';
 import 'package:base_bloc/components/app_text.dart';
 import 'package:base_bloc/components/app_text_field.dart';
+import 'package:base_bloc/config/constant.dart';
 import 'package:flutter/cupertino.dart';
 
 class UpdateInformation extends StatefulWidget {
@@ -9,9 +11,9 @@ class UpdateInformation extends StatefulWidget {
   State<UpdateInformation> createState() => _UpdateInformationState();
 }
 
-class _UpdateInformationState extends State<UpdateInformation> {
+class _UpdateInformationState extends BasePopState<UpdateInformation> {
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context) {
     return Container(
       child: Column(
         children: [
@@ -23,4 +25,7 @@ class _UpdateInformationState extends State<UpdateInformation> {
       ),
     );
   }
+
+  @override
+  int get tabIndex => BottomnavigationConstant.TAB_ADD;
 }

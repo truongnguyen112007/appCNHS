@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:base_bloc/data/model/feed_model.dart';
 import 'package:base_bloc/modules/comment/comment_page.dart';
 import 'package:base_bloc/modules/otp/otp_page.dart';
@@ -30,7 +32,7 @@ var routeCriminalLaw1 = Handler(
       RouterUtils.pushCriminalLaw(
           context: c,
           route: CriminalLawRouters.detail,
-          argument: [BottomnavigationConstant.TAB_CRIMINALLAWPAGE,model]);
+          argument: [BottomnavigationConstant.TAB_CRIMINALLAWPAGE, model]);
     },
   ),
 );
@@ -44,7 +46,10 @@ var routerCriminalProceedings = Handler(
       RouterUtils.pushCriminalProceedings(
           context: c,
           route: CriminalLawRouters.detail,
-          argument:  [BottomnavigationConstant.TAB_CRIMINALPROCEEDINGSPAGE,model]);
+          argument: [
+            BottomnavigationConstant.TAB_CRIMINALPROCEEDINGSPAGE,
+            model
+          ]);
     },
   ),
 );
@@ -58,7 +63,7 @@ var routerInstruction = Handler(
       RouterUtils.pushInstruction(
           context: c,
           route: CriminalLawRouters.detail,
-          argument: [BottomnavigationConstant.TAB_INTRUCTIONPAGE,model]);
+          argument: [BottomnavigationConstant.TAB_INTRUCTIONPAGE, model]);
     },
   ),
 );
@@ -85,8 +90,9 @@ var routeLogin = Handler(
 var routeOtp = Handler(
     handlerFunc: (c, p) =>
         OtpPage(phoneNumber: c!.settings!.arguments as String));
-var routeUpdate = Handler(handlerFunc: (c,p) => const UpdateInformation());
+var routeUpdate = Handler(handlerFunc: (c, p) => const UpdateInformation());
 var routeComment = Handler(
     handlerFunc: (c, p) => CommentPage(index: c!.settings!.arguments as int));
 var routeContact = Handler(
     handlerFunc: (c, p) => ContactPage(index: c!.settings!.arguments as int));
+
