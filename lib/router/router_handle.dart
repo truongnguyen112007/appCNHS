@@ -1,4 +1,5 @@
 import 'package:base_bloc/data/model/feed_model.dart';
+import 'package:base_bloc/modules/feedback/feedback_page.dart';
 import 'package:base_bloc/modules/feed_detail/feed_detail_page.dart';
 import 'package:base_bloc/modules/feedback/feedback_page.dart';
 import 'package:base_bloc/modules/otp/otp_page.dart';
@@ -77,6 +78,8 @@ var routeSearch = Handler(
     handlerFunc: (c, p) => SearchPage(index: c!.settings!.arguments as int));
 var routeDetail = Handler(
     handlerFunc: (c, p) => NewDetail(
+var routeDetail = Handler(
+    handlerFunc: (c, p) => NewDetail(
           index: (c!.settings!.arguments as List)[0] as int,
           model: (c.settings!.arguments as List)[1] as FeedModel,
         ));
@@ -93,6 +96,7 @@ var routeLogin = Handler(
 var routeOtp = Handler(
     handlerFunc: (c, p) =>
         OtpPage(phoneNumber: c!.settings!.arguments as String));
+var routeUpdate = Handler(handlerFunc: (c, p) =>  UpdateInformation(phoneNumber: (c!.settings!.arguments as List)[0]as  String, userId: (c!.settings!.arguments as List)[1] as int,));
 var routeUpdate = Handler(
     handlerFunc: (c, p) => UpdateInformation(
           phoneNumber: (c!.settings!.arguments as List)[0] as String,
@@ -102,3 +106,4 @@ var routeComment = Handler(
     handlerFunc: (c, p) => FeedbackPage(index: c!.settings!.arguments as int));
 var routeContact = Handler(
     handlerFunc: (c, p) => ContactPage(index: c!.settings!.arguments as int));
+

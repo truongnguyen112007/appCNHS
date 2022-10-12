@@ -19,27 +19,25 @@ import 'new_detail_cubit.dart';
 class NewDetail extends StatefulWidget {
   final int index;
   final FeedModel? model;
-  final int? postId;
 
-  const NewDetail({Key? key, required this.index, this.model, this.postId})
+  const NewDetail({Key? key, required this.index, this.model})
       : super(key: key);
 
   @override
   State<NewDetail> createState() => _NewDetailState();
 }
 
-class _NewDetailState extends State<NewDetail>
-    with AutomaticKeepAliveClientMixin {
+class _NewDetailState extends BasePopState<NewDetail> {
   late NewDetailCubit _bloc;
 
   @override
   void initState() {
-    _bloc = NewDetailCubit(widget.postId ?? 0);
+    _bloc = NewDetailCubit(widget.model?.id ?? 0);
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context) {
     return BlocBuilder<NewDetailCubit, NewDetailState>(
         bloc: _bloc,
         builder: (c, state) {
@@ -174,5 +172,5 @@ class _NewDetailState extends State<NewDetail>
   }
 
   @override
-  bool get wantKeepAlive => true;
+  int get tabIndex => widget.index;
 }
