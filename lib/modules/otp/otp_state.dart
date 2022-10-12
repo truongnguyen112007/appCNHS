@@ -15,8 +15,8 @@ class OtpState extends Equatable {
       OtpState(
           timeCountdown: timeCountdown ?? this.timeCountdown,
           timeDisplay: timeDisplay ?? this.timeDisplay,
-          errorOTP: errorOTP ?? this.errorOTP);
+          errorOTP: errorOtp ?? errorOTP);
 
   @override
-  List<Object?> get props => [timeDisplay, timeCountdown];
+  List<Object?> get props => [timeDisplay, timeCountdown,errorOTP];
 }

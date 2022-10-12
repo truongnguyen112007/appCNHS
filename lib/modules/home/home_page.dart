@@ -98,23 +98,23 @@ class _HomePageState extends State<HomePage> {
         unselectedLabelStyle: typoSuperSmallText700.copyWith(fontSize: 9.5.sp),
         items: [
           itemBottomNavigationBarWidget(
-              index: BottomnavigationConstant.TAB_HOME,
+              index: BottomNavigationConstant.TAB_HOME,
               label: AppLocalizations.of(context)!.home,
               svg: Assets.svg.home),
           itemBottomNavigationBarWidget(
-              index: BottomnavigationConstant.TAB_CRIMINALLAWPAGE,
+              index: BottomNavigationConstant.TAB_CRIMINALLAWPAGE,
               label: AppLocalizations.of(context)!.rules,
               svg: Assets.svg.vector),
           itemBottomNavigationBarWidget(
-              index: BottomnavigationConstant.TAB_CRIMINALPROCEEDINGSPAGE,
+              index: BottomNavigationConstant.TAB_CRIMINALPROCEEDINGSPAGE,
               label: AppLocalizations.of(context)!.rules2,
               svg: Assets.svg.trialLawSvgrepo),
           itemBottomNavigationBarWidget(
-              index: BottomnavigationConstant.TAB_INTRUCTIONPAGE,
+              index: BottomNavigationConstant.TAB_INTRUCTIONPAGE,
               label: AppLocalizations.of(context)!.help,
               svg: Assets.svg.book),
           itemBottomNavigationBarWidget(
-              index: BottomnavigationConstant.TAB_ADD,
+              index: BottomNavigationConstant.TAB_ADD,
               label: AppLocalizations.of(context)!.add,
               svg: Assets.svg.group)
         ],

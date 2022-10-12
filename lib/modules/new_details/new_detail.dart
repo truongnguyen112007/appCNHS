@@ -67,7 +67,7 @@ class _NewDetailState extends BasePopState<NewDetail> {
                         ),
                       ),
                       title: AppText(
-                        state.postDetailModel!.data![i].name?? '',
+                        state.postDetailModel!.data![i].name ?? '',
                         maxLine: 1,
                         overflow: TextOverflow.ellipsis,
                         style: typoExtraSmallTextRegular.copyWith(
@@ -95,19 +95,77 @@ class _NewDetailState extends BasePopState<NewDetail> {
                                   ''),
                         ),
                       ),
+                      Column(
+                        children: [
+                          Container(
+                            height: 1,
+                            color: colorGrey80,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 8.h, bottom: 8.h),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: () {},
+                                  child: Icon(
+                                    Icons.chevron_left,
+                                    color: colorPrimaryOrange,
+                                    size: 25.sp,
+                                  ),
+                                ),
+                                AppText(
+                                  '1',
+                                  style: typoLargeTextBold.copyWith(
+                                      color: colorPrimaryOrange),
+                                ),
+                                Text(
+                                  '/',
+                                  style: TextStyle(
+                                      color: colorPrimaryOrange,
+                                      fontSize: 25.sp),
+                                ),
+                                AppText(
+                                  '3',
+                                  style: typoLargeTextBold.copyWith(
+                                      color: colorPrimaryOrange),
+                                ),
+                                InkWell(
+                                  onTap: () {},
+                                  child: Icon(
+                                    Icons.chevron_right,
+                                    color: colorPrimaryOrange,
+                                    size: 25.sp,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
                     ]),
                   ),
               ],
             );
-          } else if(state.status == FeedStatus.failure){
+          } else if (state.status == FeedStatus.failure) {
             return AppScaffold(
-              appbar: AppBar(
-                automaticallyImplyLeading: true,
-                backgroundColor: colorPrimaryOrange,
-              ),
+                appbar: AppBar(
+                  centerTitle: true,
+                  leadingWidth: 35,
+                  leading: Padding(
+                    padding: EdgeInsets.only(left: 12.w),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: SvgPicture.asset(Assets.svg.back),
+                    ),
+                  ),
+                  backgroundColor: colorPrimaryOrange,
+                ),
                 body: Center(
-                  child: AppText(AppLocalizations.of(context)!.textTabOfSearch)
-                ));
+                    child: AppText(
+                        AppLocalizations.of(context)!.textTabOfSearch)));
           }
           return const SizedBox();
         });

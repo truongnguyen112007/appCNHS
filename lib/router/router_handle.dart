@@ -1,7 +1,5 @@
-import 'dart:ffi';
-
 import 'package:base_bloc/data/model/feed_model.dart';
-import 'package:base_bloc/modules/comment/comment_page.dart';
+import 'package:base_bloc/modules/feedback/feedback_page.dart';
 import 'package:base_bloc/modules/otp/otp_page.dart';
 import 'package:base_bloc/modules/search/filter/filter_page.dart';
 import 'package:base_bloc/modules/tab_add/tab_add_page.dart';
@@ -25,21 +23,21 @@ var routeSplash = Handler(handlerFunc: (c, p) => const SplashPage());
 
 var routeCriminalLaw1 = Handler(
   handlerFunc: (c, p) => TabCriminalLawPage(
-    tab: BottomnavigationConstant.TAB_CRIMINALLAWPAGE,
+    tab: BottomNavigationConstant.TAB_CRIMINALLAWPAGE,
     titleAppbar: AppLocalizations.of(c!)!.titleTabCriminalLaw,
     catId: 1,
     itemCallBack: (model) {
       RouterUtils.pushCriminalLaw(
           context: c,
           route: CriminalLawRouters.detail,
-          argument: [BottomnavigationConstant.TAB_CRIMINALLAWPAGE, model]);
+          argument: [BottomNavigationConstant.TAB_CRIMINALLAWPAGE, model]);
     },
   ),
 );
 
 var routerCriminalProceedings = Handler(
   handlerFunc: (c, p) => TabCriminalLawPage(
-    tab: BottomnavigationConstant.TAB_CRIMINALPROCEEDINGSPAGE,
+    tab: BottomNavigationConstant.TAB_CRIMINALPROCEEDINGSPAGE,
     titleAppbar: AppLocalizations.of(c!)!.titleTabCriminalProceeding,
     catId: 2,
     itemCallBack: (model) {
@@ -47,7 +45,7 @@ var routerCriminalProceedings = Handler(
           context: c,
           route: CriminalLawRouters.detail,
           argument: [
-            BottomnavigationConstant.TAB_CRIMINALPROCEEDINGSPAGE,
+            BottomNavigationConstant.TAB_CRIMINALPROCEEDINGSPAGE,
             model
           ]);
     },
@@ -56,14 +54,14 @@ var routerCriminalProceedings = Handler(
 
 var routerInstruction = Handler(
   handlerFunc: (c, p) => TabCriminalLawPage(
-    tab: BottomnavigationConstant.TAB_INTRUCTIONPAGE,
+    tab: BottomNavigationConstant.TAB_INTRUCTIONPAGE,
     titleAppbar: AppLocalizations.of(c!)!.titleTabInstruction,
     catId: 3,
     itemCallBack: (model) {
       RouterUtils.pushInstruction(
           context: c,
           route: CriminalLawRouters.detail,
-          argument: [BottomnavigationConstant.TAB_INTRUCTIONPAGE, model]);
+          argument: [BottomNavigationConstant.TAB_INTRUCTIONPAGE, model]);
     },
   ),
 );
@@ -90,9 +88,9 @@ var routeLogin = Handler(
 var routeOtp = Handler(
     handlerFunc: (c, p) =>
         OtpPage(phoneNumber: c!.settings!.arguments as String));
-var routeUpdate = Handler(handlerFunc: (c, p) => const UpdateInformation());
+var routeUpdate = Handler(handlerFunc: (c, p) =>  UpdateInformation(phoneNumber: (c!.settings!.arguments as List)[0]as  String, userId: (c!.settings!.arguments as List)[1] as int,));
 var routeComment = Handler(
-    handlerFunc: (c, p) => CommentPage(index: c!.settings!.arguments as int));
+    handlerFunc: (c, p) => FeedbackPage(index: c!.settings!.arguments as int));
 var routeContact = Handler(
     handlerFunc: (c, p) => ContactPage(index: c!.settings!.arguments as int));
 

@@ -94,7 +94,7 @@ class Datum {
         category: List<Category>.from(
             json["category"].map((x) => Category.fromJson(x))),
         tag: List<dynamic>.from(json["tag"].map((x) => x)),
-        type: Type.fromJson(json["type"]),
+        type:json["type"] !=null ? Type.fromJson(json["type"]): null,
       );
 
   Map<String, dynamic> toJson() => {

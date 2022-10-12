@@ -163,4 +163,10 @@ class AppLocalizationEn extends AppLocalizations {
   @override
   String get sentAgain => 'Gửi lại';
 
+  @override
+  String get name => "Họ và tên";
+
+  @override
+  String get completed =>"Hoàn tất";
+
 }

@@ -22,6 +22,7 @@ class MessageKey {
 }
 
 class ApiKey {
+  static const address = 'address';
   static const email = 'email';
   static const token = 'token';
   static const password = 'password';
@@ -54,10 +55,11 @@ class ApiKey {
   static const rtype = 'rtype';
   static const inreview = 'inreview';
   static const approved = 'approved';
+  static const name = 'name';
 
   static const user_id = 'user_id';
   static const service_id = 'service_id';
-  static const comment = 'comment';
+  static const comment = 'feedback';
   static const photos = 'photos';
   static const photo = 'photo';
 
@@ -69,11 +71,10 @@ class ApiKey {
   static const sort = 'sort';
   static const rate_desc = 'rate_desc';
   static const rate_asc = 'rate_asc';
-  static const doctor_id = 'doctor_id';
   static const district = 'district';
   static const old_password = 'old_password';
   static const title = 'title';
-  static const content = 'content';
+  static const main = 'main';
 
   static const newState = 'newState';
   static const paymentTypeIsOffline = 'paymentTypeIsOffline';
@@ -88,10 +89,12 @@ class ApiKey {
   static const Not_Paid = 'NOT PAID';
   static const Paid = 'PAID';
   static const EXAMINED = 'EXAMINED';
-  static const uid='uid';
+  static const uid = 'uid';
+  static const lastName = 'lastName';
+  static const firstName = 'firstName';
 }
 
-class BottomnavigationConstant {
+class BottomNavigationConstant {
   static const TAB_HOME = 0;
   static const TAB_CRIMINALLAWPAGE = 1;
   static const TAB_CRIMINALPROCEEDINGSPAGE = 2;

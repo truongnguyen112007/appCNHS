@@ -1,4 +1,5 @@
 import 'package:base_bloc/components/app_scalford.dart';
+import 'package:base_bloc/modules/feedback/feedback_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,16 +13,25 @@ import '../../localizations/app_localazations.dart';
 import '../../theme/app_styles.dart';
 import '../../theme/colors.dart';
 
-class CommentPage extends StatefulWidget {
+class FeedbackPage extends StatefulWidget {
   final int index;
 
-  const CommentPage({Key? key, required this.index}) : super(key: key);
+  const FeedbackPage({Key? key, required this.index}) : super(key: key);
 
   @override
-  State<CommentPage> createState() => _CommentPageState();
+  State<FeedbackPage> createState() => _FeedbackPageState();
 }
 
-class _CommentPageState extends BasePopState<CommentPage> {
+class _FeedbackPageState extends BasePopState<FeedbackPage> {
+  final textController = TextEditingController();
+  late FeedBackCubit _bloc;
+
+  @override
+  void initState() {
+    _bloc = FeedBackCubit();
+    super.initState();
+  }
+
   @override
   Widget buildWidget(BuildContext context) {
     return AppScaffold(
@@ -51,20 +61,21 @@ class _CommentPageState extends BasePopState<CommentPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-                padding: EdgeInsets.only(top: 33.h, left: 30.w,bottom: 17.h),
+                padding: EdgeInsets.only(top: 33.h, left: 30.w, bottom: 17.h),
                 child: AppText(
                   AppLocalizations.of(context)!.titleComment,
                   style: typoExtraSmallTextBold.copyWith(
                       color: colorPrimaryOrange),
                 )),
-        Padding(
-              padding: EdgeInsets.only(left: 30.w,right: 30.w),
+            Padding(
+              padding: EdgeInsets.only(left: 30.w, right: 30.w),
               child: AppTextField(
-               maxLine: 10,
+                controller: textController,
+                maxLine: 10,
                 hintText: AppLocalizations.of(context)!.contentComment,
               ),
             ),
-               Center(
+            Center(
               child: AppButton(
                 width: 300.w,
                 height: 50.h,
@@ -74,7 +85,9 @@ class _CommentPageState extends BasePopState<CommentPage> {
                   side: const BorderSide(color: colorPrimaryOrange, width: 2),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                onPress: () {},
+                onPress: () {
+                  _bloc.sentOnClick(textController.text);
+                },
               ),
             ),
           ],
