@@ -31,7 +31,7 @@ class HomeRouters {
     router.define(root, handler: routeTabHome);
     router.define(search, handler: routeSearch);
     router.define(filter, handler: routeFilter);
-    router.define(detail, handler: routeDetail);
+    router.define(detail, handler: routeFeedDetail);
   }
 }
 
@@ -72,7 +72,7 @@ class CriminalLawRouters {
     });
     router.define(root, handler: routeCriminalLaw1);
     router.define(search, handler: routeSearch);
-    router.define(detail, handler: routeDetail);
+    router.define(detail, handler: routeFeedDetail);
   }
 }
 
@@ -88,7 +88,7 @@ class CriminalProceedingsRouters {
     });
     router.define(root, handler: routerCriminalProceedings);
     router.define(search, handler: routeSearch);
-    router.define(detail, handler: routeDetail);
+    router.define(detail, handler: routeFeedDetail);
   }
 }
 
@@ -104,7 +104,7 @@ class InstructionRouters {
     });
     router.define(root, handler: routerInstruction);
     router.define(search, handler: routeSearch);
-    router.define(detail, handler: routeDetail);
+    router.define(detail, handler: routeFeedDetail);
   }
 }
 

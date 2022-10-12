@@ -3,11 +3,11 @@ import 'package:equatable/equatable.dart';
 
 enum FeedStatus { initial, success, failure, refresh}
 
-class NewDetailState extends Equatable {
+class NewDetailPageState extends Equatable {
   final FeedStatus status;
   final bool isLoading;
   final PostDetailModel? postDetailModel;
-  const NewDetailState(
+  const NewDetailPageState(
       {this.isLoading = true,
         this.postDetailModel,
         this.status = FeedStatus.initial});
@@ -20,13 +20,13 @@ class NewDetailState extends Equatable {
     return "TAB NEW DETAIL: lDetail readEnd currentPage";
   }
 
-  NewDetailState copyOf(
+  NewDetailPageState copyOf(
       {
         bool? isLoading,
         FeedStatus? status,
       PostDetailModel? postDetailModel}
       ) =>
-      NewDetailState(
+      NewDetailPageState(
           isLoading: isLoading ?? this.isLoading,
           postDetailModel: postDetailModel ?? this.postDetailModel,
           status: status ?? this.status);

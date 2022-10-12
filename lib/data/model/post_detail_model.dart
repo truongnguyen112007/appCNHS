@@ -52,6 +52,8 @@ class Datum {
     this.createdAt,
     this.updatedAt,
     this.typeId,
+    this.nextId,
+    this.prevId,
     this.author,
     this.category,
     this.tag,
@@ -71,6 +73,8 @@ class Datum {
   DateTime? createdAt;
   DateTime? updatedAt;
   int? typeId;
+  int? nextId;
+  int? prevId;
   Author? author;
   List<Category>? category;
   List<dynamic>? tag;
@@ -90,11 +94,13 @@ class Datum {
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         typeId: json["type_id"],
+        nextId: json["next_id"],
+        prevId: json["prev_id"],
         author: Author.fromJson(json["author"]),
         category: List<Category>.from(
             json["category"].map((x) => Category.fromJson(x))),
         tag: List<dynamic>.from(json["tag"].map((x) => x)),
-        type: Type.fromJson(json["type"]),
+        type: json["type"] != null ? Type.fromJson(json["type"]) : null,
       );
 
   Map<String, dynamic> toJson() => {

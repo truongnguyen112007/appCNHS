@@ -4,6 +4,7 @@ import 'package:base_bloc/data/model/feed_model.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/modules/new_details/new_detail_state.dart';
 import 'package:base_bloc/theme/app_styles.dart';
+import 'package:base_bloc/utils/log_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,29 +17,37 @@ import '../../gen/assets.gen.dart';
 import '../../theme/colors.dart';
 import 'new_detail_cubit.dart';
 
-class NewDetail extends StatefulWidget {
+class NewDetailPage extends StatefulWidget {
   final int index;
   final FeedModel? model;
+  final int? postId;
+  final Function(String) titleCallback;
 
-  const NewDetail({Key? key, required this.index, this.model})
+  const NewDetailPage(
+      {Key? key,
+      required this.index,
+      this.model,
+      this.postId,
+      required this.titleCallback})
       : super(key: key);
 
   @override
-  State<NewDetail> createState() => _NewDetailState();
+  State<NewDetailPage> createState() => _NewDetailPageState();
 }
 
-class _NewDetailState extends BasePopState<NewDetail> {
-  late NewDetailCubit _bloc;
+class _NewDetailPageState extends State<NewDetailPage>
+    with AutomaticKeepAliveClientMixin {
+  late NewDetailPageCubit _bloc;
 
   @override
   void initState() {
-    _bloc = NewDetailCubit(widget.model?.id ?? 0);
+    _bloc = NewDetailPageCubit(widget.postId ?? 0);
     super.initState();
   }
 
   @override
-  Widget buildWidget(BuildContext context) {
-    return BlocBuilder<NewDetailCubit, NewDetailState>(
+  Widget build(BuildContext context) {
+    return BlocBuilder<NewDetailPageCubit, NewDetailPageState>(
         bloc: _bloc,
         builder: (c, state) {
           if (state.status == FeedStatus.initial) {
@@ -47,67 +56,59 @@ class _NewDetailState extends BasePopState<NewDetail> {
             );
           }
           if (state.status == FeedStatus.success) {
-            return PageView(
-              children: [
-                for (int i = 0;
-                    i < (state.postDetailModel?.data?.length ?? 0);
-                    i++)
-                  AppScaffold(
-                    backgroundColor: colorWhite,
-                    appbar: AppBar(
-                      centerTitle: true,
-                      leadingWidth: 35,
-                      leading: Padding(
-                        padding: EdgeInsets.only(left: 12.w),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: SvgPicture.asset(Assets.svg.back),
-                        ),
-                      ),
-                      title: AppText(
-                        state.postDetailModel!.data![i].name?? '',
-                        maxLine: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: typoExtraSmallTextRegular.copyWith(
-                            fontSize: 15, color: colorWhite),
-                      ),
-                      backgroundColor: colorPrimaryOrange,
-                    ),
-                    body: Column(children: [
-                      Expanded(
-                        child: InAppWebView(
-                          initialOptions: InAppWebViewGroupOptions(
-                            android: AndroidInAppWebViewOptions(
-                                textZoom:
-                                    (MediaQuery.of(context).textScaleFactor *
-                                            230)
-                                        .ceil()),
-                            crossPlatform: InAppWebViewOptions(
-                                preferredContentMode:
-                                    UserPreferredContentMode.MOBILE),
-                          ),
-                          onWebViewCreated: (ctrl) {},
-                          onLoadStop: (ctrl, uri) {},
-                          initialData: InAppWebViewInitialData(
-                              data: state.postDetailModel!.data![i].content ??
-                                  ''),
-                        ),
-                      ),
-                    ]),
-                  ),
-              ],
-            );
-          } else if(state.status == FeedStatus.failure){
+            widget.titleCallback(state.postDetailModel!.data![0].name ?? '');
             return AppScaffold(
+              backgroundColor: colorWhite,
               appbar: AppBar(
-                automaticallyImplyLeading: true,
+                centerTitle: true,
+                leadingWidth: 35,
+                leading: Padding(
+                  padding: EdgeInsets.only(left: 12.w),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: SvgPicture.asset(Assets.svg.back),
+                  ),
+                ),
+                title: AppText(
+                  state.postDetailModel!.data![0].name ?? '',
+                  maxLine: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: typoExtraSmallTextRegular.copyWith(
+                      fontSize: 15, color: colorWhite),
+                ),
                 backgroundColor: colorPrimaryOrange,
               ),
+              body: Column(children: [
+                Expanded(
+                  child: InAppWebView(
+                    initialOptions: InAppWebViewGroupOptions(
+                      android: AndroidInAppWebViewOptions(
+                          textZoom:
+                              (MediaQuery.of(context).textScaleFactor * 230)
+                                  .ceil()),
+                      crossPlatform: InAppWebViewOptions(
+                          preferredContentMode:
+                              UserPreferredContentMode.MOBILE),
+                    ),
+                    onWebViewCreated: (ctrl) {},
+                    onLoadStop: (ctrl, uri) {},
+                    initialData: InAppWebViewInitialData(
+                        data: state.postDetailModel!.data![0].content ?? ''),
+                  ),
+                ),
+              ]),
+            );
+          } else if (state.status == FeedStatus.failure) {
+            return AppScaffold(
+                appbar: AppBar(
+                  automaticallyImplyLeading: true,
+                  backgroundColor: colorPrimaryOrange,
+                ),
                 body: Center(
-                  child: AppText(AppLocalizations.of(context)!.textTabOfSearch)
-                ));
+                    child: AppText(
+                        AppLocalizations.of(context)!.textTabOfSearch)));
           }
           return const SizedBox();
         });
@@ -115,4 +116,7 @@ class _NewDetailState extends BasePopState<NewDetail> {
 
   @override
   int get tabIndex => widget.index;
+
+  @override
+  bool get wantKeepAlive => true;
 }
