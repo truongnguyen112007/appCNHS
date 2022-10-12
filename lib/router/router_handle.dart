@@ -76,8 +76,7 @@ var routeAdd = Handler(handlerFunc: (c, p) => const TabAdd());
 
 var routeSearch = Handler(
     handlerFunc: (c, p) => SearchPage(index: c!.settings!.arguments as int));
-var routeDetail = Handler(
-    handlerFunc: (c, p) => NewDetail(
+
 var routeDetail = Handler(
     handlerFunc: (c, p) => NewDetail(
           index: (c!.settings!.arguments as List)[0] as int,
@@ -96,14 +95,13 @@ var routeLogin = Handler(
 var routeOtp = Handler(
     handlerFunc: (c, p) =>
         OtpPage(phoneNumber: c!.settings!.arguments as String));
-var routeUpdate = Handler(handlerFunc: (c, p) =>  UpdateInformation(phoneNumber: (c!.settings!.arguments as List)[0]as  String, userId: (c!.settings!.arguments as List)[1] as int,));
 var routeUpdate = Handler(
     handlerFunc: (c, p) => UpdateInformation(
           phoneNumber: (c!.settings!.arguments as List)[0] as String,
           userId: (c.settings!.arguments as List)[1] as int,
         ));
+
 var routeComment = Handler(
     handlerFunc: (c, p) => FeedbackPage(index: c!.settings!.arguments as int));
 var routeContact = Handler(
     handlerFunc: (c, p) => ContactPage(index: c!.settings!.arguments as int));
-

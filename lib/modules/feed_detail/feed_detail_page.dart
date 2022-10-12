@@ -40,24 +40,83 @@ class _FeedDetailPageState extends BasePopState<FeedDetailPage> {
 
   @override
   Widget buildWidget(BuildContext context) {
-    return Stack(children: [PageView(
-      controller: pageController,
+    return Column(
       children: [
-        NewDetail(
-          index: widget.index,
-          postId: widget.model?.prevId ?? 1,
+        Expanded(
+            child: PageView(
+          physics: NeverScrollableScrollPhysics(),
+          controller: pageController,
+          children: [
+            NewDetail(
+              index: widget.index,
+              postId: widget.model?.prevId ?? 1,
+            ),
+            NewDetail(
+              index: widget.index,
+              postId: (widget.model?.id ?? 1),
+            ),
+            NewDetail(
+              index: widget.index,
+              postId: widget.model?.nextId ?? 1,
+            )
+          ],
+        )),
+        Container(
+          height: 1,
+          color: colorGrey80,
         ),
-        NewDetail(
-          index: widget.index,
-          postId: (widget.model?.id ?? 1),
+        Padding(
+          padding: EdgeInsets.only(top: 8.h, bottom: 8.h),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              InkWell(
+                onTap: () {
+                  if (currentPage == 0) return;
+                  currentPage--;
+                  jumToPage(currentPage);
+                },
+                child: Icon(
+                  Icons.chevron_left,
+                  color: colorPrimaryOrange,
+                  size: 25.sp,
+                ),
+              ),
+              AppText(
+                '${currentPage + 1}',
+                style: typoLargeTextBold.copyWith(color: colorPrimaryOrange),
+              ),
+              Text(
+                '/',
+                style: TextStyle(color: colorPrimaryOrange, fontSize: 25.sp),
+              ),
+              AppText(
+                '3',
+                style: typoLargeTextBold.copyWith(color: colorPrimaryOrange),
+              ),
+              InkWell(
+                onTap: () {
+                  if (currentPage == 2) return;
+                  currentPage++;
+                  jumToPage(currentPage);
+                },
+                child: Icon(
+                  Icons.chevron_right,
+                  color: colorPrimaryOrange,
+                  size: 25.sp,
+                ),
+              ),
+            ],
+          ),
         ),
-        NewDetail(
-          index: widget.index,
-          postId: widget.model?.nextId ?? 1,
-        )
       ],
-    ),
-    ],);
+    );
+  }
+
+  void jumToPage(int index) {
+    pageController.jumpToPage(index);
+    setState(() {});
   }
 
   PreferredSizeWidget appbar(BuildContext context, String title) => AppBar(
