@@ -76,7 +76,7 @@ class BaseService {
 
     try {
       final response = await Dio().patch(
-        url,
+        baseUrl+     url,
         data: body,
         options: Options(
           headers: {
@@ -124,7 +124,7 @@ class BaseService {
     print('============================================================');
     print('[POST] ' + baseUrl + url);
     print("Bearer " + globals.accessToken);
-    print('[PARAMS] ' + (!isMultipart ? json.encode(body) : ''));
+    print('[PARAMS] ' + (!isMultipart ? json.encode(body) : body.toString()));
     try {
       var headers = {
         'Authorization': 'Bearer ${globals.accessToken}',
@@ -133,7 +133,8 @@ class BaseService {
       };
       if (isContentType) headers['Content-Type'] = 'application/json';
       final response = await Dio().post(baseUrl + url,
-          data:jsonEncode(body), options: Options(headers: headers));
+          data: isMultipart ? body : jsonEncode(body),
+          options: Options(headers: headers));
       Logger().d(response.data);
       if (response.data != null) {
         var result = response.data;

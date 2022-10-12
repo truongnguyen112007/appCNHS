@@ -1,7 +1,12 @@
 import 'package:base_bloc/components/app_button.dart';
+import 'package:base_bloc/data/globals.dart' as globals;
+import 'package:base_bloc/modules/tab_add/tab_add_cubit.dart';
 import 'package:base_bloc/router/router.dart';
 import 'package:base_bloc/router/router_utils.dart';
+import 'package:base_bloc/utils/storage_utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../components/app_scalford.dart';
@@ -20,6 +25,14 @@ class TabAdd extends StatefulWidget {
 }
 
 class _TabAddState extends State<TabAdd> with AutomaticKeepAliveClientMixin {
+  late AddCubit _bloc;
+
+  @override
+  void initState() {
+    _bloc = AddCubit();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -29,13 +42,14 @@ class _TabAddState extends State<TabAdd> with AutomaticKeepAliveClientMixin {
         leadingWidth: 32,
         leading: Container(
           padding: EdgeInsets.only(left: 5.w),
-          child:
-              InkWell(onTap: () {
+          child: InkWell(
+              onTap: () {
                 RouterUtils.pushAdd(
                     context: context,
                     route: AddRouters.search,
-                    argument: BottomnavigationConstant.TAB_ADD);
-              }, child: SvgPicture.asset(Assets.svg.search)),
+                    argument: BottomNavigationConstant.TAB_ADD);
+              },
+              child: SvgPicture.asset(Assets.svg.search)),
         ),
         title: Row(
           mainAxisSize: MainAxisSize.min,
@@ -55,53 +69,55 @@ class _TabAddState extends State<TabAdd> with AutomaticKeepAliveClientMixin {
         ),
         backgroundColor: colorPrimaryOrange,
       ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.only(top: 45.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            customButton(AppLocalizations.of(context)!.textButtonLogin, () {
-              RouterUtils.pushAdd(
-                  context: context,
-                  route: AddRouters.login,
-                  argument: BottomnavigationConstant.TAB_ADD);
-            }),
-            SizedBox(
-              height: 15.h,
-            ),
-            customButton(AppLocalizations.of(context)!.textButtonComments, () {
-              RouterUtils.pushAdd(
-                  context: context,
-                  route: AddRouters.comment,
-                  argument: BottomnavigationConstant.TAB_ADD);
-            }),
-            SizedBox(
-              height: 15.h,
-            ),
-            customButton(AppLocalizations.of(context)!.textButtonContact, () {
-              RouterUtils.pushAdd(
-                  context: context,
-                  route: AddRouters.contact,
-                  argument: BottomnavigationConstant.TAB_ADD);
-            }),
-          ],
+      body: BlocBuilder(
+        bloc: _bloc,
+        builder: (c, s) => Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.only(top: 45.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              globals.isLogin
+                  ? customButton(
+                      AppLocalizations.of(context)!.textButtonUpdateInformation,
+                      () => _bloc.updateProfileOnClick(context))
+                  : customButton(AppLocalizations.of(context)!.textButtonLogin,
+                      () => _bloc.loginOnClick(context)),
+              customButton(AppLocalizations.of(context)!.textButtonComments,
+                  () => _bloc.feedBackOnClick(context)),
+              customButton(AppLocalizations.of(context)!.textButtonContact,
+                  () => _bloc.contactOnClick(context)),
+              Visibility(
+                visible: globals.isLogin,
+                child: Column(
+                  children: [
+                    customButton('Các gói dịch vụ', () => null),
+                    customButton('Xóa tài khoản', () => _bloc.deleteOnClick()),
+                    customButton('Đăng xuất', () => _bloc.logOutOnClick())
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget customButton(String title, Function() onClick) {
-    return AppButton(
-        width: 300.w,
-        height: 50.h,
-        title: title,
-        textStyle: typoTitleHeader.copyWith(color: colorPrimaryOrange),
-        shapeBorder: RoundedRectangleBorder(
-          side: const BorderSide(color: colorPrimaryOrange, width: 2),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        onPress: onClick);
+    return Padding(
+      padding: EdgeInsets.only(top: 20.h),
+      child: AppButton(
+          width: 300.w,
+          height: 50.h,
+          title: title,
+          textStyle: typoTitleHeader.copyWith(color: colorPrimaryOrange),
+          shapeBorder: RoundedRectangleBorder(
+            side: const BorderSide(color: colorPrimaryOrange, width: 2),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          onPress: onClick),
+    );
   }
 
   @override

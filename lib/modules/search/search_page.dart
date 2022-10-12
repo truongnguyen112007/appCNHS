@@ -215,6 +215,7 @@ class _SearchPageState extends BasePopState<SearchPage>
         padding: EdgeInsets.only(left: 12.w),
         child: InkWell(
             onTap: () {
+              Utils.hideKeyboard(context);
               Navigator.pop(context);
             },
             child: SvgPicture.asset(Assets.svg.back)),
@@ -296,7 +297,7 @@ class _SearchPageState extends BasePopState<SearchPage>
     var model = await RouterUtils.pushHome(
         context: context,
         route: HomeRouters.filter,
-        argument: BottomnavigationConstant.TAB_HOME);
+        argument: BottomNavigationConstant.TAB_HOME);
     if(model!=null){
       filterModel = model;
       Utils.fireEvent(

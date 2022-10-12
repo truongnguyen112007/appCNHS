@@ -63,7 +63,7 @@ class TabLawCubit extends Cubit<TabLawState> {
       RouterUtils.pushHome(
           context: context,
           route: HomeRouters.detail,
-          argument: [BottomnavigationConstant.TAB_HOME, model]);
+          argument: [BottomNavigationConstant.TAB_HOME, model]);
 
   void refresh() {
     emit(const TabLawState(

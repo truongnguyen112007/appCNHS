@@ -43,20 +43,17 @@ class _FeedDetailPageState extends BasePopState<FeedDetailPage> {
     return Stack(children: [PageView(
       controller: pageController,
       children: [
-        NewDetailPage(
+        NewDetail(
           index: widget.index,
           postId: widget.model?.prevId ?? 1,
-          titleCallback: (title) {},
         ),
-        NewDetailPage(
+        NewDetail(
           index: widget.index,
           postId: (widget.model?.id ?? 1),
-          titleCallback: (title) {},
         ),
-        NewDetailPage(
+        NewDetail(
           index: widget.index,
           postId: widget.model?.nextId ?? 1,
-          titleCallback: (title) {},
         )
       ],
     ),

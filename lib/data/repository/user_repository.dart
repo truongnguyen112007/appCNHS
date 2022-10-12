@@ -1,6 +1,7 @@
 import 'package:base_bloc/config/constant.dart';
 import 'package:base_bloc/data/repository/api_result.dart';
 import 'package:base_bloc/data/repository/base_service.dart';
+import 'package:dio/dio.dart';
 
 class BaseRepository extends BaseService {
   static BaseRepository instance = BaseRepository._init();
@@ -38,5 +39,27 @@ class BaseRepository extends BaseService {
   Future<ApiResult> getFilter() async => await GET('type');
 
   Future<ApiResult> login(String uId) async =>
-      await POST('user/login', {ApiKey.uid: uId},isContentType: true);
+      await POST('user/login', {ApiKey.uid: uId}, isContentType: true);
+
+  Future<ApiResult> updateProfile(
+      String firstName, String lastName, int userId) async {
+    var body = FormData.fromMap(
+        {ApiKey.firstName: firstName, ApiKey.lastName: lastName});
+    return await PATCH('user/update/$userId', body);
+  }
+
+  Future<ApiResult> feedBack (String name, String phone,String email,String address,String content ) async {
+    var body = FormData.fromMap({ApiKey.name: name,
+      ApiKey.phone: phone,
+      ApiKey.email: email,ApiKey.address: address,ApiKey.main: content});
+       return await POST('feedback', body,isMultipart: true);
+  }
+
+  Future<ApiResult> logOut() async {
+      return await GET('user/logout');
+  }
+
+  Future<ApiResult> deleteUser() async {
+    return await GET('user/delete-account');
+  }
 }

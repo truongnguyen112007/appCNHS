@@ -31,11 +31,13 @@ class OtpCubit extends Cubit<OtpState> {
   bool isValid(String text) {
     var isValid = false;
     if (text.isEmpty) {
-      toast('Vui lòng nhập otp.');
+      emit(state.copyOf(errorOtp: 'Vui lòng nhập OTP'));
+      // toast('Vui lòng nhập otp.');
     } else if (text.length == 6) {
       isValid = true;
     } else {
-      toast('Otp chưa đúng định dạng.');
+      emit(state.copyOf(errorOtp: 'OTP chưa đúng định dạng'));
+      // toast('Otp chưa đúng định dạng.');
     }
     return isValid;
   }
@@ -51,7 +53,7 @@ class OtpCubit extends Cubit<OtpState> {
         .whenComplete(() {})
         .onError((error, stackTrace) {
           emit(state.copyOf(errorOtp: 'Lỗi OTP'));
-          toast('Otp không đúng, vui lòng thử lại sau.');
+          // toast('Otp không đúng, vui lòng thử lại sau.');
         });
   }
 
@@ -75,7 +77,7 @@ class OtpCubit extends Cubit<OtpState> {
               verificationId = verification,
           timeout: Duration(seconds: END_TIME - 2));
     } catch (ex) {
-      toast('Lỗi mạng, vui lòng thử lại sau.');
+      // toast('Lỗi mạng, vui lòng thử lại sau.');
     }
   }
 
@@ -85,11 +87,13 @@ class OtpCubit extends Cubit<OtpState> {
       var userModel = UserModel.fromJson(response.data);
       StorageUtils.saveUser(userModel);
       if (userModel.isMissingUserInfo == true) {
-        RouterUtils.pushAdd(context: context, route: AddRouters.update);
+        RouterUtils.pushAdd(
+            context: context,
+            route: AddRouters. update,
+            argument: [phoneNumber, userModel.data?.userData?.id ?? 0]);
       } else {
         StorageUtils.getUser();
-        Utils.fireEvent(SwitchTabEvent(BottomnavigationConstant.TAB_ADD));
-        toast('Đăng nhập thành công');
+        Utils.fireEvent(SwitchTabEvent(BottomNavigationConstant.TAB_ADD));
       }
     } catch (ex) {
       toast('Lỗi mạng, vui lòng thử lại sau.');

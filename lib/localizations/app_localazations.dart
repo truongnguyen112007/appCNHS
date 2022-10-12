@@ -152,6 +152,8 @@ abstract class AppLocalizations {
   String get codeSentTo;
   String get checkMessage;
   String get sentAgain;
+  String get name;
+  String get completed;
 
 }
 

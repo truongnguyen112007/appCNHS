@@ -98,6 +98,7 @@ class _OtpPageState extends BasePopState<OtpPage> {
           BlocBuilder<OtpCubit, OtpState>(
             bloc: _bloc,
             builder: (c, state) => AppTextField(
+              // onChanged: (text) => _bloc.isValid(text),
               controller: otpController,
               errorText: state.errorOTP,
               autofocus: true,
@@ -156,5 +157,5 @@ class _OtpPageState extends BasePopState<OtpPage> {
   }
 
   @override
-  int get tabIndex => BottomnavigationConstant.TAB_ADD;
+  int get tabIndex => BottomNavigationConstant.TAB_ADD;
 }

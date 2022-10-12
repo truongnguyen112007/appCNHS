@@ -6,6 +6,7 @@ import 'package:base_bloc/data/globals.dart';
 import 'package:base_bloc/localizations/app_localazations.dart';
 import 'package:base_bloc/theme/app_styles.dart';
 import 'package:base_bloc/theme/colors.dart';
+import 'package:base_bloc/utils/app_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,6 +48,7 @@ class _LoginPageState extends BasePopState<LoginPage> {
           padding: EdgeInsets.only(left: 5.w),
           child: InkWell(
               onTap: () {
+                Utils.hideKeyboard(context);
                 Navigator.pop(context);
               },
               child: SvgPicture.asset(Assets.svg.back,)),
