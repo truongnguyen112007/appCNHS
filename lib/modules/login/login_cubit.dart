@@ -4,7 +4,6 @@ import 'package:base_bloc/router/router.dart';
 import 'package:base_bloc/router/router_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../utils/app_utils.dart';
 
 class LoginCubit extends Cubit<LoginState> {
@@ -31,7 +30,7 @@ class LoginCubit extends Cubit<LoginState> {
       isValid = false;
     } else {
       isValid = true;
-      emit(LoginState(''));
+      emit(const LoginState(''));
     }
     return isValid;
   }

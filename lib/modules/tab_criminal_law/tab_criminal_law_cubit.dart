@@ -22,21 +22,25 @@ class TabCriminalLawCubit extends Cubit<TabCriminalLawState> {
     var response = await repository.getPost(catId, state.currentPage);
     try {
       if (response.error == null && response.data != null) {
-        var lResponse = feedModelFromJson(response.data['data']['data']);
-        if (isPaging) {
-          emit(state.copyOf(
-              isLoading: false,
-              lFeed: state.lFeed..addAll(lResponse),
-              status: FeedStatus.success,
-              currentPage: currentPage));
-        } else {
-          emit(
-            state.copyOf(
-                lFeed: lResponse,
+        try{
+          var lResponse = feedModelFromJson(response.data['data']['data']);
+          if (isPaging) {
+            emit(state.copyOf(
                 isLoading: false,
+                lFeed: state.lFeed..addAll(lResponse),
                 status: FeedStatus.success,
-                currentPage: state.currentPage + 1),
-          );
+                currentPage: currentPage));
+          } else {
+            emit(
+              state.copyOf(
+                  lFeed: lResponse,
+                  isLoading: false,
+                  status: FeedStatus.success,
+                  currentPage: state.currentPage + 1),
+            );
+          }
+        }catch(ex){
+          emit(state.copyOf(status: FeedStatus.failure));
         }
       } else {
         emit(state.copyOf(status: FeedStatus.failure));

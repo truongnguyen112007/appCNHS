@@ -102,7 +102,7 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
         RouterUtils.pushHome(
             context: context,
             route: HomeRouters.detail,
-            argument: [BottomnavigationConstant.TAB_HOME,model]);
+            argument: [BottomNavigationConstant.TAB_HOME,model]);
       },
       child: Container(
         color: (index % 2 == 0)
@@ -175,7 +175,7 @@ class _TabHomeState extends State<TabHome> with AutomaticKeepAliveClientMixin {
             RouterUtils.pushHome(
                 context: context,
                 route: HomeRouters.search,
-                argument: BottomnavigationConstant.TAB_HOME);
+                argument: BottomNavigationConstant.TAB_HOME);
           },
           child: SvgPicture.asset(
             Assets.svg.search,

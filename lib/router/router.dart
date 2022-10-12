@@ -38,7 +38,7 @@ class HomeRouters {
 class AddRouters {
   static String root = "/";
   static String login = "/login";
-  static String comment = "/comment";
+  static String comment = "/feedback";
   static String contact = "/contact";
   static String search = "/search";
   static String otp ='/otp';

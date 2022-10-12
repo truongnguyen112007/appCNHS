@@ -105,11 +105,13 @@ class _AppTextFieldState extends State<AppTextField> {
           },
           onTap: widget.onTap,
           decoration: widget.decoration ?? decorTextField.copyWith(
-              focusedBorder: const OutlineInputBorder(
+              focusedBorder:  const OutlineInputBorder(
+                // borderRadius: BorderRadius.circular(12),
                 borderSide: BorderSide(color: colorGrey20, width: 1),
               ),
-              enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: colorGrey20, width: 1),
+              enabledBorder:  OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: const BorderSide(color: colorGrey20, width: 1),
               ),
               hintText: widget.hintText,
               prefixIcon: widget.prefixIcon,
