@@ -10,7 +10,7 @@ class BaseService {
   var baseUrl = '';
 
   void initProvider() {
-    baseUrl = 'http://103.226.249.207:3333/';
+    baseUrl = 'http://103.226.249.207:23453/';
   }
 
   // ignore: non_constant_identifier_names

@@ -21,11 +21,21 @@ class ItemFeedWidget extends StatelessWidget {
       required this.index,
       required this.model,
       required this.callback,
-      this.isSearch = false, required this.highLight})
+      this.isSearch = false,
+      required this.highLight})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var lHighLight = <String, HighlightedWord>{};
+    if (model.lHighLight != null) {
+      for (var e in model.lHighLight!) {
+        lHighLight[e] = HighlightedWord(
+            textStyle:
+                typoSuperSmallTextRegular.copyWith(color: colorSemanticRed100),
+            padding: EdgeInsets.all(0));
+      }
+    }
     return InkWell(
       onTap: () => callback(model),
       child: Container(
@@ -44,7 +54,7 @@ class ItemFeedWidget extends StatelessWidget {
                       size: 5,
                     ),
                   ),
-                Expanded(
+            Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(5),
                 child: Column(
@@ -53,15 +63,11 @@ class ItemFeedWidget extends StatelessWidget {
                     isSearch
                         ? Padding(
                             padding: const EdgeInsets.all(5),
-                            child:  TextHighlight(
+                            child: TextHighlight(
                               text: model.name ?? '',
-                              words: {
-                                highLight: HighlightedWord(
-                                    textStyle: typoSuperSmallTextRegular.copyWith(
-                                        color: colorSemanticRed100),padding: EdgeInsets.all(0))
-                              },
+                              words: lHighLight,
                               matchCase: false,
-                              textStyle:typoSuperSmallTextRegular,
+                              textStyle: typoSuperSmallTextRegular,
                             ),
                           )
                         : AppText(
@@ -98,7 +104,6 @@ class ItemFeedWidget extends StatelessWidget {
                 ),
               ),
             ),
-
           ],
         ),
       ),

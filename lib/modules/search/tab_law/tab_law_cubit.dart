@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:base_bloc/modules/search/tab_law/tab_law_state.dart';
+import 'package:diacritic/diacritic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../config/constant.dart';
@@ -7,6 +8,7 @@ import '../../../data/model/feed_model.dart';
 import '../../../data/repository/user_repository.dart';
 import '../../../router/router.dart';
 import '../../../router/router_utils.dart';
+import '../../../utils/log_utils.dart';
 
 class TabLawCubit extends Cubit<TabLawState> {
   var repository = BaseRepository();
@@ -19,9 +21,29 @@ class TabLawCubit extends Cubit<TabLawState> {
     }
   }
 
+  List<String>? getHighLight(String keySearch, String content) {
+    var lResult = <String>[];
+    checkHighLight(removeDiacritics(keySearch).toLowerCase(), removeDiacritics(content).toLowerCase())
+        .forEach((element) {
+      lResult.add(
+          (content).substring(element, element + (keySearch).length));
+    });
+    return lResult;
+  }
 
-  Future<void> getSearch({bool isPaging = false, String? keySearch,int? typeId}) async {
-    if(!isPaging) emit(state.copyOf(readEnd: false));
+  List<int> checkHighLight(String subStr, String str) {
+    var result = <int>[];
+    for (int i = 0; i < str.length - subStr.length + 1; i++) {
+      if (str.substring(i, i + subStr.length) == subStr) {
+        result.add(i);
+      }
+    }
+    return result;
+  }
+
+  Future<void> getSearch(
+      {bool isPaging = false, String? keySearch, int? typeId}) async {
+    if (!isPaging) emit(state.copyOf(readEnd: false));
     if (state.readEnd) return;
     emit(
       state.copyOf(isLoading: true, keySearch: keySearch ?? ''),
@@ -29,10 +51,17 @@ class TabLawCubit extends Cubit<TabLawState> {
     var currentPage = !isPaging ? 1 : state.currentPage + 1;
     var response = await repository.getSearch(
         typeId: typeId,
-        page: currentPage, content: keySearch ?? "", catId: catId);
+        page: currentPage,
+        content: keySearch ?? "",
+        catId: catId);
     try {
       if (response.error == null && response.data != null) {
         var lResponse = feedModelFromJson(response.data['data']['data']);
+        for (int i = 0; i < lResponse.length; i++) {
+          var lHighLight =
+              getHighLight(keySearch ?? '', lResponse[i].name ?? '');
+          lResponse[i].lHighLight = lHighLight;
+        }
         if (isPaging) {
           emit(state.copyOf(
               readEnd: lResponse.isEmpty ? true : false,

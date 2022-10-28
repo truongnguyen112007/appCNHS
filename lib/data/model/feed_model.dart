@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:base_bloc/utils/log_utils.dart';
+
 List<FeedModel> feedModelFromJson(List<dynamic> str) =>
     List<FeedModel>.from(str.map((x) => FeedModel.fromJson(x)));
 
@@ -11,24 +13,25 @@ String feedModelToJson(List<FeedModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class FeedModel {
-  FeedModel({
-    this.id,
-    this.name,
-    this.description,
-    this.content,
-    this.status,
-    this.authorId,
-    this.isFeatured,
-    this.image,
-    this.views,
-    this.formatType,
-    this.createdAt,
-    this.updatedAt,
-    this.typeId,
-    this.nextId,
-    this.prevId,
-    this.category,
-  });
+  FeedModel(
+      {this.id,
+      this.name,
+      this.description,
+      this.content,
+      this.status,
+      this.authorId,
+      this.isFeatured,
+      this.image,
+      this.views,
+      this.formatType,
+      this.createdAt,
+      this.updatedAt,
+      this.typeId,
+      this.nextId,
+      this.prevId,
+      this.category,
+      this.keySearch,
+      this.lHighLight});
 
   int? id;
   String? name;
@@ -45,6 +48,8 @@ class FeedModel {
   int? typeId;
   int? nextId;
   int? prevId;
+  String? keySearch;
+  List<String>? lHighLight;
   List<Category>? category;
 
   factory FeedModel.fromJson(Map<String, dynamic> json) => FeedModel(

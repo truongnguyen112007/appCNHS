@@ -76,6 +76,7 @@ class _NewDetailState extends State<NewDetail>
                 Expanded(
                   child: InAppWebView(
                     initialOptions: InAppWebViewGroupOptions(
+                      ios: IOSInAppWebViewOptions(pageZoom: 3,disableLongPressContextMenuOnLinks:true,),
                       android: AndroidInAppWebViewOptions(
                           textZoom:
                               (MediaQuery.of(context).textScaleFactor * 230)
